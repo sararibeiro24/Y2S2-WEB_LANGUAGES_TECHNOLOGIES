@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule | Ladybug's Gym</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <!-- HEADER (Same as index, for consistency) -->
+    <header class="site-header">
+        <div class="container header-container">
+            <h1>Ladybug's Gym</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html" class="active">Classes</a></li>
+                    <li><a href="#">Trainers</a></li>
+                    <li><a href="#" class="button button-small">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container schedule-page">
+        
+        <div class="page-header">
+            <h2>Class Schedule</h2>
+            <p>Find and book your next workout session.</p>
+        </div>
+
+        <!-- TWO-COLUMN LAYOUT -->
+        <div class="schedule-layout">
+            
+            <!-- LEFT COLUMN: FILTERS (Semantic Form) -->
+            <aside class="filter-sidebar card">
+                <h3>Filter Classes</h3>
+                <form action="#" method="GET">
+                    <!-- Fieldset groups related controls, Legend acts as a title for screen readers -->
+                    <fieldset>
+                        <legend class="sr-only">Search Filters</legend>
+                        
+                        <div class="form-group">
+                            <!-- 'for' attribute strictly tied to input 'id' -->
+                            <label for="searchQuery">Search Class</label>
+                            <input type="text" id="searchQuery" name="searchQuery" class="input-field" placeholder="e.g., Yoga, HIIT">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trainerSelect">Trainer</label>
+                            <select id="trainerSelect" name="trainer" class="input-field">
+                                <option value="all">All Trainers</option>
+                                <option value="john">John Doe</option>
+                                <option value="maria">Maria Silva</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="classDate">Date</label>
+                            <input type="date" id="classDate" name="date" class="input-field">
+                        </div>
+
+                        <button type="submit" class="button button-full">Apply Filters</button>
+                    </fieldset>
+                </form>
+            </aside>
+
+            <!-- RIGHT COLUMN: CLASS RESULTS -->
+            <section class="class-results">
+                <div class="grid-container">
+                    
+                    <!-- Class Item 1 -->
+                    <article class="card class-card">
+                        <div class="class-time">09:00 AM</div>
+                        <span class="badge badge-green">Available</span>
+                        <h3 class="class-title">Morning Yoga</h3>
+                        <p class="class-trainer">with Maria Silva</p>
+                        <div class="class-meta">
+                            <span>🕒 60 min</span>
+                            <span>👥 12/20 spots</span>
+                        </div>
+                        <a href="#" class="button button-small button-outline">Enroll Now</a>
+                    </article>
+
+                    <!-- Class Item 2 -->
+                    <article class="card class-card">
+                        <div class="class-time">12:30 PM</div>
+                        <span class="badge badge-red">Full</span>
+                        <h3 class="class-title">Lunchtime HIIT</h3>
+                        <p class="class-trainer">with John Doe</p>
+                        <div class="class-meta">
+                            <span>🕒 45 min</span>
+                            <span>👥 15/15 spots</span>
+                        </div>
+                        <button class="button button-small" disabled>Waitlist</button>
+                    </article>
+
+                    <!-- Class Item 3 -->
+                    <article class="card class-card">
+                        <div class="class-time">18:00 PM</div>
+                        <span class="badge badge-yellow">Few Spots</span>
+                        <h3 class="class-title">Advanced Spinning</h3>
+                        <p class="class-trainer">with John Doe</p>
+                        <div class="class-meta">
+                            <span>🕒 60 min</span>
+                            <span>👥 18/20 spots</span>
+                        </div>
+                        <a href="#" class="button button-small button-outline">Enroll Now</a>
+                    </article>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Ladybug's Gym</p>
+        </div>
+    </footer>
+
+</body>
+</html>
