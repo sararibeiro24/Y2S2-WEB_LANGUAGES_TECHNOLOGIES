@@ -123,115 +123,6 @@ section h2 {
 }
 
 /* =========================
-   LAYER 3: SPECIFIC CASES
-   (Styles unique to one page/section)
-========================= */
-
-/* Header & Nav Specifics */
-.site-header {
-    background-color: var(--white);
-    border-bottom: 2px solid var(--light-green);
-    padding: 1em 0;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.site-header h1 {
-    font-size: 1.5rem;
-    color: var(--primary-green);
-}
-
-.site-header nav ul {
-    display: flex;
-    align-items: center;
-    gap: 1.5em;
-    font-weight: bold;
-}
-
-/* Hero Section Specifics */
-.hero {
-    text-align: center;
-    padding: 6em 0;
-    background-color: var(--light-green);
-}
-
-.hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.2em;
-}
-
-/* Trainer Card Specifics */
-.trainer-card img {
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    border-radius: 50%; /* Circle photos look better for profiles */
-    margin: 0 auto 1em auto;
-    border: 3px solid var(--light-green);
-}
-
-.trainer-card .specialization {
-    color: var(--gray);
-    font-size: 0.95em;
-    font-style: italic;
-}
-
-/* Equipment Status Specifics */
-.equipment-box {
-    background-color: var(--white);
-    padding: 2.5em;
-    border-radius: 15px;
-    border-top: 5px solid var(--accent-green); /* Changed to top border for symmetry */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-
-.equipment-list li {
-    padding: 1em;
-    margin-bottom: 0.5em;
-    background-color: #f0fdf4; 
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    font-weight: 500;
-}
-
-/* Footer Specifics */
-.site-footer {
-    text-align: center;
-    padding: 2em 0;
-    background-color: var(--primary-green);
-    color: var(--light-green);
-}
-
-/* =========================
-   MEDIA QUERIES (Responsiveness)
-========================= */
-
-@media (max-width: 768px) {
-    /* Stack header elements vertically on small screens */
-    .header-container {
-        flex-direction: column;
-        gap: 1em;
-    }
-
-    .site-header nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .hero {
-        padding: 4em 0;
-    }
-    
-    .hero h2 {
-        font-size: 2rem;
-    }
-}
-
-/* =========================
    LAYER 2 additions: COMPONENTS
    (Forms, Badges, Utility classes)
 ========================= */
@@ -321,6 +212,90 @@ button:disabled {
 .badge-yellow { background-color: #fef08a; color: #854d0e; }
 
 /* =========================
+   LAYER 3: SPECIFIC CASES
+   (Styles unique to one page/section)
+========================= */
+
+/* Header & Nav Specifics */
+.site-header {
+    background-color: var(--white);
+    border-bottom: 2px solid var(--light-green);
+    padding: 1em 0;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-header h1 {
+    font-size: 1.5rem;
+    color: var(--primary-green);
+}
+
+.site-header nav ul {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    font-weight: bold;
+}
+
+/* Hero Section Specifics */
+.hero {
+    text-align: center;
+    padding: 6em 0;
+    background-color: var(--light-green);
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.2em;
+}
+
+/* Trainer Card Specifics */
+.trainer-card img {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 50%; /* Circle photos look better for profiles */
+    margin: 0 auto 1em auto;
+    border: 3px solid var(--light-green);
+}
+
+.trainer-card .specialization {
+    color: var(--gray);
+    font-size: 0.95em;
+    font-style: italic;
+}
+
+/* Equipment Status Specifics */
+.equipment-box {
+    background-color: var(--white);
+    padding: 2.5em;
+    border-radius: 15px;
+    border-top: 5px solid var(--accent-green); /* Changed to top border for symmetry */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.equipment-list li {
+    padding: 1em;
+    margin-bottom: 0.5em;
+    background-color: #f0fdf4; 
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+/* Footer Specifics */
+.site-footer {
+    text-align: center;
+    padding: 2em 0;
+    background-color: var(--primary-green);
+    color: var(--light-green);
+}
+
+/* =========================
    LAYER 3 additions: SPECIFIC CASES
    (Schedule Page specific styles)
 ========================= */
@@ -384,6 +359,187 @@ button:disabled {
     background-color: var(--bg-color);
     padding: 0.5em;
     border-radius: 6px;
+}
+
+/* =========================
+   LAYER 3: PROFILE PAGE SPECIFIC
+========================= */
+
+.profile-page {
+    padding: 3em 20px;
+}
+
+.profile-layout {
+    display: grid;
+    /* Sidebar takes 1 fraction, form takes 2 fractions */
+    grid-template-columns: 1fr 2fr;
+    gap: 2em;
+    align-items: start;
+}
+
+/* Sidebar Specifics */
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1em auto;
+    border: 4px solid var(--light-green);
+}
+
+.member-since {
+    color: var(--gray);
+    font-size: 0.85em;
+    margin-bottom: 1.5em;
+}
+
+.profile-stats {
+    border-top: 1px solid var(--light-green);
+    padding-top: 1.5em;
+    text-align: left;
+}
+
+.profile-stats li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8em;
+    color: var(--gray);
+    font-size: 0.9em;
+}
+
+.profile-stats strong {
+    color: var(--primary-green);
+}
+
+/* Form Layout Specifics */
+.profile-form-container {
+    text-align: left; /* Override the default centered text from .card */
+}
+
+.form-section {
+    margin-bottom: 2.5em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid var(--light-green);
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 1.5em;
+}
+
+.form-section legend {
+    font-size: 1.2rem;
+    color: var(--primary-green);
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+/* Put two inputs side-by-side using CSS Grid */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5em;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+    margin-top: 2em;
+}
+
+/* Add input[type="file"] specific styling to Layer 2 or 3 so it doesn't look ugly */
+input[type="file"] {
+    padding: 0.5em;
+    background-color: var(--bg-color);
+    cursor: pointer;
+}
+
+/* Update Media Queries to stack the Profile layout */
+@media (max-width: 900px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+/* =========================
+   LAYER 3: LOGIN PAGE SPECIFIC
+========================= */
+
+.login-page {
+    padding: 3em 20px;
+    max-width: 900px; /* Make the overall login area slightly narrower than the main container */
+}
+
+.login-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+}
+
+.login-card {
+    text-align: left;
+    padding: 2em;
+}
+
+.login-card h3 {
+    color: var(--primary-green);
+    font-size: 1.5rem;
+    margin-bottom: 0.2em;
+    text-align: center;
+}
+
+.login-subtitle {
+    color: var(--gray);
+    text-align: center;
+    font-size: 0.9em;
+    margin-bottom: 2em;
+}
+
+.admin-login {
+    border-top: 5px solid #ba1a1a; /* Red border to indicate restricted access area */
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 1.5em;
+    font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    .login-layout {
+        grid-template-columns: 1fr; /* Stacks the login cards on mobile */
+    }
+}
+
+/* =========================
+   MEDIA QUERIES (Responsiveness)
+========================= */
+
+@media (max-width: 768px) {
+    /* Stack header elements vertically on small screens */
+    .header-container {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .site-header nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 4em 0;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
 }
 
 /* =========================
