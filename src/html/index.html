@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- MUST HAVE: Tells mobile browsers not to zoom out automatically -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ladybug's Gym | Home</title>
-    <!-- Fixed Path -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="site-header">
         <div class="container header-container">
             <h1>Ladybug's Gym</h1>
@@ -25,23 +22,19 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main>
-        <!-- HERO -->
         <section class="hero">
             <div class="container">
                 <h2>Train Smarter, Not Harder</h2>
                 <p>Book classes, track equipment, and improve your fitness.</p>
-                <a href="#" class="button">Explore Classes</a>
+                <a href="schedule.html" class="button">Explore Classes</a>
             </div>
         </section>
 
-        <!-- FEATURED CLASSES -->
         <section class="classes">
             <div class="container">
                 <h2>Featured Classes</h2>
                 <div class="grid-container">
-                    <!-- Added .card class for component reusability -->
                     <article class="card">
                         <h3>Yoga</h3>
                         <p>Relax and improve flexibility.</p>
@@ -58,19 +51,17 @@
             </div>
         </section>
 
-        <!-- TRAINERS -->
         <section class="trainers">
             <div class="container">
                 <h2>Our Trainers</h2>
                 <div class="grid-container">
                     <article class="card trainer-card">
-                        <!-- Fixed Paths. Assume we have an img folder -->
-                        <img src="/img/John_Doe.png" alt="Portrait of Trainer John Doe">
+                        <img src="../../img/John_Doe.png"  alt="Portrait of Trainer John Doe">
                         <h3>John Doe</h3>
                         <p class="specialization">Strength & Conditioning</p>
                     </article>
                     <article class="card trainer-card">
-                        <img src="/img/Maria_Silva.png" alt="Portrait of Trainer Maria Silva">
+                        <img src="../../img/Maria_Silva.png" alt="Portrait of Trainer Maria Silva">
                         <h3>Maria Silva</h3>
                         <p class="specialization">Yoga Instructor</p>
                     </article>
@@ -78,15 +69,15 @@
             </div>
         </section>
 
-        <!-- EQUIPMENT STATUS -->
         <section class="equipment">
             <div class="container">
                 <div class="equipment-box">
                     <h2>Equipment Availability</h2>
                     <ul class="equipment-list">
-                        <li><span>Treadmills</span> <span>🟢 Available</span></li>
-                        <li><span>Bikes</span> <span>🟡 Limited</span></li>
-                        <li><span>Weight Benches</span> <span>🟢 Available</span></li>
+
+                        <li><span>Treadmills</span> <span class="status available"> Available</span></li>
+                        <li><span>Bikes</span> <span class="status limited"> Limited</span></li>
+                        <li><span>Weight Benches</span> <span class="status unavailable"> Unavailable</span></li>
                     </ul>
                 </div>
             </div>
@@ -94,12 +85,13 @@
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer">
         <div class="container">
             <p>&copy; 2026 Ladybug's Gym</p>
         </div>
     </footer>
-
 </body>
 </html>
+
+
+<!--mudar cenas: tirar icons do html e meter no css, tirar os comentarios,meter as images a dar(ja ta), explore classes a ir para a classes, meter o footer numa pagina separa    -->>

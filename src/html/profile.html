@@ -8,7 +8,6 @@
 </head>
 <body>
 
-    <!-- HEADER -->
     <header class="site-header">
         <div class="container header-container">
             <h1>Ladybug's Gym</h1>
@@ -17,14 +16,12 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="schedule.html">Classes</a></li>
                     <li><a href="#">Trainers</a></li>
-                    <!-- Notice we changed this to a "Logout" or "Profile" link -->
                     <li><a href="profile.html" class="button button-small active">My Profile</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="container profile-page">
         
         <div class="page-header">
@@ -34,9 +31,7 @@
 
         <div class="profile-layout">
             
-            <!-- LEFT COLUMN: Profile Overview -->
             <aside class="profile-sidebar card">
-                <!-- Assuming the user is John Doe for the mockup -->
                 <img src="../../img/John_Doe.png" alt="Current Profile Photo" class="profile-avatar">
                 <h3>johndoe_99</h3>
                 <span class="badge badge-green">Pro Member</span>
@@ -48,12 +43,9 @@
                 </ul>
             </aside>
 
-            <!-- RIGHT COLUMN: The Edit Form -->
             <section class="profile-form-container card">
-                <!-- CRUCIAL PROJECT REQUIREMENT: method="POST" and enctype="multipart/form-data" -->
                 <form action="#" method="POST" enctype="multipart/form-data">
                     
-                    <!-- FIELDSET 1: Personal Info -->
                     <fieldset class="form-section">
                         <legend>Personal Information</legend>
                         
@@ -75,17 +67,14 @@
                         </div>
                     </fieldset>
 
-                    <!-- FIELDSET 2: Profile Photo -->
                     <fieldset class="form-section">
                         <legend>Profile Photo</legend>
                         <div class="form-group">
                             <label for="profilePhoto">Upload New Photo</label>
-                            <!-- accept attribute restricts the file picker to images -->
                             <input type="file" id="profilePhoto" name="profilePhoto" class="input-field" accept="image/png, image/jpeg">
                         </div>
                     </fieldset>
 
-                    <!-- FIELDSET 3: Security -->
                     <fieldset class="form-section">
                         <legend>Security</legend>
                         <div class="form-row">
@@ -101,7 +90,6 @@
                         </div>
                     </fieldset>
 
-                    <!-- Submit Actions -->
                     <div class="form-actions">
                         <button type="button" class="button button-outline">Cancel</button>
                         <button type="submit" class="button">Save Changes</button>
@@ -113,7 +101,6 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer">
         <div class="container">
             <p>&copy; 2026 Ladybug's Gym</p>

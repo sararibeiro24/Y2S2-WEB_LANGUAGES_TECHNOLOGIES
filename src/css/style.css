@@ -1,12 +1,4 @@
-/* =========================================================
-   LADYBUG'S GYM STYLESHEET
-   Separated into 3 Layers: Base, Components, Specifics
-========================================================= */
 
-/* =========================
-   LAYER 1: BASE
-   (Variables, Resets, Default Tags)
-========================= */
 :root {
     --primary-green: #2d6a4f;  
     --accent-green: #74c69d;    
@@ -19,7 +11,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Crucial: padding won't increase element width */
+    box-sizing: border-box; 
 }
 
 body {
@@ -44,16 +36,11 @@ ul {
 }
 
 img {
-    max-width: 100%; /* Prevents images from breaking out of containers */
+    max-width: 100%; 
     display: block;
 }
 
-/* =========================
-   LAYER 2: COMPONENTS
-   (Reusable UI Pieces)
-========================= */
 
-/* Container: Centers content and prevents it from getting too wide */
 .container {
     max-width: 1100px;
     margin: 0 auto;
@@ -61,16 +48,13 @@ img {
     width: 100%;
 }
 
-/* Grid Layout Component */
 .grid-container {
     display: grid;
-    /* Auto-fit magic: Automatically creates columns that are at least 220px wide */
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5em;
     margin-top: 1.5em;
 }
 
-/* Button Component */
 .button {
     display: inline-block;
     padding: 0.8em 2em;
@@ -94,7 +78,6 @@ img {
     padding: 0.4em 1.2em;
 }
 
-/* Card Component */
 .card {
     background-color: var(--white);
     border-radius: 15px;
@@ -106,11 +89,10 @@ img {
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Moves up slightly instead of scaling, looks more modern */
+    transform: translateY(-5px); 
     box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
 
-/* Section Titles Component */
 section {
     padding: 4em 0;
 }
@@ -122,12 +104,7 @@ section h2 {
     text-align: center;
 }
 
-/* =========================
-   LAYER 2 additions: COMPONENTS
-   (Forms, Badges, Utility classes)
-========================= */
 
-/* Form Groups & Inputs */
 .form-group {
     margin-bottom: 1.2em;
     text-align: left;
@@ -146,7 +123,7 @@ section h2 {
     padding: 0.8em;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-family: inherit; /* Inherits font from body */
+    font-family: inherit; 
     font-size: 1em;
     transition: border-color 0.3s;
 }
@@ -154,14 +131,13 @@ section h2 {
 .input-field:focus {
     outline: none;
     border-color: var(--accent-green);
-    box-shadow: 0 0 0 3px rgba(116, 198, 157, 0.2); /* Nice focus ring for accessibility */
+    box-shadow: 0 0 0 3px rgba(116, 198, 157, 0.2); 
 }
 
 fieldset {
     border: none;
 }
 
-/* Screen-reader only class (Hides visually, keeps for accessibility bots) */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -173,7 +149,6 @@ fieldset {
     border: 0;
 }
 
-/* Button Variations */
 .button-full {
     width: 100%;
     display: block;
@@ -196,7 +171,6 @@ button:disabled {
     transform: none;
 }
 
-/* Badges (Reusable status indicators) */
 .badge {
     display: inline-block;
     padding: 0.2em 0.8em;
@@ -211,12 +185,6 @@ button:disabled {
 .badge-red { background-color: #ffdad6; color: #ba1a1a; }
 .badge-yellow { background-color: #fef08a; color: #854d0e; }
 
-/* =========================
-   LAYER 3: SPECIFIC CASES
-   (Styles unique to one page/section)
-========================= */
-
-/* Header & Nav Specifics */
 .site-header {
     background-color: var(--white);
     border-bottom: 2px solid var(--light-green);
@@ -241,7 +209,6 @@ button:disabled {
     font-weight: bold;
 }
 
-/* Hero Section Specifics */
 .hero {
     text-align: center;
     padding: 6em 0;
@@ -250,14 +217,18 @@ button:disabled {
 
 .hero h2 {
     font-size: 2.5rem;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.3em;
+
 }
 
-/* Trainer Card Specifics */
+.hero p {
+    margin-bottom: 1.2em;
+}
+
 .trainer-card img {
     aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 50%; /* Circle photos look better for profiles */
+    border-radius: 50%; 
     margin: 0 auto 1em auto;
     border: 3px solid var(--light-green);
 }
@@ -268,12 +239,11 @@ button:disabled {
     font-style: italic;
 }
 
-/* Equipment Status Specifics */
 .equipment-box {
     background-color: var(--white);
     padding: 2.5em;
     border-radius: 15px;
-    border-top: 5px solid var(--accent-green); /* Changed to top border for symmetry */
+    border-top: 5px solid var(--accent-green);
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
@@ -285,9 +255,32 @@ button:disabled {
     display: flex;
     justify-content: space-between;
     font-weight: 500;
+
 }
 
-/* Footer Specifics */
+.status::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+
+
+.available::before {
+    background-color: #22c55e; 
+}
+
+
+.limited::before {
+    background-color: #eab308; 
+}
+
+.unavailable::before {
+    background-color: #ef4444; 
+}
 .site-footer {
     text-align: center;
     padding: 2em 0;
@@ -295,10 +288,6 @@ button:disabled {
     color: var(--light-green);
 }
 
-/* =========================
-   LAYER 3 additions: SPECIFIC CASES
-   (Schedule Page specific styles)
-========================= */
 
 .schedule-page {
     padding: 3em 20px;
@@ -314,13 +303,11 @@ button:disabled {
     font-size: 2.2rem;
 }
 
-/* The 2-Column Grid Layout */
 .schedule-layout {
     display: grid;
-    /* 1 part sidebar, 3 parts main content */
     grid-template-columns: 1fr 3fr;
     gap: 2em;
-    align-items: start; /* Prevents sidebar from stretching to height of results */
+    align-items: start; 
 }
 
 .filter-sidebar h3 {
@@ -330,7 +317,6 @@ button:disabled {
     padding-bottom: 0.5em;
 }
 
-/* Specific styling for the data inside class cards */
 .class-time {
     font-size: 1.5rem;
     font-weight: bold;
@@ -351,8 +337,9 @@ button:disabled {
 
 .class-meta {
     display: flex;
-    justify-content: center;
-    gap: 1em;
+    flex-direction: column;   
+    align-items: center;  
+    gap: 0.5em;
     font-size: 0.85em;
     color: var(--gray);
     margin-bottom: 1.5em;
@@ -361,9 +348,16 @@ button:disabled {
     border-radius: 6px;
 }
 
-/* =========================
-   LAYER 3: PROFILE PAGE SPECIFIC
-========================= */
+.class-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
+.class-meta img {
+    width: 16px;
+    height: 16px;
+}
 
 .profile-page {
     padding: 3em 20px;
@@ -371,13 +365,11 @@ button:disabled {
 
 .profile-layout {
     display: grid;
-    /* Sidebar takes 1 fraction, form takes 2 fractions */
     grid-template-columns: 1fr 2fr;
     gap: 2em;
     align-items: start;
 }
 
-/* Sidebar Specifics */
 .profile-avatar {
     width: 150px;
     height: 150px;
@@ -411,9 +403,8 @@ button:disabled {
     color: var(--primary-green);
 }
 
-/* Form Layout Specifics */
 .profile-form-container {
-    text-align: left; /* Override the default centered text from .card */
+    text-align: left; 
 }
 
 .form-section {
@@ -434,7 +425,6 @@ button:disabled {
     margin-bottom: 1em;
 }
 
-/* Put two inputs side-by-side using CSS Grid */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -448,14 +438,12 @@ button:disabled {
     margin-top: 2em;
 }
 
-/* Add input[type="file"] specific styling to Layer 2 or 3 so it doesn't look ugly */
 input[type="file"] {
     padding: 0.5em;
     background-color: var(--bg-color);
     cursor: pointer;
 }
 
-/* Update Media Queries to stack the Profile layout */
 @media (max-width: 900px) {
     .profile-layout {
         grid-template-columns: 1fr;
@@ -467,13 +455,10 @@ input[type="file"] {
     }
 }
 
-/* =========================
-   LAYER 3: LOGIN PAGE SPECIFIC
-========================= */
 
 .login-page {
     padding: 3em 20px;
-    max-width: 900px; /* Make the overall login area slightly narrower than the main container */
+    max-width: 900px; 
 }
 
 .login-layout {
@@ -502,7 +487,7 @@ input[type="file"] {
 }
 
 .admin-login {
-    border-top: 5px solid #ba1a1a; /* Red border to indicate restricted access area */
+    border-top: 5px solid #ba1a1a;
 }
 
 .login-footer {
@@ -513,16 +498,13 @@ input[type="file"] {
 
 @media (max-width: 768px) {
     .login-layout {
-        grid-template-columns: 1fr; /* Stacks the login cards on mobile */
+        grid-template-columns: 1fr; 
     }
 }
 
-/* =========================
-   MEDIA QUERIES (Responsiveness)
-========================= */
 
 @media (max-width: 768px) {
-    /* Stack header elements vertically on small screens */
+  
     .header-container {
         flex-direction: column;
         gap: 1em;
@@ -542,11 +524,9 @@ input[type="file"] {
     }
 }
 
-/* =========================
-   MEDIA QUERIES Update
-========================= */
+
 @media (max-width: 900px) {
-    /* Collapse the 2-column layout into 1 column on smaller screens */
+  
     .schedule-layout {
         grid-template-columns: 1fr;
     }
