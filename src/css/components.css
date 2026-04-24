@@ -1,0 +1,172 @@
+.button {
+    display: inline-block;
+    padding: 0.8em 2em;
+    background-color: var(--primary-green);
+    color: var(--white);
+    border-radius: 50px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.button:hover {
+    background-color: #1b4332;
+    color: var(--white);
+    transform: scale(1.05);
+}
+
+.button-small {
+    padding: 0.4em 1.2em;
+}
+
+.button-full {
+    width: 100%;
+    display: block;
+}
+
+.button-outline {
+    background-color: transparent;
+    color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+}
+
+.button-outline:hover {
+    background-color: var(--primary-green);
+    color: var(--white);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.card {
+    background-color: var(--white);
+    border-radius: 15px;
+    padding: 1.5em;
+    text-align: center;
+    border: 1px solid var(--light-green);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.trainer-card img {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 50%; 
+    margin: 0 auto 1em auto;
+    border: 3px solid var(--light-green);
+}
+
+.trainer-card .specialization {
+    color: var(--gray);
+    font-size: 0.95em;
+    font-style: italic;
+}
+
+.equipment-box {
+    background-color: var(--white);
+    padding: 2.5em;
+    border-radius: 15px;
+    border-top: 5px solid var(--accent-green);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.equipment-list li {
+    padding: 1em;
+    margin-bottom: 0.5em;
+    background-color: #f0fdf4; 
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.2em 0.8em;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+}
+
+.badge-green { 
+    background-color: var(--light-green); 
+    color: var(--primary-green); 
+}
+
+.badge-red { 
+    background-color: #ffdad6; 
+    color: #ba1a1a; 
+}
+
+.badge-yellow { 
+    background-color: #fef08a; 
+    color: #854d0e; 
+}
+
+.form-group {
+    margin-bottom: 1.2em;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.4em;
+    color: var(--primary-green);
+    font-size: 0.9em;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit; 
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(116, 198, 157, 0.2); 
+}
+
+input[type="file"] {
+    padding: 0.5em;
+    background-color: var(--bg-color);
+    cursor: pointer;
+}
+
+.status::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.available::before {
+    background-color: #22c55e; 
+}
+
+.limited::before {
+    background-color: #eab308; 
+}
+
+.unavailable::before {
+    background-color: #ef4444; 
+}

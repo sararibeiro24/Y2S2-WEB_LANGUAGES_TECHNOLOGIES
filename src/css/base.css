@@ -1,0 +1,70 @@
+
+
+:root {
+    --primary-green: #2d6a4f;  
+    --accent-green: #74c69d;    
+    --light-green: #d8f3dc;      
+    --white: #ffffff;
+    --gray: #666;
+    --bg-color: #f9f9f9;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: var(--bg-color);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-green);
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--accent-green);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%; 
+    display: block;
+}
+
+section {
+    padding: 4em 0;
+}
+
+section h2 {
+    color: var(--primary-green);
+    font-size: 2rem;
+    margin-bottom: 1em; 
+    text-align: center;
+}
+
+fieldset {
+    border: none;
+}
+
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
