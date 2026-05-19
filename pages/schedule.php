@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +19,10 @@
             <h1>Ladybug's Gym</h1>
             <nav>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                     <li><a href="#">Trainers</a></li>
                     <li><a href="#">Equipment</a></li>
-                    <li><a href="login.html" class="button button-small">Login</a></li>
+                    <li><a href="login.php" class="button button-small">Login</a></li>
                 </ul>
             </nav>
         </div>
@@ -74,8 +77,8 @@
                         <h3 class="class-title">Morning Yoga</h3>
                         <p class="class-trainer">with Maria Silva</p>
                         <div class="class-meta">
-                            <span> <img src="../../img/relogio.png" alt="Clock icon">60 min</span>
-                            <span><img src="../../img/follower.png" alt="Users icon">12/20 spots</span>
+                            <span> <img src="../img/relogio.png" alt="Clock icon">60 min</span>
+                            <span><img src="../img/follower.png" alt="Users icon">12/20 spots</span>
                         </div>
                        
                         <a href="#" class="button button-small button-outline">Enroll Now</a>
@@ -87,8 +90,8 @@
                         <h3 class="class-title">Lunchtime HIIT</h3>
                         <p class="class-trainer">with John Doe</p>
                         <div class="class-meta">
-                            <span><img src="../../img/relogio.png" alt="Clock icon">  45 min</span>
-                            <span><img src="../../img/follower.png" alt="Users icon">  15/15 spots</span>
+                            <span><img src="../img/relogio.png" alt="Clock icon">  45 min</span>
+                            <span><img src="../img/follower.png" alt="Users icon">  15/15 spots</span>
                         </div>
                         <button class="button button-small" disabled>Waitlist</button>
                     </article>
@@ -99,8 +102,8 @@
                         <h3 class="class-title">Advanced Spinning</h3>
                         <p class="class-trainer">with John Doe</p>
                         <div class="class-meta">
-                            <span><img src="../../img/relogio.png" alt="Clock icon">  60 min</span>
-                            <span><img src="../../img/follower.png" alt="Users icon">  18/20 spots</span>
+                            <span><img src="../img/relogio.png" alt="Clock icon">  60 min</span>
+                            <span><img src="../img/follower.png" alt="Users icon">  18/20 spots</span>
                         </div>
                         <a href="#" class="button button-small button-outline">Enroll Now</a>
                     </article>

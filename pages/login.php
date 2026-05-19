@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +19,10 @@
             <h1>Ladybug's Gym</h1>
             <nav>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="schedule.html">Classes</a></li>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="schedule.php">Classes</a></li>
                     <li><a href="#">Trainers</a></li>
-                    <li><a href="login.html" class="button button-small active">Login</a></li>
+                    <li><a href="login.php" class="button button-small active">Login</a></li>
                 </ul>
             </nav>
         </div>
@@ -38,7 +41,7 @@
                 <h3>Member & Trainer</h3>
                 <p class="login-subtitle">Access your schedule and profile.</p>
                 
-                <form action="profile.html" method="GET">
+                <form action="profile.php" method="GET">
                     <div class="form-group">
                         <label for="userUsername">Username or Email</label>
                         <input type="text" id="userUsername" name="username" class="input-field" placeholder="e.g., johndoe_99" required>
@@ -59,7 +62,7 @@
                 <h3>System Admin</h3>
                 <p class="login-subtitle">Manage gym operations.</p>
                 
-                <form action="profile.html" method="GET">
+                <form action="profile.php" method="GET">
                     <div class="form-group">
                         <label for="adminId">Admin ID</label>
                         <input type="text" id="adminId" name="adminId" class="input-field" placeholder="Admin Identification Number" required>

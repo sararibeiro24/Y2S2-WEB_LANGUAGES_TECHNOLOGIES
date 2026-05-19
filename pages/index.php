@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +19,10 @@
             <h1>Ladybug's Gym</h1>
             <nav>
                 <ul>
-                    <li><a href="schedule.html">Classes</a></li>
+                    <li><a href="schedule.php">Classes</a></li>
                     <li><a href="#">Trainers</a></li>
                     <li><a href="#">Equipment</a></li>
-                    <li><a href="login.html" class="button button-small">Login</a></li>
+                    <li><a href="login.php" class="button button-small">Login</a></li>
                 </ul>
             </nav>
         </div>
@@ -30,7 +33,7 @@
             <div class="container">
                 <h2>Train Smarter, Not Harder</h2>
                 <p>Book classes, track equipment, and improve your fitness.</p>
-                <a href="schedule.html" class="button">Explore Classes</a>
+                <a href="schedule.php" class="button">Explore Classes</a>
             </div>
         </section>
 
@@ -59,12 +62,12 @@
                 <h2>Our Trainers</h2>
                 <div class="grid-container">
                     <article class="card trainer-card">
-                        <img src="../../img/John_Doe.png"  alt="Portrait of Trainer John Doe">
+                        <img src="../img/John_Doe.png"  alt="Portrait of Trainer John Doe">
                         <h3>John Doe</h3>
                         <p class="specialization">Strength & Conditioning</p>
                     </article>
                     <article class="card trainer-card">
-                        <img src="../../img/Maria_Silva.png" alt="Portrait of Trainer Maria Silva">
+                        <img src="../img/Maria_Silva.png" alt="Portrait of Trainer Maria Silva">
                         <h3>Maria Silva</h3>
                         <p class="specialization">Yoga Instructor</p>
                     </article>

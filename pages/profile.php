@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +19,10 @@
             <h1>Ladybug's Gym</h1>
             <nav>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="schedule.html">Classes</a></li>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="schedule.php">Classes</a></li>
                     <li><a href="#">Trainers</a></li>
-                    <li><a href="profile.html" class="button button-small active">My Profile</a></li>
+                    <li><a href="profile.php" class="button button-small active">My Profile</a></li>
                 </ul>
             </nav>
         </div>
@@ -35,7 +38,7 @@
         <div class="profile-layout">
             
             <aside class="profile-sidebar card">
-                <img src="../../img/John_Doe.png" alt="Current Profile Photo" class="profile-avatar">
+                <img src="../img/John_Doe.png" alt="Current Profile Photo" class="profile-avatar">
                 <h3>johndoe_99</h3>
                 <span class="badge badge-green">Pro Member</span>
                 <p class="member-since">Member since Jan 2026</p>
@@ -97,11 +100,10 @@
                         <button type="button" class="button button-outline">Cancel</button>
                         <button type="submit" class="button">Save Changes</button>
                     </div>
-
                 </form>
             </div>
-
         </div>
+
     </main>
 
     <footer class="site-footer">

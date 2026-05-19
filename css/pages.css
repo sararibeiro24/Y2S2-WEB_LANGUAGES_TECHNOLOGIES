@@ -197,15 +197,3 @@
 .admin-login {
     border-top: 5px solid #ba1a1a;
 }
-
-.login-footer {
-    text-align: center;
-    margin-top: 1.5em;
-    font-size: 0.9em;
-}
-
-@media (max-width: 768px) {
-    .login-layout {
-        grid-template-columns: 1fr; 
-    }
-}
