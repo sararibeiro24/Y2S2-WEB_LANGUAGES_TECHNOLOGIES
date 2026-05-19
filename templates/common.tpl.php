@@ -1,12 +1,18 @@
 <?php
+function drawHead($title) {
+    ?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><?php echo htmlspecialchars($title); ?></title>
+        <?php drawCSSLinks(); ?>
+    </head>
+    <body>
+    <?php
+}
 
-/**
- * Common template functions for header, footer, and shared elements
- */
-
-/**
- * Draw the site header with navigation
- */
 function drawHeader() {
     ?>
     <header class="site-header">
@@ -25,9 +31,7 @@ function drawHeader() {
     <?php
 }
 
-/**
- * Draw the site footer
- */
+
 function drawFooter() {
     ?>
     <footer class="site-footer">
@@ -38,28 +42,11 @@ function drawFooter() {
     <?php
 }
 
-/**
- * Draw CSS links
- */
 function drawCSSLinks() {
     ?>
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/pages.css">
-    <?php
-}
-
-/**
- * Draw page header with title
- */
-function drawPageHeader($title, $subtitle = '') {
-    ?>
-    <div class="page-header">
-        <h2><?php echo htmlspecialchars($title); ?></h2>
-        <?php if ($subtitle): ?>
-            <p><?php echo htmlspecialchars($subtitle); ?></p>
-        <?php endif; ?>
-    </div>
     <?php
 }

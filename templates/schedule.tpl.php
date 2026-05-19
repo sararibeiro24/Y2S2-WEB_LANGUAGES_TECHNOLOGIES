@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Schedule page template functions
- */
-
-/**
- * Draw a single class card
- */
 function drawClassCard($classTime, $status, $title, $trainer, $duration, $spots, $imageIcon = 'relogio.png', $usersIcon = 'follower.png', $buttonText = 'Enroll Now') {
     $badgeClass = 'badge-green';
     $isDisabled = false;

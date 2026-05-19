@@ -1,4 +1,7 @@
 <?php
+require_once(__DIR__ . '/../templates/common.tpl.php');
+drawHead("My Profile | Ladybug's Gym");
+drawHeader();
 
 ?>
 <!DOCTYPE html>
@@ -114,3 +117,7 @@
 
 </body>
 </html>
+<?php
+drawFooter();
+
+?>

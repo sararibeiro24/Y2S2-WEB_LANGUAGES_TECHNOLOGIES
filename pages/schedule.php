@@ -1,32 +1,44 @@
 <?php
+require_once(__DIR__ . '/../templates/common.tpl.php');
+require_once(__DIR__ . '/../templates/schedule.tpl.php');
+drawHead("Class Schedule | Ladybug's Gym"); 
+drawHeader();
+
+/* depois mudar isto para ir buscar a base de dados*/
+$classes = [
+    [
+        'time' => '09:00 AM',
+        'status' => 'Available',
+        'title' => 'Morning Yoga',
+        'trainer' => 'Maria Silva',
+        'duration' => '60',
+        'spots' => '12/20'
+    ],
+    [
+        'time' => '12:30 PM',
+        'status' => 'Full',
+        'title' => 'Lunchtime HIIT',
+        'trainer' => 'John Doe',
+        'duration' => '45',
+        'spots' => '15/15',
+        'buttonText' => 'Waitlist'
+    ],
+    [
+        'time' => '18:00 PM',
+        'status' => 'Few Spots',
+        'title' => 'Advanced Spinning',
+        'trainer' => 'John Doe',
+        'duration' => '60',
+        'spots' => '18/20'
+    ]
+];
+?>
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Schedule | Ladybug's Gym</title>
-    <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/components.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/pages.css">
-</head>
-<body>
 
-    <header class="site-header">
-        <div class="container header-container">
-            <h1>Ladybug's Gym</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="#">Trainers</a></li>
-                    <li><a href="#">Equipment</a></li>
-                    <li><a href="login.php" class="button button-small">Login</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body>
 
     <main class="container schedule-page">
         
@@ -70,55 +82,36 @@
             <div class="class-results">
                 <div class="grid-container">
                     
-            
-                    <article class="card class-card">
-                        <div class="class-time">09:00 AM</div>
-                        <span class="badge badge-green">Available</span>
-                        <h3 class="class-title">Morning Yoga</h3>
-                        <p class="class-trainer">with Maria Silva</p>
-                        <div class="class-meta">
-                            <span> <img src="../img/relogio.png" alt="Clock icon">60 min</span>
-                            <span><img src="../img/follower.png" alt="Users icon">12/20 spots</span>
-                        </div>
-                       
-                        <a href="#" class="button button-small button-outline">Enroll Now</a>
-                    </article>
+                    
+                    <?php
+                foreach ($classes as $class) {
 
-                    <article class="card class-card">
-                        <div class="class-time">12:30 PM</div>
-                        <span class="badge badge-red">Full</span>
-                        <h3 class="class-title">Lunchtime HIIT</h3>
-                        <p class="class-trainer">with John Doe</p>
-                        <div class="class-meta">
-                            <span><img src="../img/relogio.png" alt="Clock icon">  45 min</span>
-                            <span><img src="../img/follower.png" alt="Users icon">  15/15 spots</span>
-                        </div>
-                        <button class="button button-small" disabled>Waitlist</button>
-                    </article>
+                    drawClassCard(
+                        $class['time'],
+                        $class['status'],
+                        $class['title'],
+                        $class['trainer'],
+                        $class['duration'],
+                        $class['spots'],
+                        'relogio.png',
+                        'follower.png',
+                        $class['buttonText'] ?? 'Enroll Now'
+                    );
+                }
+                ?>
 
-                    <article class="card class-card">
-                        <div class="class-time">18:00 PM</div>
-                        <span class="badge badge-yellow">Few Spots</span>
-                        <h3 class="class-title">Advanced Spinning</h3>
-                        <p class="class-trainer">with John Doe</p>
-                        <div class="class-meta">
-                            <span><img src="../img/relogio.png" alt="Clock icon">  60 min</span>
-                            <span><img src="../img/follower.png" alt="Users icon">  18/20 spots</span>
-                        </div>
-                        <a href="#" class="button button-small button-outline">Enroll Now</a>
-                    </article>
+                     
+
+                    
+
 
                 </div>
             </div>
 
         </div>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 Ladybug's Gym</p>
-        </div>
-    </footer>
-
+    </main>  
 </body>
 </html>
+<?php
+drawFooter();
+?>
