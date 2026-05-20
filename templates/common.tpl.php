@@ -14,6 +14,17 @@ function drawHead($title) {
 }
 
 function drawHeader() {
+    require_once(__DIR__ . '/../utils/session.php');
+    require_once(__DIR__ . '/../database/user.class.php');
+    
+    Session::start();
+    $isLoggedIn = Session::isLoggedIn();
+    $user = null;
+    
+    if ($isLoggedIn) {
+        $userId = Session::getUserId();
+        $user = User::getById($userId);
+    }
     ?>
     <header class="site-header">
         <div class="container header-container">
@@ -23,7 +34,12 @@ function drawHeader() {
                     <li><a href="index.php">Home</a></li>
                     <li><a href="schedule.php">Classes</a></li>
                     <li><a href="#">Trainers</a></li>
-                    <li><a href="login.php" class="button button-small">Login</a></li>
+                    <?php if ($isLoggedIn && $user): ?>
+                        <li><a href="profile.php"><?php echo htmlspecialchars($user->getName()); ?></a></li>
+                        <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>
+                    <?php else: ?>
+                        <li><a href="login.php" class="button button-small">Login</a></li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>

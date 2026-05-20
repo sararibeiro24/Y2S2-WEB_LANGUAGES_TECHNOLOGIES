@@ -1,8 +1,21 @@
 <?php
+declare(strict_types=1);
+
 require_once(__DIR__ . '/../templates/common.tpl.php');
+require_once(__DIR__ . '/../utils/session.php');
+
+Session::start();
+
+// If already logged in, redirect to profile
+if (Session::isLoggedIn()) {
+    header('Location: profile.php');
+    exit;
+}
+
 drawHead("Login | Ladybug's Gym");
 drawHeader();
 
+$messages = Session::getMessages();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,13 +29,25 @@ drawHeader();
             <p>Please log in to access your account.</p>
         </div>
 
+        <?php if (!empty($messages)): ?>
+            <div class="messages">
+                <?php foreach ($messages as $msg): ?>
+                    <div class="message message-<?php echo htmlspecialchars($msg['type']); ?>">
+                        <p><?php echo htmlspecialchars($msg['text']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
         <div class="login-layout">
             
             <section class="card login-card">
                 <h3>Member & Trainer</h3>
                 <p class="login-subtitle">Access your schedule and profile.</p>
                 
-                <form action="profile.php" method="GET">
+                <form action="../actions/action_login.php" method="POST">
+                    <input type="hidden" name="login_type" value="user">
+                    
                     <div class="form-group">
                         <label for="userUsername">Username or Email</label>
                         <input type="text" id="userUsername" name="username" class="input-field" placeholder="e.g., johndoe_99" required>
@@ -43,7 +68,9 @@ drawHeader();
                 <h3>System Admin</h3>
                 <p class="login-subtitle">Manage gym operations.</p>
                 
-                <form action="profile.php" method="GET">
+                <form action="../actions/action_login.php" method="POST">
+                    <input type="hidden" name="login_type" value="admin">
+                    
                     <div class="form-group">
                         <label for="adminId">Admin ID</label>
                         <input type="text" id="adminId" name="adminId" class="input-field" placeholder="Admin Identification Number" required>

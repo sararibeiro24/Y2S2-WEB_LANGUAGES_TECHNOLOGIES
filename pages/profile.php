@@ -6,30 +6,8 @@ drawHeader();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile | Ladybug's Gym</title>
-    <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/components.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/pages.css">
-</head>
-<body>
 
-    <header class="site-header">
-        <div class="container header-container">
-            <h1>Ladybug's Gym</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="schedule.php">Classes</a></li>
-                    <li><a href="#">Trainers</a></li>
-                    <li><a href="profile.php" class="button button-small active">My Profile</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body>
 
     <main class="container profile-page">
         
@@ -108,13 +86,6 @@ drawHeader();
         </div>
 
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 Ladybug's Gym</p>
-        </div>
-    </footer>
-
 </body>
 </html>
 <?php
