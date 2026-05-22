@@ -34,7 +34,6 @@ $classes = [
 ];
 ?>
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 
