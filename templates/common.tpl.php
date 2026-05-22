@@ -47,6 +47,16 @@ function drawHeader() {
     <?php
 }
 
+function drawPageHeader($title,$subtitle){
+?>
+     <div class="page-header">
+            <h2><?php echo htmlspecialchars($title); ?></h2>
+            <p><?php echo htmlspecialchars($subtitle); ?></p>
+        </div>
+
+
+<?php
+}
 
 function drawFooter() {
     ?>
