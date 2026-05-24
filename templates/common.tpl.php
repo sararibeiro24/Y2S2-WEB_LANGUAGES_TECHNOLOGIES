@@ -76,3 +76,17 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/pages.css">
     <?php
 }
+function drawMessages() {
+
+    $messages = Session::getMessages(); 
+    
+    if (empty($messages)) return;
+
+    echo '<section id="messages">';
+    foreach ($messages as $message) {
+        $type = htmlspecialchars($message['type']);
+        $text = htmlspecialchars($message['text']);
+        echo "<div class=\"alert alert-$type\">$text</div>";
+    }
+    echo '</section>';
+}
