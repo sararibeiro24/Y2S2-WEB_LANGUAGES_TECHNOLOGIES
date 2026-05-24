@@ -64,6 +64,16 @@ function drawHeader() {
     <?php
 }
 
+function drawPageHeader($title,$subtitle){
+?>
+     <div class="page-header">
+            <h2><?php echo htmlspecialchars($title); ?></h2>
+            <p><?php echo htmlspecialchars($subtitle); ?></p>
+        </div>
+
+
+<?php
+}
 
 function drawFooter() {
     ?>
@@ -82,4 +92,18 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/pages.css">
     <?php
+}
+function drawMessages() {
+
+    $messages = Session::getMessages(); 
+    
+    if (empty($messages)) return;
+
+    echo '<section id="messages">';
+    foreach ($messages as $message) {
+        $type = htmlspecialchars($message['type']);
+        $text = htmlspecialchars($message['text']);
+        echo "<div class=\"alert alert-$type\">$text</div>";
+    }
+    echo '</section>';
 }

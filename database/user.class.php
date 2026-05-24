@@ -100,5 +100,27 @@ class User {
         );
     }
 
+    public static function register(string $username, string $email, string $password, string $name, ?PDO $db = null): ?User {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('SELECT id FROM users WHERE username = ? OR email = ?');
+        $stmt->execute([$username, $email]);
+
+        if ($stmt->fetch()) {
+            throw new Exception('Username or email already exists.');
+        }
+
+        $stmt = $db->prepare('
+            INSERT INTO users (username, email, name, password_hash, role, active) 
+            VALUES (?, ?, ?, ?, \'member\', 1)
+        ');
+
+        $stmt->execute([$username, $email, $name, $password]);
+
+        $id = (int)$db->lastInsertId();
+        
+        return new User($id, $username, $email, $name, 'member', true, $db);
+    }
+
+
 }
 ?>
