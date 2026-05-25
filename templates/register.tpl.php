@@ -14,7 +14,8 @@ function drawRegisterForm() {
                     </div>
                     <div class="form-group">
                         <label>Username</label>
-                        <input type="text"  name="username" class="input-field" placeholder="e.g., johndoe_99" required>
+                        <input type="text"  id="username-input" name="username" class="input-field" placeholder="e.g., johndoe_99" required>
+                        <span id="username-status" class="status-message"></span>
                     </div>
                     <div class="form-group">
                         <label>Email Address</label>
