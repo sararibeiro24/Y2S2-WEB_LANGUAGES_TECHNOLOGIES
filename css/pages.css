@@ -269,13 +269,14 @@
 
 .teaser-section {
     padding: 5em 20px;
-    border-bottom: 2px solid var(--ladybug-light);
+    border-bottom: 2px solid var(--ladybug-red);
     position: relative;
 }
 
 .bg-white { background-color: var(--ladybug-dark-gray); }
 .bg-light-red { background-color: var(--ladybug-medium-gray); }
 .bg-dark { background-color: var(--ladybug-black); color: var(--ladybug-white); }
+.text-white { color: var(--ladybug-white); }
 
 
 .split-layout {
@@ -1107,4 +1108,111 @@
     0% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-15px) rotate(2deg); }
     100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .teaser-section {
+        padding: 4em 20px;
+    }
+    
+    .split-layout {
+        gap: 2em;
+    }
+    
+    .metamorphosis-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5em;
+    }
+    
+    .huge-text {
+        font-size: 2.8rem;
+    }
+    
+    .teaser-section h2 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .large-subtitle {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .teaser-section {
+        padding: 3em 15px;
+    }
+    
+    .split-layout {
+        grid-template-columns: 1fr;
+        gap: 2em;
+    }
+    
+    .split-asymmetric,
+    .split-asymmetric.reverse {
+        grid-template-columns: 1fr;
+    }
+    
+    .split-uneven,
+    .split-uneven.reverse {
+        grid-template-columns: 1fr;
+    }
+    
+    .metamorphosis-grid {
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+    
+    .huge-text {
+        font-size: 2rem;
+    }
+    
+    .teaser-section h2 {
+        font-size: 1.6rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .large-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .cards-grid,
+    .cards-grid-2,
+    .cards-grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-showcase {
+        grid-template-columns: 1fr;
+    }
+    
+    .floating-image {
+        width: 180px;
+        height: 260px;
+    }
+    
+    .floating-image:nth-child(2) {
+        width: 200px;
+        height: 240px;
+    }
+    
+    .text-right {
+        text-align: center;
+    }
+    
+    .reverse-mobile {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    
+    .login-teaser-cards {
+        flex-direction: column;
+    }
 }

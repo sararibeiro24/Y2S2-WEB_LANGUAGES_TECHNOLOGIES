@@ -13,9 +13,13 @@
 }
 
 .site-header {
-    background-color: var(--ladybug-black);
-    border-bottom: 2px solid var(--ladybug-red);
+    background-color: var(--ladybug-white);
+    border-bottom: 3px solid var(--ladybug-red);
     padding: 1em 0;
+}
+
+.site-header a, .site-header h1, .site-header nav {
+    color: var(--ladybug-black);
 }
 
 .header-container {
@@ -35,9 +39,13 @@
 .site-footer {
     text-align: center;
     padding: 2em 0;
-    background-color: var(--ladybug-black);
-    color: var(--ladybug-white);
-    border-top: 2px solid var(--ladybug-red);
+    background-color: var(--ladybug-white);
+    color: var(--ladybug-black);
+    border-top: 3px solid var(--ladybug-red);
+}
+
+.site-footer a {
+    color: var(--ladybug-red);
 }
 
 .site-footer .container {

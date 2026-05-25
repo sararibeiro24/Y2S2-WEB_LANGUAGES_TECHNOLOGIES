@@ -43,8 +43,15 @@ function drawHeader() {
             <nav class="wings-nav">
                 <ul>
                     <li><a href="index.php">Home</a></li>
+                    <li><a href="index.php#plans">Plans</a></li>
+                    <li><a href="index.php#news">News</a></li>
+                    <li><a href="index.php#philosophy">Our Philosophy</a></li>
+                    <li><a href="index.php#equipment">Equipment</a></li>
                     <li><a href="schedule.php">Classes</a></li>
-                    <li><a href="#">Trainers</a></li>
+                    <li><a href="index.php#trainers">Trainers</a></li>
+                    <li><a href="index.php#nutrition">Nutrition</a></li>
+                    <li><a href="index.php#feedback">Feedback</a></li>
+                    <li><a href="index.php#qa">Q&A</a></li>
                     <?php if ($isLoggedIn): ?>
                         <li><a href="profile.php">My Profile</a></li>
                         <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>

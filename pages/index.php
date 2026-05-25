@@ -9,195 +9,335 @@ drawHeader();
 <body>
     <main class="scrollable-home">
         
-        <!-- PLANS -->
-        <section class="teaser-section bg-hero slanted-bottom">
-            <div class="container split-layout">
-                <div class="teaser-text">
-                    <h2 class="huge-text text-white">BECOME<br>UN-BEETLE-ABLE<br>TODAY!</h2>
-                    <a href="login.php" class="button">JOIN NOW!</a>
-                </div>
-                <div class="teaser-card card">
-                    <h3>Plans From</h3>
-                    <div class="price">2<span class="cents">,99€</span> <span class="per">/ week</span></div>
-                    <ul class="perks">
-                        <li>🐞 Forever!</li>
-                        <li>🐞 Free schedule</li>
-                        <li>🐞 No loyalty</li>
-                    </ul>
+        <!-- PLANS SECTION -->
+        <section id="plans" class="teaser-section bg-hero slanted-bottom">
+            <div class="container">
+                <h2 class="huge-text text-white">BECOME UN-BEETLE-ABLE TODAY!</h2>
+                <p class="subtitle text-white">Join now and start your transformation with our affordable plans</p>
+                
+                <div class="cards-grid cards-grid-2" style="margin-top: 3em;">
+                    <div class="plan-card">
+                        <h3 class="plan-name">Starter</h3>
+                        <div class="plan-price">€9<span style="font-size: 0.6em;">/month</span></div>
+                        <ul class="plan-features">
+                            <li>✓ Gym Access 24/7</li>
+                            <li>✓ Basic Equipment</li>
+                            <li>✓ Locker Room</li>
+                            <li>✗ Personal Training</li>
+                            <li>✗ Classes</li>
+                        </ul>
+                        <a href="login.php" class="button">GET STARTED</a>
+                    </div>
+                    
+                    <div class="plan-card">
+                        <h3 class="plan-name">Pro</h3>
+                        <div class="plan-price">€19<span style="font-size: 0.6em;">/month</span></div>
+                        <ul class="plan-features">
+                            <li>✓ Full Equipment Access</li>
+                            <li>✓ All Classes</li>
+                            <li>✓ Nutrition Guidance</li>
+                            <li>✓ Progress Tracking</li>
+                            <li>✓ Guest Pass</li>
+                        </ul>
+                        <a href="login.php" class="button">JOIN PRO</a>
+                    </div>
+                    
+                    <div class="plan-card">
+                        <h3 class="plan-name">Elite</h3>
+                        <div class="plan-price">€49<span style="font-size: 0.6em;">/month</span></div>
+                        <ul class="plan-features">
+                            <li>✓ Personal Trainer</li>
+                            <li>✓ Meal Plans</li>
+                            <li>✓ Priority Booking</li>
+                            <li>✓ Premium Support</li>
+                            <li>✓ VIP Lounge</li>
+                        </ul>
+                        <a href="login.php" class="button">GO ELITE</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- LOGIN / SIGN UP -->
+        <!-- NEWS SECTION -->
+        <section id="news" class="teaser-section bg-dark">
+            <div class="container center-layout">
+                <h2>LATEST NEWS & UPDATES</h2>
+                <p class="subtitle large-subtitle">Stay informed about gym events, new classes, and achievements from our community</p>
+                
+                <div class="cards-grid cards-grid-3">
+                    <div class="news-card">
+                        <img src="../img/girl training.jpg" alt="New Class" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">New HIIT Class Launched!</h3>
+                            <p class="news-excerpt">Get ready to buzz with intensity! Our brand new high-intensity interval training class is here to transform your fitness routine.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card">
+                        <img src="../img/man swimming.jpg" alt="Swimming" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Pool Opening Celebration</h3>
+                            <p class="news-excerpt">Join us for the grand opening of our Olympic-sized swimming pool with free classes for all members this weekend!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card">
+                        <img src="../img/gym enviorment.jpg" alt="Gym" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Facility Expansion Complete</h3>
+                            <p class="news-excerpt">We've expanded our gym with 50 new machines and a state-of-the-art recovery area for all our hardworking members!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHILOSOPHY SECTION -->
+        <section id="philosophy" class="teaser-section bg-hero">
+            <div class="container center-layout">
+                <h2>OUR 3-STEP PHILOSOPHY</h2>
+                <p class="subtitle">Leave your old shell behind and transform with us</p>
+                
+                <div class="metamorphosis-grid">
+                    <div class="step">
+                        <div class="icon"><img src="../img/caterpillar.png" alt="Caterpillar"></div>
+                        <h4>Top-Notch Equipment</h4>
+                        <p>We source only the highest grade, heavy-duty machines. Whether you're lifting heavy iron or focusing on cardio, our floor is built for peak performance.</p>
+                    </div>
+                    <div class="step">
+                        <div class="icon"><img src="../img/cocoon.png" alt="Cocoon"></div>
+                        <h4>Worth Your Money</h4>
+                        <p>Premium facilities shouldn't cost a fortune. Experience luxury locker rooms, expert staff, and pristine environments at unbeatable prices.</p>
+                    </div>
+                    <div class="step">
+                        <div class="icon"><img src="../img/butterfly.png" alt="Butterfly"></div>
+                        <h4>Guaranteed Results</h4>
+                        <p>With our tailored tracking, professional trainers, and electric atmosphere, hitting your goals is an absolute certainty.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EQUIPMENT SECTION -->
+        <section id="equipment" class="teaser-section bg-equipment slanted-top slanted-bottom">
+            <div class="container">
+                <h2 class="text-white">PERFECT EQUIPMENT TO SPOT</h2>
+                <p class="subtitle text-white">Over 150 state-of-the-art machines</p>
+                
+                <div class="cards-grid cards-grid-2" style="margin-top: 2em;">
+                    <div class="teaser-graphics">
+                        <img src="../img/leg press.jpg" alt="Leg Press" class="floating-image">
+                    </div>
+                    <div class="teaser-graphics">
+                        <img src="../img/dumbells.jpg" alt="Dumbbells" class="floating-image">
+                    </div>
+                </div>
+                
+                <a href="#" class="button" style="margin-top: 2em;">EXPLORE ALL MACHINES</a>
+            </div>
+        </section>
+
+        <!-- TRAINERS SECTION -->
+        <section id="trainers" class="teaser-section bg-trainers">
+            <div class="container">
+                <h2 class="text-white">MEET OUR EXPERT TRAINERS</h2>
+                <p class="subtitle text-white">Certified professionals dedicated to your success</p>
+                
+                <div class="team-showcase">
+                    <div class="team-member">
+                        <img src="../img/John_Doe.png" alt="John Doe" class="team-member-image">
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">John Doe</h3>
+                            <p class="team-member-role">Strength & Conditioning</p>
+                            <p class="team-member-description">10+ years of experience helping athletes reach peak performance</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member">
+                        <img src="../img/female staff-trainer.jpg" alt="Sarah Coach" class="team-member-image">
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">Sarah Coach</h3>
+                            <p class="team-member-role">HIIT & Cardio</p>
+                            <p class="team-member-description">Energetic trainer specializing in high-intensity workouts</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member">
+                        <img src="../img/Maria_Silva.png" alt="Maria Silva" class="team-member-image">
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">Maria Silva</h3>
+                            <p class="team-member-role">Yoga & Flexibility</p>
+                            <p class="team-member-description">Certified yoga instructor bringing balance and mindfulness</p>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member">
+                        <img src="../img/man training.jpg" alt="Marcus Strong" class="team-member-image">
+                        <div class="team-member-info">
+                            <h3 class="team-member-name">Marcus Strong</h3>
+                            <p class="team-member-role">Powerlifting</p>
+                            <p class="team-member-description">Former athlete now guiding next generation of lifters</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#" class="button" style="margin-top: 2em;">BOOK A SESSION</a>
+            </div>
+        </section>
+
+        <!-- NUTRITION SECTION -->
+        <section id="nutrition" class="teaser-section bg-nutrition">
+            <div class="container">
+                <h2 class="text-white">SPOT-ON NUTRITION PLANS</h2>
+                <p class="subtitle text-white">Tailored meal plans for muscle gain or weight loss</p>
+                
+                <div class="cards-grid cards-grid-3">
+                    <div class="nutrition-card">
+                        <span class="nutrition-badge">420 kcal</span>
+                        <h3 class="nutrition-name">🍗 Protein Power Bowl</h3>
+                        <p class="nutrition-description">Grilled chicken, quinoa, roasted vegetables with olive oil dressing. Perfect for muscle building.</p>
+                    </div>
+                    
+                    <div class="nutrition-card">
+                        <span class="nutrition-badge">380 kcal</span>
+                        <h3 class="nutrition-name">🥗 Green Energy Salad</h3>
+                        <p class="nutrition-description">Mixed greens, turkey, avocado, nuts. High protein, low carb. Ideal for weight loss.</p>
+                    </div>
+                    
+                    <div class="nutrition-card">
+                        <span class="nutrition-badge">450 kcal</span>
+                        <h3 class="nutrition-name">🍲 Recovery Stew</h3>
+                        <p class="nutrition-description">Lean beef, sweet potato, broccoli in nutrient-rich broth. Post-workout nutrition.</p>
+                    </div>
+                    
+                    <div class="nutrition-card">
+                        <span class="nutrition-badge">350 kcal</span>
+                        <h3 class="nutrition-name">🐟 Omega-3 Delight</h3>
+                        <p class="nutrition-description">Salmon, wild rice, asparagus. Heart-healthy and muscle-supporting.</p>
+                    </div>
+                    
+                    <div class="nutrition-card">
+                        <span class="nutrition-badge">400 kcal</span>
+                        <h3 class="nutrition-name">🥚 Morning Fuel</h3>
+                        <p class="nutrition-description">Egg white omelet with mushrooms, oatmeal, berries. Energy for your day.</p>
+                    </div>
+                    
+                    <div class="nutrition-card">
+                        <span class="nutrition-badge">300 kcal</span>
+                        <h3 class="nutrition-name">🍓 Recovery Smoothie</h3>
+                        <p class="nutrition-description">Protein powder, banana, berries, Greek yogurt. Quick post-workout recovery.</p>
+                    </div>
+                </div>
+                
+                <a href="#" class="button" style="margin-top: 2em;">GET CUSTOM PLAN</a>
+            </div>
+        </section>
+
+        <!-- FEEDBACK SECTION -->
+        <section id="feedback" class="teaser-section bg-news">
+            <div class="container">
+                <h2>WHAT OUR MEMBERS SAY</h2>
+                <p class="subtitle large-subtitle">Real testimonials from people just like you who transformed with Ladybug's Gym</p>
+                
+                <div class="cards-grid cards-grid-3">
+                    <div class="feedback-card">
+                        <p class="feedback-quote">"The trainers here are absolutely incredible! I lost 25 pounds in 3 months and feel amazing!"</p>
+                        <p class="feedback-author">- Jessica M. ⭐⭐⭐⭐⭐</p>
+                    </div>
+                    
+                    <div class="feedback-card">
+                        <p class="feedback-quote">"Best gym I've ever been to. The facilities are top-notch and the community is so supportive."</p>
+                        <p class="feedback-author">- Tom Richardson ⭐⭐⭐⭐⭐</p>
+                    </div>
+                    
+                    <div class="feedback-card">
+                        <p class="feedback-quote">"Affordable pricing with premium quality? I couldn't believe it until I tried it myself!"</p>
+                        <p class="feedback-author">- Alex Chen ⭐⭐⭐⭐⭐</p>
+                    </div>
+                    
+                    <div class="feedback-card">
+                        <p class="feedback-quote">"The nutrition plans actually made sense and tasted good. I'm hooked!"</p>
+                        <p class="feedback-author">- Maria Santos ⭐⭐⭐⭐⭐</p>
+                    </div>
+                    
+                    <div class="feedback-card">
+                        <p class="feedback-quote">"Personal training sessions have changed my life. Can't recommend enough!"</p>
+                        <p class="feedback-author">- David Smith ⭐⭐⭐⭐⭐</p>
+                    </div>
+                    
+                    <div class="feedback-card">
+                        <p class="feedback-quote">"The yoga classes helped me recover from an injury. Amazing experience!"</p>
+                        <p class="feedback-author">- Sophie Laurent ⭐⭐⭐⭐⭐</p>
+                    </div>
+                </div>
+                
+                <a href="#" class="button" style="margin-top: 2em;">LEAVE YOUR FEEDBACK</a>
+            </div>
+        </section>
+
+        <!-- Q&A SECTION -->
+        <section id="qa" class="teaser-section bg-classes">
+            <div class="container">
+                <h2>FREQUENTLY ASKED QUESTIONS</h2>
+                <p class="subtitle large-subtitle">Got questions? We've got answers!</p>
+                
+                <div class="cards-grid cards-grid-2">
+                    <div class="qa-card-item">
+                        <p class="qa-question">Q: Do I need a membership to use the gym?</p>
+                        <p class="qa-answer">A: Yes! We offer flexible membership plans starting from just €9/month. Choose what works best for you.</p>
+                    </div>
+                    
+                    <div class="qa-card-item">
+                        <p class="qa-question">Q: Can I try the gym before committing?</p>
+                        <p class="qa-answer">A: Absolutely! We offer a free 3-day trial pass. Come experience the Ladybug's Gym difference!</p>
+                    </div>
+                    
+                    <div class="qa-card-item">
+                        <p class="qa-question">Q: Are personal trainers included in the membership?</p>
+                        <p class="qa-answer">A: Personal trainers are available with our Pro and Elite memberships. Our Elite plan includes unlimited sessions!</p>
+                    </div>
+                    
+                    <div class="qa-card-item">
+                        <p class="qa-question">Q: What are your opening hours?</p>
+                        <p class="qa-answer">A: We're open 24/7 for members! Access your gym whenever it fits your schedule.</p>
+                    </div>
+                    
+                    <div class="qa-card-item">
+                        <p class="qa-question">Q: Do you offer nutrition coaching?</p>
+                        <p class="qa-answer">A: Yes! Our nutritionists create personalized meal plans included in Pro and Elite memberships.</p>
+                    </div>
+                    
+                    <div class="qa-card-item">
+                        <p class="qa-question">Q: Can I bring a guest?</p>
+                        <p class="qa-answer">A: Pro and Elite members get guest passes. Pro members get 2 per month, Elite gets unlimited!</p>
+                    </div>
+                </div>
+                
+                <a href="#" class="button" style="margin-top: 2em;">CONTACT US FOR MORE</a>
+            </div>
+        </section>
+
+        <!-- LOGIN SECTION (LAST) -->
         <section class="teaser-section bg-dark">
-            <div class="container split-layout align-center reverse-mobile">
+            <div class="container split-layout align-center">
                 <div class="login-teaser-cards">
                     <a href="login.php" class="card action-card">
                         <h3>CREATE ACCOUNT</h3>
                         <div class="arrow-circle">➔</div>
                     </a>
                     <a href="login.php" class="card action-card outline-card">
-                        <h3>LOG IN AS A<br>MEMBER/TRAINER</h3>
+                        <h3>LOG IN NOW</h3>
                         <div class="arrow-circle">➔</div>
                     </a>
                 </div>
                 <div class="teaser-text text-right">
-                    <h2>INTERESTED?<br>CREATE AN ACCOUNT!</h2>
-                    <p class="subtitle text-white">Join the colony today. Access your schedule, track your metamorphosis, and manage your hive all in one place!</p>
+                    <h2>READY TO TRANSFORM?</h2>
+                    <p class="subtitle text-white">Join thousands of members who have already started their fitness journey with us today!</p>
                 </div>
             </div>
         </section>
 
-        <!-- NEWS -->
-        <section class="teaser-section bg-white">
-            <div class="container center-layout news-section">
-                <h2>NEWS & INFO</h2>
-                <p class="subtitle large-subtitle">Here could be some news about the gym, like new openings, new classes, huge achievements, etc...</p>
-                
-                <div class="news-dots">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONCEPT (METAMORPHOSIS) -->
-        <section class="teaser-section bg-white">
-            <div class="container center-layout">
-                <h2>Time to become spotless!</h2>
-                <p class="subtitle">Leave your old shell behind with our 3-step philosophy.</p>
-                
-                <div class="metamorphosis-grid">
-                    <div class="step">
-                        <!-- Custom Icon 1 -->
-                        <div class="icon"><img src="../img/caterpillar.png" alt="Caterpillar"></div>
-                        <h4>Top-notch equipment</h4>
-                        <p>We source only the highest grade, heavy-duty machines. Whether you're lifting heavy iron or focusing on cardio, our floor is built for peak performance.</p>
-                    </div>
-                    <div class="step">
-                        <!-- Custom Icon 2 -->
-                        <div class="icon"><img src="../img/cocoon.png" alt="Cocoon"></div>
-                        <h4>Worth your money</h4>
-                        <p>Premium facilities shouldn't cost a fortune. Experience luxury locker rooms, expert staff, and pristine environments for the price of a standard gym.</p>
-                    </div>
-                    <div class="step">
-                        <!-- Custom Icon 3 -->
-                        <div class="icon"><img src="../img/butterfly.png" alt="Butterfly"></div>
-                        <h4>Guaranteed results</h4>
-                        <p>No excuses. With our tailored tracking, professional trainers, and electric atmosphere, hitting your goals is an absolute certainty.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- EQUIPMENT -->
-        <section class="teaser-section bg-equipment slanted-top slanted-bottom">
-            <div class="container split-layout align-center">
-                <div class="teaser-text text-white">
-                    <h2 class="text-white">Perfect equipment to spot</h2>
-                    <p class="subtitle">OVER 67 MACHINES TO CHOOSE FROM!</p>
-                    <p>Whether you're building a hardened shell or shedding weight, our state-of-the-art facility has exactly what you need. No webs, no dust, just heavy iron.</p>
-                    <br>
-                    <a href="#" class="button button-outline-white">SEE MACHINES!</a>
-                </div>
-                <div class="teaser-graphics">
-                    <!-- Floating High-Quality Photos! -->
-                    <img src="../img/leg press.jpg" alt="Leg Press Machine" class="floating-image">
-                    <img src="../img/cardio.jpg" alt="Cardio Treadmills" class="floating-image">
-                </div>
-            </div>
-        </section>
-
-        <!-- CLASSES -->
-        <section class="teaser-section bg-classes">
-            <div class="container split-layout align-center reverse-mobile">
-                <div class="teaser-graphics">
-                    <!-- Floating Action Photos! -->
-                    <img src="../img/yoga.jpg" alt="Yoga Class" class="floating-image">
-                    <img src="../img/box ring.jpg" alt="Boxing Ring" class="floating-image">
-                </div>
-                <div class="teaser-text text-right">
-                    <h2>Fly high with our classes</h2>
-                    <p class="subtitle">OVER 67 CLASSES PER WEEK!</p>
-                    <p>Spread your wings and discover a routine that keeps your heart buzzing. From high-intensity swarms to peaceful, grounded stretching, there's a spot for everyone.</p>
-                    <br>
-                    <a href="schedule.php" class="button">SEE SCHEDULE!</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- TRAINERS -->
-        <section class="teaser-section bg-light-red">
-            <div class="container split-layout align-center">
-                <div class="teaser-text">
-                    <h2>MEET THE TEAM!</h2>
-                    <p class="subtitle">The worker bees making sure you fly straight.</p>
-                    <p>Get expert guidance and personalized attention to make sure you never have to crawl through a workout again. Our trainers are certified, friendly, and ready to push you.</p>
-                    <br>
-                    <a href="#" class="button">SEE MORE</a>
-                    <span class="callout-text text-rotated">Easy to contact! ⚡</span>
-                </div>
-                <div class="carousel-card card">
-                    <div class="carousel-nav left">❮</div>
-                    <div class="carousel-content">
-                        <div class="icon">👤</div>
-                        <h3>JOHN DOE</h3>
-                        <p>Strength & Conditioning</p>
-                    </div>
-                    <div class="carousel-nav right">❯</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- NUTRITION -->
-        <section class="teaser-section bg-dark">
-            <div class="container split-layout align-center reverse-mobile">
-                <div class="carousel-card card">
-                    <div class="carousel-nav left">❮</div>
-                    <div class="carousel-content">
-                        <span class="badge badge-red">400 kcal only!</span>
-                        <div class="icon">🍛</div>
-                        <h3>TURKEY W/ RICE</h3>
-                        <p>High protein, low carb.</p>
-                    </div>
-                    <div class="carousel-nav right">❯</div>
-                </div>
-                <div class="teaser-text text-right text-white">
-                    <h2>SPOT-ON NUTRITION</h2>
-                    <p class="subtitle">Tailored meal plans for muscle gain or weight loss.</p>
-                    <p>You can't out-fly a bad diet. Fuel your metamorphosis with expert-crafted meal plans that actually taste great and hit your macros perfectly.</p>
-                    <span class="callout-text text-rotated">Free of charge! ✨</span><br><br>
-                    <a href="#" class="button button-outline-white">SEE MORE</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- FEEDBACK -->
-        <section class="teaser-section bg-white">
-            <div class="container split-layout align-center">
-                <div class="teaser-text">
-                    <h2>YOUR OPINION<br>HELPS US TAKE WING!</h2>
-                    <p>We thrive on your thoughts! Read what our members have to say, and help us evolve to build a better gym for the whole colony.</p>
-                    <br>
-                    <a href="#" class="button">LEAVE FEEDBACK</a>
-                </div>
-                <div class="testimonial-card card">
-                    <p class="quote">"I love Sara Ribeiro she's a goat! Yay!"</p>
-                    <div class="author">- Narciso TB ⭐⭐⭐⭐⭐</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Q&A -->
-        <section class="teaser-section bg-light-red">
-            <div class="container split-layout align-center reverse-mobile">
-                <div class="qa-card card">
-                    <div class="q-block">
-                        <strong>Q:</strong> Se a Sara é de Águas Santas, isso faz dela o que?
-                    </div>
+    </main>
                     <div class="a-block">
                         <strong>A:</strong> Gay, acho eu.
                     </div>

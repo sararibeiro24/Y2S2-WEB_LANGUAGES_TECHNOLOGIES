@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+
 @font-face {
     font-family: 'Lemon Garden';
     src: url('../fonts/lemon-garden-demo/Lemon Garden Demo.otf') format('opentype');
@@ -11,8 +13,8 @@
 }
 
 @font-face {
-    font-family: 'SS Aldora';
-    src: url('../fonts/ss-aldora/SS Aldora.ttf') format('truetype');
+    font-family: 'Radon';
+    src: url('../fonts/radon/Radon.ttf') format('truetype');
     font-weight: normal;
 }
 
@@ -31,7 +33,7 @@
     --accent-maroon: #7a0e26;
 
     --font-heading: 'Treova', 'Segoe UI', Arial, sans-serif;
-    --font-body: 'SS Aldora', 'Segoe UI', sans-serif;
+    --font-body: 'Lora', Georgia, serif;
     --font-accent: 'Treova', 'Segoe UI', sans-serif;
 
     --primary-green: var(--ladybug-white);  
