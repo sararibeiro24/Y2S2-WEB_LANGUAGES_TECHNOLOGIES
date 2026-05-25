@@ -1,3 +1,21 @@
+@font-face {
+    font-family: 'Lemon Garden';
+    src: url('../fonts/lemon-garden-demo/Lemon Garden Demo.otf') format('opentype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Treova';
+    src: url('../fonts/treova/Treova-Demo.otf') format('opentype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'SS Aldora';
+    src: url('../fonts/ss-aldora/SS Aldora.ttf') format('truetype');
+    font-weight: normal;
+}
+
 :root {
     --ladybug-red: #d32f2f;
     --ladybug-dark-red: #b71c1c;
@@ -5,7 +23,11 @@
     --ladybug-white: #ffffff;
     --ladybug-bg: #f9f9f9;
     --ladybug-gray: #666;
-    --ladybug-light: #ffe0e0; 
+    --ladybug-light: #ffe0e0;
+
+    --font-heading: 'Treova', 'Segoe UI', Arial, sans-serif;
+    --font-body: 'Treova', 'Segoe UI', sans-serif;
+    --font-accent: 'Treova', 'Segoe UI', sans-serif;
 
     --primary-green: var(--ladybug-black);  
     --accent-green: var(--ladybug-red);    
@@ -22,10 +44,16 @@
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.6;
     color: #333;
     background-color: var(--bg-color);
+    font-size: 1.1rem; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: 1px; 
 }
 
 a {

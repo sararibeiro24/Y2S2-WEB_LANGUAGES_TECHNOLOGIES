@@ -187,7 +187,14 @@ drawHeader();
         <!-- Q&A -->
         <section class="teaser-section bg-light-red">
             <div class="container split-layout align-center reverse-mobile">
-                <!-- ... QA card ... -->
+                <div class="qa-card card">
+                    <div class="q-block">
+                        <strong>Q:</strong> Se a Sara é de Águas Santas, isso faz dela o que?
+                    </div>
+                    <div class="a-block">
+                        <strong>A:</strong> Gay, acho eu.
+                    </div>
+                </div>
                 <div class="teaser-text text-right">
                     <h2>WHEN IN DOUBT<br>BUG IT OUT!</h2>
                     <p class="subtitle">Frequently asked questions and support.</p>
