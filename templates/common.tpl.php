@@ -8,6 +8,7 @@ function drawHead($title) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo htmlspecialchars($title); ?></title>
         <?php drawCSSLinks(); ?>
+        <script src="../javascript/register_validation.js" defer></script>
     </head>
     <body>
     <?php
@@ -23,29 +24,19 @@ function drawHeader() {
     
     if ($isLoggedIn) {
         $userId = Session::getUserId();
-        // $user = User::getById($userId); 
+        $user = User::getById($userId);
     }
     ?>
     <header class="site-header">
-        <!-- Added ID here for javascript -->
-        <div class="container header-container" id="headerContainer">
-            
-            <!-- Left Side: Title -->
+        <div class="container header-container">
             <h1>Ladybug's Gym</h1>
-
-            <!-- Right Side: Ladybug Menu Toggle -->
-            <div class="logo-container" id="ladybugToggle">
-                <div class="ladybug-icon">🐞</div>
-            </div>
-
-            <!-- The Navigation (The "Wings" Dropdown) -->
-            <nav class="wings-nav">
+            <nav>
                 <ul>
                     <li><a href="index.php">Home</a></li>
                     <li><a href="schedule.php">Classes</a></li>
                     <li><a href="#">Trainers</a></li>
-                    <?php if ($isLoggedIn): ?>
-                        <li><a href="profile.php">My Profile</a></li>
+                    <?php if ($isLoggedIn && $user): ?>
+                        <li><a href="profile.php"><?php echo htmlspecialchars($user->getName()); ?></a></li>
                         <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>
                     <?php else: ?>
                         <li><a href="login.php" class="button button-small">Login</a></li>
@@ -54,13 +45,6 @@ function drawHeader() {
             </nav>
         </div>
     </header>
-
-    <!-- JavaScript to toggle the menu when clicking the bug -->
-    <script>
-        document.getElementById('ladybugToggle').addEventListener('click', function() {
-            document.getElementById('headerContainer').classList.toggle('nav-open');
-        });
-    </script>
     <?php
 }
 

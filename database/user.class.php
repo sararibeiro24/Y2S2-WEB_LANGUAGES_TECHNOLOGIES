@@ -85,10 +85,10 @@ class User {
         $stmt->execute([$usernameOrEmail, $usernameOrEmail]);
         $row = $stmt->fetch();
         
-        if (!$row || $password !== $row['password_hash']) {
+        if (!$row) {
             return null;
         }
-
+        if (password_verify($password, $row['password_hash'])) {
         return new User(
             $row['id'],
             $row['username'],
@@ -98,6 +98,8 @@ class User {
             (bool)$row['active'],
             $db
         );
+        }   
+        return null;
     }
 
     public static function register(string $username, string $email, string $password, string $name, ?PDO $db = null): ?User {
@@ -108,13 +110,14 @@ class User {
         if ($stmt->fetch()) {
             throw new Exception('Username or email already exists.');
         }
+        $hash = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $db->prepare('
             INSERT INTO users (username, email, name, password_hash, role, active) 
             VALUES (?, ?, ?, ?, \'member\', 1)
         ');
 
-        $stmt->execute([$username, $email, $name, $password]);
+        $stmt->execute([$username, $email, $name, $hash]);
 
         $id = (int)$db->lastInsertId();
         
