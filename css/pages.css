@@ -286,12 +286,6 @@
     color: var(--ladybug-black);
 }
 
-.teaser-graphics {
-    display: flex;
-    justify-content: center;
-    gap: 2em;
-    font-size: 5rem;
-}
 .floating-icon {
     animation: float 3s ease-in-out infinite;
 }
@@ -464,4 +458,75 @@
 }
 .text-rotated {
     transform: rotate(-5deg);
+}
+
+/* Specific Image Backgrounds with dark transparent overlays */
+
+/* Specific Image Backgrounds with dark transparent overlays */
+.bg-hero {
+    background-image: linear-gradient(to right, rgba(18, 18, 18, 0.95), rgba(18, 18, 18, 0.5)), url('../img/weights.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--ladybug-white);
+}
+
+.bg-equipment {
+    background-image: linear-gradient(135deg, rgba(217, 4, 41, 0.95), rgba(141, 8, 1, 0.9)), url('../img/machine.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--ladybug-white);
+}
+
+.bg-classes {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8)), url('../img/swimming.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--ladybug-black);
+}
+
+/* The Metamorphosis Icons */
+.metamorphosis-grid .icon img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 auto 1em auto;
+    filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+.step:hover .icon img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Floating Premium Image Cards (Replaces the Emojis) */
+.teaser-graphics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+    position: relative;
+}
+
+.floating-image {
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    border: 4px solid var(--ladybug-white);
+    animation: float 4s ease-in-out infinite;
+}
+
+.floating-image:nth-child(2) {
+    animation-delay: 2s;
+    transform: translateY(30px); /* Offsets the second image nicely */
+    width: 280px;
+    height: 300px;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
 }

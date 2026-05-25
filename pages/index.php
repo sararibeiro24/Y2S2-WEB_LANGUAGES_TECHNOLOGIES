@@ -10,10 +10,10 @@ drawHeader();
     <main class="scrollable-home">
         
         <!-- PLANS -->
-        <section class="teaser-section bg-light-red">
+        <section class="teaser-section bg-hero slanted-bottom">
             <div class="container split-layout">
                 <div class="teaser-text">
-                    <h2 class="huge-text">BECOME<br>UN-BEETLE-ABLE<br>TODAY!</h2>
+                    <h2 class="huge-text text-white">BECOME<br>UN-BEETLE-ABLE<br>TODAY!</h2>
                     <a href="login.php" class="button">JOIN NOW!</a>
                 </div>
                 <div class="teaser-card card">
@@ -65,52 +65,59 @@ drawHeader();
         </section>
 
         <!-- CONCEPT (METAMORPHOSIS) -->
-        <section class="teaser-section bg-light-red">
+        <section class="teaser-section bg-white">
             <div class="container center-layout">
                 <h2>Time to become spotless!</h2>
-                <p class="subtitle">Leave your old shell behind. We provide the perfect environment, community, and tools for your ultimate metamorphosis from beginner to beast.</p>
+                <p class="subtitle">Leave your old shell behind with our 3-step philosophy.</p>
                 
                 <div class="metamorphosis-grid">
                     <div class="step">
-                        <div class="icon">🐛</div>
+                        <!-- Custom Icon 1 -->
+                        <div class="icon"><img src="../img/caterpillar.png" alt="Caterpillar"></div>
                         <h4>Top-notch equipment</h4>
+                        <p>We source only the highest grade, heavy-duty machines. Whether you're lifting heavy iron or focusing on cardio, our floor is built for peak performance.</p>
                     </div>
                     <div class="step">
-                        <div class="icon">🧅</div>
+                        <!-- Custom Icon 2 -->
+                        <div class="icon"><img src="../img/cocoon.png" alt="Cocoon"></div>
                         <h4>Worth your money</h4>
+                        <p>Premium facilities shouldn't cost a fortune. Experience luxury locker rooms, expert staff, and pristine environments for the price of a standard gym.</p>
                     </div>
                     <div class="step">
-                        <div class="icon">🦋</div>
-                        <h4>No excuses.<br>Guaranteed results.</h4>
+                        <!-- Custom Icon 3 -->
+                        <div class="icon"><img src="../img/butterfly.png" alt="Butterfly"></div>
+                        <h4>Guaranteed results</h4>
+                        <p>No excuses. With our tailored tracking, professional trainers, and electric atmosphere, hitting your goals is an absolute certainty.</p>
                     </div>
                 </div>
-                <a href="login.php" class="button">JOIN NOW!</a>
             </div>
         </section>
 
         <!-- EQUIPMENT -->
-        <section class="teaser-section bg-dark">
+        <section class="teaser-section bg-equipment slanted-top slanted-bottom">
             <div class="container split-layout align-center">
                 <div class="teaser-text text-white">
-                    <h2>Perfect equipment to spot</h2>
+                    <h2 class="text-white">Perfect equipment to spot</h2>
                     <p class="subtitle">OVER 67 MACHINES TO CHOOSE FROM!</p>
                     <p>Whether you're building a hardened shell or shedding weight, our state-of-the-art facility has exactly what you need. No webs, no dust, just heavy iron.</p>
                     <br>
                     <a href="#" class="button button-outline-white">SEE MACHINES!</a>
                 </div>
                 <div class="teaser-graphics">
-                    <div class="floating-icon">🚲</div>
-                    <div class="floating-icon">🏋️‍♂️</div>
+                    <!-- Floating High-Quality Photos! -->
+                    <img src="../img/leg press.jpg" alt="Leg Press Machine" class="floating-image">
+                    <img src="../img/cardio.jpg" alt="Cardio Treadmills" class="floating-image">
                 </div>
             </div>
         </section>
 
         <!-- CLASSES -->
-        <section class="teaser-section bg-white">
+        <section class="teaser-section bg-classes">
             <div class="container split-layout align-center reverse-mobile">
                 <div class="teaser-graphics">
-                    <div class="floating-icon">🏊‍♀️</div>
-                    <div class="floating-icon">🧘‍♀️</div>
+                    <!-- Floating Action Photos! -->
+                    <img src="../img/yoga.jpg" alt="Yoga Class" class="floating-image">
+                    <img src="../img/box ring.jpg" alt="Boxing Ring" class="floating-image">
                 </div>
                 <div class="teaser-text text-right">
                     <h2>Fly high with our classes</h2>
