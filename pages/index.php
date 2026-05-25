@@ -4,10 +4,38 @@ require_once(__DIR__ . '/../templates/common.tpl.php');
 drawHead("Ladybug's Gym | Welcome");
 drawHeader();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<body>
     <main class="scrollable-home">
+
+        <!-- HERO SECTION -->
+        <section class="hero-section bg-hero">
+            <div class="container hero-content">
+                <p class="hero-eyebrow">Welcome to Ladybug's Gym</p>
+                <h2 class="hero-headline">TRANSFORM.<br>EVOLVE.<br>FLY.</h2>
+                <p class="hero-sub">Porto's most ambitious gym, built for people who don't settle. Open 24/7. Expert trainers. Results guaranteed.</p>
+                <div class="hero-ctas">
+                    <a href="register.php" class="button">START FREE TRIAL</a>
+                    <a href="schedule.php" class="button button-outline-white">VIEW CLASSES</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <strong>500+</strong>
+                        <span>Active Members</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>67+</strong>
+                        <span>Weekly Classes</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>150+</strong>
+                        <span>Machines</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>24/7</strong>
+                        <span>Always Open</span>
+                    </div>
+                </div>
+            </div>
+        </section>
         
         <!-- PLANS SECTION WITH CAROUSEL -->
         <section id="plans" class="teaser-section bg-hero slanted-bottom">
@@ -17,7 +45,6 @@ drawHeader();
                 
                 <div class="carousel-wrapper" style="margin-top: 3em;">
                     <button class="carousel-nav-btn prev" onclick="scrollCarousel('plans-carousel', -1)">❮</button>
-                    <div class="carousel-container" id="plans-carousel">
                     <div class="carousel-container" id="plans-carousel">
                         <div class="carousel-item">
                             <div class="plan-card">
@@ -51,11 +78,26 @@ drawHeader();
                         
                         <div class="carousel-item">
                             <div class="plan-card">
+                                <h3 class="plan-name">Pro+</h3>
+                                <div class="plan-price">€29<span style="font-size: 0.6em;">/month</span></div>
+                                <ul class="plan-features">
+                                    <li>✓ All Pro Features</li>
+                                    <li>✓ Personal Trainer (4 sessions)</li>
+                                    <li>✓ Advanced Nutrition Plan</li>
+                                    <li>✓ Priority Class Booking</li>
+                                    <li>✓ Sauna Access</li>
+                                </ul>
+                                <a href="login.php" class="button">GO PRO+</a>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-item">
+                            <div class="plan-card">
                                 <h3 class="plan-name">Elite</h3>
                                 <div class="plan-price">€49<span style="font-size: 0.6em;">/month</span></div>
                                 <ul class="plan-features">
-                                    <li>✓ Personal Trainer</li>
-                                    <li>✓ Meal Plans</li>
+                                    <li>✓ Personal Trainer (Unlimited)</li>
+                                    <li>✓ Premium Meal Plans</li>
                                     <li>✓ Priority Booking</li>
                                     <li>✓ Premium Support</li>
                                     <li>✓ VIP Lounge</li>
@@ -328,30 +370,34 @@ drawHeader();
                     <div class="carousel-container" id="nutrition-carousel">
                         <div class="carousel-item">
                             <div class="nutrition-card">
+                                <img src="../img/protein bowl.jpg" alt="Protein Power Bowl" class="nutrition-image">
                                 <span class="nutrition-badge">420 kcal</span>
-                                <h3 class="nutrition-name">🍗 Protein Power Bowl</h3>
+                                <h3 class="nutrition-name">Protein Power Bowl</h3>
                                 <p class="nutrition-description">Grilled chicken, quinoa, roasted vegetables with olive oil dressing. Perfect for muscle building.</p>
                             </div>
                         </div>
                         
                         <div class="carousel-item">
                             <div class="nutrition-card">
+                                <img src="../img/green salad.jpg" alt="Green Energy Salad" class="nutrition-image">
                                 <span class="nutrition-badge">380 kcal</span>
-                                <h3 class="nutrition-name">🥗 Green Energy Salad</h3>
+                                <h3 class="nutrition-name">Green Energy Salad</h3>
                                 <p class="nutrition-description">Mixed greens, turkey, avocado, nuts. High protein, low carb. Ideal for weight loss.</p>
                             </div>
                         </div>
                         
                         <div class="carousel-item">
                             <div class="nutrition-card">
+                                <img src="../img/stew.jpg" alt="Recovery Stew" class="nutrition-image">
                                 <span class="nutrition-badge">450 kcal</span>
-                                <h3 class="nutrition-name">🍲 Recovery Stew</h3>
+                                <h3 class="nutrition-name">Recovery Stew</h3>
                                 <p class="nutrition-description">Lean beef, sweet potato, broccoli in nutrient-rich broth. Post-workout nutrition.</p>
                             </div>
                         </div>
                         
                         <div class="carousel-item">
                             <div class="nutrition-card">
+                                <img src="../img/omega3.jpg" alt="Omega-3 Delight" class="nutrition-image">
                                 <span class="nutrition-badge">350 kcal</span>
                                 <h3 class="nutrition-name">🐟 Omega-3 Delight</h3>
                                 <p class="nutrition-description">Salmon, wild rice, asparagus. Heart-healthy and muscle-supporting.</p>
@@ -360,6 +406,7 @@ drawHeader();
                         
                         <div class="carousel-item">
                             <div class="nutrition-card">
+                                <img src="../img/breakfast.png" alt="Morning Fuel" class="nutrition-image">
                                 <span class="nutrition-badge">400 kcal</span>
                                 <h3 class="nutrition-name">🥚 Morning Fuel</h3>
                                 <p class="nutrition-description">Egg white omelet with mushrooms, oatmeal, berries. Energy for your day.</p>
@@ -368,6 +415,7 @@ drawHeader();
                         
                         <div class="carousel-item">
                             <div class="nutrition-card">
+                                <img src="../img/protein smoothie.jpg" alt="Recovery Smoothie" class="nutrition-image">
                                 <span class="nutrition-badge">300 kcal</span>
                                 <h3 class="nutrition-name">🍓 Recovery Smoothie</h3>
                                 <p class="nutrition-description">Protein powder, banana, berries, Greek yogurt. Quick post-workout recovery.</p>
@@ -479,8 +527,6 @@ drawHeader();
             }
         }
     </script>
+<?php drawFooter(); ?>
 </body>
 </html>
-<?php
-drawFooter();
-?>
