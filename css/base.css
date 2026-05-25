@@ -17,20 +17,25 @@
 }
 
 :root {
-    --ladybug-red: #d32f2f;
-    --ladybug-dark-red: #b71c1c;
-    --ladybug-black: #1a1a1a;
-    --ladybug-white: #ffffff;
-    --ladybug-bg: #f9f9f9;
-    --ladybug-gray: #666;
-    --ladybug-light: #ffe0e0;
+    --ladybug-red: #c41e3a;
+    --ladybug-dark-red: #8b0000;
+    --ladybug-black: #0d0d0d;
+    --ladybug-dark-gray: #2a2a2a;
+    --ladybug-medium-gray: #3d3d3d;
+    --ladybug-white: #f5f5f5;
+    --ladybug-bg: #1a1a1a;
+    --ladybug-gray: #888;
+    --ladybug-light: #4a1a1a;
+    
+    --accent-deep-red: #a01830;
+    --accent-maroon: #7a0e26;
 
     --font-heading: 'Treova', 'Segoe UI', Arial, sans-serif;
-    --font-body: 'Treova', 'Segoe UI', sans-serif;
+    --font-body: 'SS Aldora', 'Segoe UI', sans-serif;
     --font-accent: 'Treova', 'Segoe UI', sans-serif;
 
-    --primary-green: var(--ladybug-black);  
-    --accent-green: var(--ladybug-red);    
+    --primary-green: var(--ladybug-white);  
+    --accent-green: var(--ladybug-red);
     --light-green: var(--ladybug-light);      
     --white: var(--ladybug-white);
     --gray: var(--ladybug-gray);
@@ -46,14 +51,15 @@
 body {
     font-family: var(--font-body);
     line-height: 1.6;
-    color: #333;
+    color: var(--ladybug-white);
     background-color: var(--bg-color);
     font-size: 1.1rem; 
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    letter-spacing: 1px; 
+    letter-spacing: 1px;
+    color: var(--ladybug-white);
 }
 
 a {

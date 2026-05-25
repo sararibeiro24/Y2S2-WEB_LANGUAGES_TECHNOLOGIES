@@ -2,20 +2,23 @@
     font-family: var(--font-accent);
     display: inline-block;
     padding: 0.8em 2em;
-    background-color: var(--primary-green);
-    color: var(--white);
+    background-color: var(--ladybug-red);
+    color: var(--ladybug-white);
     border-radius: 50px;
     font-weight: bold;
     text-align: center;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
 }
 
 .button:hover {
-    background-color: #1b4332;
-    color: var(--white);
-    transform: scale(1.05);
+    background-color: var(--accent-deep-red);
+    color: var(--ladybug-white);
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4);
 }
 
 .button-small {
@@ -45,18 +48,20 @@ button:disabled {
 }
 
 .card {
-    background-color: var(--white);
+    background-color: var(--ladybug-dark-gray);
     border-radius: 15px;
     padding: 1.5em;
     text-align: center;
-    border: 1px solid var(--light-green);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--ladybug-medium-gray);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: var(--ladybug-white);
 }
 
 .card:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    transform: translateY(-12px);
+    box-shadow: 0 12px 28px rgba(196, 30, 58, 0.25);
+    border-color: var(--ladybug-red);
 }
 
 .trainer-card img {
@@ -125,33 +130,35 @@ button:disabled {
     display: block;
     font-weight: bold;
     margin-bottom: 0.4em;
-    color: var(--primary-green);
+    color: var(--ladybug-white);
     font-size: 0.9em;
 }
 
 .input-field {
     width: 100%;
     padding: 0.8em;
-    border: 1px solid #ccc;
+    border: 1px solid var(--ladybug-medium-gray);
     border-radius: 6px;
     font-family: inherit; 
     font-size: 1em;
     transition: border-color 0.3s;
+    background-color: var(--ladybug-dark-gray);
+    color: var(--ladybug-white);
 }
 
 .input-field:focus {
     outline: none;
-    border-color: var(--accent-green);
-    box-shadow: 0 0 0 3px rgba(116, 198, 157, 0.2); 
+    border-color: var(--ladybug-red);
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.2); 
 }
 .input-field.success {
-    border-color: #137333 ;
-    background-color: #f6faf7; 
+    border-color: #22c55e ;
+    background-color: rgba(34, 197, 94, 0.1); 
 }
 
 .input-field.error {
-    border-color: #a94442;
-    background-color: #fdf7f7;
+    border-color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 
