@@ -1,11 +1,18 @@
 <?php
 require_once(__DIR__ . '/../templates/common.tpl.php');
 require_once(__DIR__ . '/../templates/schedule.tpl.php');
+
+require_once(__DIR__ . '/../database/database.db.php');
+require_once(__DIR__ . '/../database/classes.class.php');
+
 drawHead("Class Schedule | Ladybug's Gym"); 
 drawHeader();
 
+$db = getDatabaseConnection();
+$classes = GymClass::getAll($db);
+
 /* depois mudar isto para ir buscar a base de dados*/
-$classes = [
+/*$classes = [
     [
         'time' => '09:00 AM',
         'status' => 'Available',
@@ -31,7 +38,7 @@ $classes = [
         'duration' => '60',
         'spots' => '18/20'
     ]
-];
+];*/
 ?>
 
 <!DOCTYPE html>
@@ -82,23 +89,38 @@ $classes = [
                 <div class="grid-container">
                     
                     
+                <?php foreach ($classes as $class) { ?>
+
                     <?php
-                foreach ($classes as $class) {
+
+                    $status = 'Available';
+
+                    if ($class['enrolled'] >= $class['capacity']) {
+                        $status = 'Full';
+                    }
+                    elseif ($class['enrolled'] >= $class['capacity'] - 2) {
+                        $status = 'Few Spots';
+                    }
+
+                    $time = date(
+                        'H:i',
+                        strtotime($class['scheduled_at'])
+                    );
 
                     drawClassCard(
-                        $class['time'],
-                        $class['status'],
-                        $class['title'],
+                        $class['schedule_id'],
+                        $time,
+                        $status,
+                        $class['name'],
                         $class['trainer'],
-                        $class['duration'],
-                        $class['spots'],
-                        'relogio.png',
-                        'follower.png',
-                        $class['buttonText'] ?? 'Enroll Now'
+                        60,
+                        $class['enrolled'],
+                        $class['capacity']
                     );
-                }
-                ?>
 
+                    ?>
+
+                <?php } ?>
                      
 
                     
