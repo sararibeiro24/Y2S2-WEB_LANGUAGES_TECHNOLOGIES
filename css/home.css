@@ -1,0 +1,499 @@
+/* ── Homepage ─────────────────────────────────── */
+
+.scrollable-home {
+    width: 100%;
+}
+
+/* ── Teaser Sections ──────────────────────────── */
+
+.teaser-section {
+    padding: 5em 20px;
+    border-bottom: 2px solid var(--ladybug-red);
+    position: relative;
+}
+
+.teaser-section h2 {
+    text-align: inherit;
+    margin-bottom: 0.2em;
+    font-size: 2.5rem;
+    color: var(--ladybug-white);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.teaser-card {
+    border: 4px solid var(--ladybug-red);
+    transform: rotate(2deg);
+}
+
+.teaser-card:hover {
+    transform: translateY(-5px) rotate(0deg);
+}
+
+.teaser-card h3 {
+    color: var(--ladybug-white);
+    text-transform: uppercase;
+    font-size: 1.1em;
+}
+
+/* ── Section Background Images ────────────────── */
+
+.bg-hero {
+    background-image: linear-gradient(135deg, rgba(13, 13, 13, 0.92), rgba(26, 26, 26, 0.88)), url('../img/male trainer.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--ladybug-white);
+}
+
+.bg-equipment {
+    background-image: linear-gradient(135deg, rgba(139, 0, 0, 0.88), rgba(77, 14, 38, 0.85)), url('../img/cardio 2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--ladybug-white);
+}
+
+.bg-classes {
+    background-image: linear-gradient(135deg, rgba(13, 13, 13, 0.85), rgba(26, 26, 26, 0.88)), url('../img/yoga 3.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--ladybug-white);
+}
+
+.bg-trainers {
+    background-image: linear-gradient(135deg, rgba(13, 13, 13, 0.90), rgba(196, 30, 58, 0.3)), url('../img/boxing trainer.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--ladybug-white);
+}
+
+.bg-nutrition {
+    background-image: linear-gradient(135deg, rgba(13, 13, 13, 0.88), rgba(77, 14, 38, 0.85)), url('../img/inspirational pic.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--ladybug-white);
+}
+
+.bg-news {
+    background-image: linear-gradient(135deg, rgba(26, 26, 26, 0.92), rgba(61, 61, 61, 0.85)), url('../img/girl training 2.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--ladybug-white);
+}
+
+/* ── Hero Section ─────────────────────────────── */
+
+.hero-section {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding: 6em 0 4em;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 700px;
+}
+
+.hero-eyebrow {
+    font-family: var(--font-accent);
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--ladybug-red);
+    margin-bottom: 0.8em;
+    border-left: 3px solid var(--ladybug-red);
+    padding-left: 0.8em;
+}
+
+.hero-headline {
+    font-family: var(--font-heading);
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    line-height: 1.0;
+    color: var(--ladybug-white);
+    letter-spacing: 2px;
+    margin-bottom: 0.5em;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hero-sub {
+    font-size: 1.15rem;
+    color: rgba(245, 245, 245, 0.85);
+    line-height: 1.8;
+    margin-bottom: 2em;
+    max-width: 520px;
+}
+
+.hero-ctas {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin-bottom: 3.5em;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2.5em;
+    flex-wrap: wrap;
+    padding-top: 2em;
+    border-top: 1px solid rgba(245, 245, 245, 0.2);
+    width: 100%;
+}
+
+.hero-stat strong {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--ladybug-red);
+    line-height: 1;
+}
+
+.hero-stat span {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(245, 245, 245, 0.6);
+}
+
+/* ── Pricing / Perks ──────────────────────────── */
+
+.price {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--ladybug-red);
+    line-height: 1;
+}
+
+.cents {
+    font-size: 2rem;
+    vertical-align: super;
+}
+
+.per {
+    font-size: 1.1rem;
+    color: var(--ladybug-white);
+}
+
+.perks {
+    margin-top: 1.5em;
+    text-align: left;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.perks li { margin-bottom: 0.7em; }
+
+/* ── Philosophy / Metamorphosis ───────────────── */
+
+.huge-text {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 0.5em;
+    color: var(--ladybug-black);
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.section-accent-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-gold), var(--accent-green));
+    margin: 1em auto;
+    border-radius: 2px;
+}
+
+.metamorphosis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2em;
+    margin: 3em 0;
+}
+
+.step .icon {
+    font-size: 4rem;
+    margin-bottom: 0.2em;
+}
+
+.step h4 {
+    font-size: 1.3rem;
+    color: var(--ladybug-white);
+}
+
+.step p {
+    font-size: 1.05em;
+    line-height: 1.7;
+    color: var(--ladybug-white);
+}
+
+.step {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.step:nth-child(1) { animation-delay: 0.1s; }
+.step:nth-child(2) { animation-delay: 0.2s; }
+.step:nth-child(3) { animation-delay: 0.3s; }
+
+.metamorphosis-grid .icon img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 auto 1em auto;
+    filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.step:hover .icon img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ── Login Teaser Cards ───────────────────────── */
+
+.login-teaser-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.action-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--ladybug-black);
+    padding: 2em;
+}
+
+.action-card h3 {
+    margin: 0;
+    text-align: left;
+    font-size: 1.3rem;
+}
+
+.outline-card {
+    background: transparent;
+    border: 3px solid var(--ladybug-white);
+    color: var(--ladybug-white);
+}
+
+.arrow-circle {
+    background-color: var(--ladybug-red);
+    color: var(--ladybug-white);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.outline-card .arrow-circle {
+    background-color: var(--ladybug-white);
+    color: var(--ladybug-black);
+}
+
+/* ── Floating Decorative Elements ─────────────── */
+
+.floating-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+.floating-icon:nth-child(2) {
+    animation-delay: 1.5s;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.teaser-graphics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+    position: relative;
+}
+
+.floating-image {
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    border: 4px solid var(--ladybug-white);
+    animation: float 4s ease-in-out infinite;
+}
+
+.floating-image:nth-child(2) {
+    animation-delay: 2s;
+    transform: translateY(30px);
+    width: 280px;
+    height: 300px;
+}
+
+.callout-text {
+    display: inline-block;
+    color: #d97706;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 1em;
+}
+
+.text-rotated {
+    transform: rotate(-5deg);
+}
+
+.news-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active, .dot:hover {
+    background-color: var(--ladybug-red);
+}
+
+/* ── Homepage Responsive ──────────────────────── */
+
+@media (max-width: 1024px) {
+    .teaser-section {
+        padding: 4em 20px;
+    }
+
+    .split-layout {
+        gap: 2em;
+    }
+
+    .metamorphosis-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5em;
+    }
+
+    .huge-text {
+        font-size: 2.8rem;
+    }
+
+    .teaser-section h2 {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .large-subtitle {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 80vh;
+        padding: 5em 0 3em;
+    }
+
+    .hero-headline {
+        font-size: 3rem;
+    }
+
+    .hero-stats {
+        gap: 1.5em;
+    }
+
+    .hero-stat strong {
+        font-size: 1.5rem;
+    }
+
+    .teaser-section {
+        padding: 3em 15px;
+    }
+
+    .split-layout {
+        grid-template-columns: 1fr;
+        gap: 2em;
+    }
+
+    .split-asymmetric,
+    .split-asymmetric.reverse {
+        grid-template-columns: 1fr;
+    }
+
+    .split-uneven,
+    .split-uneven.reverse {
+        grid-template-columns: 1fr;
+    }
+
+    .metamorphosis-grid {
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+
+    .huge-text {
+        font-size: 2rem;
+    }
+
+    .teaser-section h2 {
+        font-size: 1.6rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .large-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .cards-grid,
+    .cards-grid-2,
+    .cards-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .team-showcase {
+        grid-template-columns: 1fr;
+    }
+
+    .floating-image {
+        width: 180px;
+        height: 260px;
+    }
+
+    .floating-image:nth-child(2) {
+        width: 200px;
+        height: 240px;
+    }
+
+    .text-right {
+        text-align: center;
+    }
+
+    .reverse-mobile {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .login-teaser-cards {
+        flex-direction: column;
+    }
+}
