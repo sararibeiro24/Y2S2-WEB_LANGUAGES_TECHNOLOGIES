@@ -1,0 +1,121 @@
+/* ── Carousel System ──────────────────────────── */
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    padding: 0 60px;
+}
+
+.carousel-container {
+    display: flex;
+    gap: 2em;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 1em 0;
+    scroll-snap-type: x mandatory;
+}
+
+.carousel-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carousel-container::-webkit-scrollbar-track {
+    background: var(--ladybug-medium-gray);
+    border-radius: 4px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+    background: var(--ladybug-red);
+    border-radius: 4px;
+}
+
+.carousel-item {
+    flex: 0 0 calc(33.333% - 1.33em);
+    scroll-snap-align: center;
+    min-width: 280px;
+}
+
+.carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--ladybug-red);
+    color: var(--ladybug-white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.carousel-nav-btn:hover {
+    background-color: var(--accent-deep-red);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav-btn.prev {
+    left: -50px;
+}
+
+.carousel-nav-btn.next {
+    right: -50px;
+}
+
+.carousel-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    border: 3px solid var(--ladybug-black);
+    position: relative;
+}
+
+.carousel-content {
+    flex-grow: 1;
+    padding: 1em;
+}
+
+.carousel-content .icon {
+    font-size: 5rem;
+    margin-bottom: 0.2em;
+}
+
+.carousel-nav {
+    background-color: var(--ladybug-red);
+    color: var(--ladybug-white);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+}
+
+.carousel-nav:hover {
+    background-color: var(--ladybug-dark-red);
+}
+
+@media (max-width: 1024px) {
+    .carousel-item {
+        flex: 0 0 calc(50% - 1em);
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        flex: 0 0 calc(100% - 1em);
+        min-width: 100%;
+    }
+}
