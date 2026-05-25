@@ -43,7 +43,7 @@ drawHeader();
                 </div>
                 <div class="teaser-text text-right">
                     <h2>INTERESTED?<br>CREATE AN ACCOUNT!</h2>
-                    <p class="subtitle text-white">Join the Ladybug family today and start your journey.</p>
+                    <p class="subtitle text-white">Join the colony today. Access your schedule, track your metamorphosis, and manage your hive all in one place!</p>
                 </div>
             </div>
         </section>
@@ -68,7 +68,7 @@ drawHeader();
         <section class="teaser-section bg-light-red">
             <div class="container center-layout">
                 <h2>Time to become spotless!</h2>
-                <p class="subtitle">Join our community and transform yourself.</p>
+                <p class="subtitle">Leave your old shell behind. We provide the perfect environment, community, and tools for your ultimate metamorphosis from beginner to beast.</p>
                 
                 <div class="metamorphosis-grid">
                     <div class="step">
@@ -94,6 +94,8 @@ drawHeader();
                 <div class="teaser-text text-white">
                     <h2>Perfect equipment to spot</h2>
                     <p class="subtitle">OVER 67 MACHINES TO CHOOSE FROM!</p>
+                    <p>Whether you're building a hardened shell or shedding weight, our state-of-the-art facility has exactly what you need. No webs, no dust, just heavy iron.</p>
+                    <br>
                     <a href="#" class="button button-outline-white">SEE MACHINES!</a>
                 </div>
                 <div class="teaser-graphics">
@@ -113,6 +115,8 @@ drawHeader();
                 <div class="teaser-text text-right">
                     <h2>Fly high with our classes</h2>
                     <p class="subtitle">OVER 67 CLASSES PER WEEK!</p>
+                    <p>Spread your wings and discover a routine that keeps your heart buzzing. From high-intensity swarms to peaceful, grounded stretching, there's a spot for everyone.</p>
+                    <br>
                     <a href="schedule.php" class="button">SEE SCHEDULE!</a>
                 </div>
             </div>
@@ -123,7 +127,9 @@ drawHeader();
             <div class="container split-layout align-center">
                 <div class="teaser-text">
                     <h2>MEET THE TEAM!</h2>
-                    <p class="subtitle">Our dedicated professionals are here to help you fly.</p>
+                    <p class="subtitle">The worker bees making sure you fly straight.</p>
+                    <p>Get expert guidance and personalized attention to make sure you never have to crawl through a workout again. Our trainers are certified, friendly, and ready to push you.</p>
+                    <br>
                     <a href="#" class="button">SEE MORE</a>
                     <span class="callout-text text-rotated">Easy to contact! ⚡</span>
                 </div>
@@ -155,6 +161,7 @@ drawHeader();
                 <div class="teaser-text text-right text-white">
                     <h2>SPOT-ON NUTRITION</h2>
                     <p class="subtitle">Tailored meal plans for muscle gain or weight loss.</p>
+                    <p>You can't out-fly a bad diet. Fuel your metamorphosis with expert-crafted meal plans that actually taste great and hit your macros perfectly.</p>
                     <span class="callout-text text-rotated">Free of charge! ✨</span><br><br>
                     <a href="#" class="button button-outline-white">SEE MORE</a>
                 </div>
@@ -166,7 +173,8 @@ drawHeader();
             <div class="container split-layout align-center">
                 <div class="teaser-text">
                     <h2>YOUR OPINION<br>HELPS US TAKE WING!</h2>
-                    <p>Read what our members have to say about us.</p>
+                    <p>We thrive on your thoughts! Read what our members have to say, and help us evolve to build a better gym for the whole colony.</p>
+                    <br>
                     <a href="#" class="button">LEAVE FEEDBACK</a>
                 </div>
                 <div class="testimonial-card card">
@@ -179,17 +187,12 @@ drawHeader();
         <!-- Q&A -->
         <section class="teaser-section bg-light-red">
             <div class="container split-layout align-center reverse-mobile">
-                <div class="qa-card card">
-                    <div class="q-block">
-                        <strong>Q:</strong> Se a Sara é de Águas Santas, isso faz dela o que?
-                    </div>
-                    <div class="a-block">
-                        <strong>A:</strong> Gay, acho eu.
-                    </div>
-                </div>
+                <!-- ... QA card ... -->
                 <div class="teaser-text text-right">
                     <h2>WHEN IN DOUBT<br>BUG IT OUT!</h2>
                     <p class="subtitle">Frequently asked questions and support.</p>
+                    <p>Got a question buzzing in your head? Need help navigating your membership? We've gathered all the answers to keep you moving forward without hitting the windshield.</p>
+                    <br>
                     <a href="#" class="button">CONTACT US!</a>
                 </div>
             </div>
