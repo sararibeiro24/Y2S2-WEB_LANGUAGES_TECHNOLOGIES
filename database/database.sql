@@ -111,11 +111,12 @@ CREATE INDEX idx_bookings_member ON bookings(member_id);
 
 -- USERS
 INSERT INTO users (username, email, password_hash, name, role) VALUES
-('joaosilva', 'joao@gmail.com', 'hashedpass1', 'João Silva', 'member'),
-('anacosta', 'ana@gmail.com', 'hashedpass2', 'Ana Costa', 'member'),
-('migueltrainer', 'miguel@gmail.com', 'hashedpass3', 'Miguel Ferreira', 'trainer'),
-('sofiatrainer', 'sofia@gmail.com', 'hashedpass4', 'Sofia Martins', 'trainer'),
-('adminuser', 'admin@gmail.com', 'hashedadmin', 'Admin User', 'admin');
+
+('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member'), -- password: hashedpass1
+('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),   -- password: hashedpass2
+('migueltrainer', 'miguel@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Miguel Ferreira', 'trainer'),    -- password: hashedpass3
+('sofiatrainer', 'sofia@gmail.com', '$2y$10$.cOjn2hP7/.CPu4QKe6u.Otld1fWYlzuLwgmx1EcXAU7snQfHn2Ay', 'Sofia Martins', 'trainer'),    -- password: hashedpass4
+('adminuser', 'admin@gmail.com', '$2y$10$JfG.ZWCgLbrOjQMcBGrjLu92oNsSa9OQgTyxbzRKQVd6l5wiH1omm', 'Admin User', 'admin');    -- password: hashedadmin
 
 -- TRAINER PROFILES
 INSERT INTO trainer_profiles (user_id, bio, specializations, certifications) VALUES

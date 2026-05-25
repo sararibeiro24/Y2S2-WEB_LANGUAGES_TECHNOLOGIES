@@ -32,8 +32,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 
 try {
-
-    $user = User::register($username, $email, $password, $name);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $user = User::register($username, $email, $hashedPassword, $name);
 
     if ($user) {
         Session::setUser($user->getId());
