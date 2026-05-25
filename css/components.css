@@ -143,6 +143,16 @@ button:disabled {
     border-color: var(--accent-green);
     box-shadow: 0 0 0 3px rgba(116, 198, 157, 0.2); 
 }
+.input-field.success {
+    border-color: #137333 ;
+    background-color: #f6faf7; 
+}
+
+.input-field.error {
+    border-color: #a94442;
+    background-color: #fdf7f7;
+}
+
 
 input[type="file"] {
     padding: 0.5em;

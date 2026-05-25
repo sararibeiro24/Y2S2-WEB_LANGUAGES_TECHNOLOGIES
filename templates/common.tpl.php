@@ -24,19 +24,29 @@ function drawHeader() {
     
     if ($isLoggedIn) {
         $userId = Session::getUserId();
-        $user = User::getById($userId);
+        // $user = User::getById($userId); 
     }
     ?>
     <header class="site-header">
-        <div class="container header-container">
+        <!-- Added ID here for javascript -->
+        <div class="container header-container" id="headerContainer">
+            
+            <!-- Left Side: Title -->
             <h1>Ladybug's Gym</h1>
-            <nav>
+
+            <!-- Right Side: Ladybug Menu Toggle -->
+            <div class="logo-container" id="ladybugToggle">
+                <div class="ladybug-icon">🐞</div>
+            </div>
+
+            <!-- The Navigation (The "Wings" Dropdown) -->
+            <nav class="wings-nav">
                 <ul>
                     <li><a href="index.php">Home</a></li>
                     <li><a href="schedule.php">Classes</a></li>
                     <li><a href="#">Trainers</a></li>
-                    <?php if ($isLoggedIn && $user): ?>
-                        <li><a href="profile.php"><?php echo htmlspecialchars($user->getName()); ?></a></li>
+                    <?php if ($isLoggedIn): ?>
+                        <li><a href="profile.php">My Profile</a></li>
                         <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>
                     <?php else: ?>
                         <li><a href="login.php" class="button button-small">Login</a></li>
@@ -45,6 +55,13 @@ function drawHeader() {
             </nav>
         </div>
     </header>
+
+    <!-- JavaScript to toggle the menu when clicking the bug -->
+    <script>
+        document.getElementById('ladybugToggle').addEventListener('click', function() {
+            document.getElementById('headerContainer').classList.toggle('nav-open');
+        });
+    </script>
     <?php
 }
 

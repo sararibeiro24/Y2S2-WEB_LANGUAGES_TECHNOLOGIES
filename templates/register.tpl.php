@@ -10,7 +10,7 @@ function drawRegisterForm() {
                     
                     <div class="form-group">
                         <label>Full Name</label>
-                        <input type="text"  name="Name" class="input-field" placeholder="e.g., John Doe" required>
+                        <input type="text" id="name-input" name="Name" class="input-field" placeholder="e.g., John Doe" required>
                     </div>
                     <div class="form-group">
                         <label>Username</label>
