@@ -6,7 +6,7 @@ function drawRegisterForm() {
                 <h3>Sign Up</h3>
                 <p class="registerSubtitle">It's quick and easy.</p>
                 
-                <form action="../actions/action_register.php" method="POST">
+                <form id="register-form" action="../actions/action_register.php" method="POST">
                     
                     <div class="form-group">
                         <label>Full Name</label>
@@ -19,15 +19,18 @@ function drawRegisterForm() {
                     </div>
                     <div class="form-group">
                         <label>Email Address</label>
-                        <input type="email" name="email" class="input-field" placeholder="e.g., johndoe@example.com" required>
+                        <input type="email"  id="email-input" name="email" class="input-field" placeholder="e.g., johndoe@example.com" required>
+                        <span id="email-status" class="status-message"></span>
                     </div>  
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" name="password" class="input-field" required>
+                        <input type="password"  id="password-input" name="password" class="input-field" required>
+                        <span id="password-status1" class="status-message"></span>
                     </div>
                     <div class="form-group">
                         <label>Confirm Password</label>
-                        <input type="password" name="confirmPassword" class="input-field" required>
+                        <input type="password"  id="confirm-password-input" name="confirmPassword" class="input-field" required>
+                        <span id="password-status2" class="status-message"></span>
                     </div>
                     <button type="submit" class="button">Register</button>
                 </form>
