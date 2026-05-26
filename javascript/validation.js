@@ -42,7 +42,6 @@ function validateEmailField(inputElement, statusElement) {
     const email = inputElement.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Reset styles
     statusElement.textContent = '';
     statusElement.className = 'status-message';
     inputElement.classList.remove('error', 'success');
@@ -125,6 +124,7 @@ function checkUsernameAvailabilityLive(inputElement, statusElement) {
             statusElement.classList.add('error');
             inputElement.classList.add('error');
         }
+        updateSubmitButtonState('#register-form', 'button[type="submit"]');
         return;
     }
 
@@ -147,20 +147,25 @@ function checkUsernameAvailabilityLive(inputElement, statusElement) {
                     inputElement.classList.add('error'); 
                     formValidityStates.username = false;
                 }
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+                updateSubmitButtonState('#profile-form', 'button[type="submit"]');
             })
             .catch(error => {
                 console.error('Error checking username:', error);
                 statusElement.textContent = 'Error checking availability.';
                 statusElement.className = 'status-message error';
                 formValidityStates.username = false;
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
             });
     }, 300);
 }
+
 function checkEmailAvailabilityLive(inputElement, statusElement) {
     if (!inputElement || !statusElement) return;
 
-    // First validate the format locally
     if (!validateEmailField(inputElement, statusElement)) {
+        const activeFormId = inputElement.closest('form')?.id;
+        if (activeFormId) updateSubmitButtonState(`#${activeFormId}`, 'button[type="submit"]');
         return; 
     }
 
@@ -169,7 +174,7 @@ function checkEmailAvailabilityLive(inputElement, statusElement) {
 
     formValidityStates.email = false;
 
-    emailDebounceTimeout = setTimeout(() => {
+    emailTimeout = setTimeout(() => {
         statusElement.textContent = 'Checking availability...';
         statusElement.className = 'status-message checking';
 
@@ -182,22 +187,60 @@ function checkEmailAvailabilityLive(inputElement, statusElement) {
                 if (data.available) {
                     statusElement.classList.add('success');
                     inputElement.classList.add('success'); 
-                    formValidityStates.email = true; // Unlock form submission
+                    formValidityStates.email = true; 
                 } else {
                     statusElement.classList.add('error');
                     inputElement.classList.add('error'); 
-                    formValidityStates.email = false; // Keep form submission locked
+                    formValidityStates.email = false;
                 }
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+                updateSubmitButtonState('#profile-form', 'button[type="submit"]');
             })
             .catch(error => {
                 console.error('Error checking email:', error);
                 statusElement.textContent = 'Error verifying availability.';
                 statusElement.className = 'status-message error';
                 formValidityStates.email = false;
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+                updateSubmitButtonState('#profile-form', 'button[type="submit"]');
             });
     }, 400);
 }
 
+function updateSubmitButtonState(formId, buttonSelector) {
+    const button = document.querySelector(`${formId} ${buttonSelector}`);
+    if (!button) return;
+
+    let isFormInvalid = false;
+
+    if (formId === '#register-form') {
+        const nameVal = document.getElementById('name-input')?.value.trim() || '';
+        const usernameVal = document.getElementById('username-input')?.value.trim() || '';
+        
+        if (nameVal.length > 0) formValidityStates.name = true;
+        if (usernameVal.length >= 3 && !document.getElementById('username-status')?.classList.contains('error')) {
+            formValidityStates.username = true;
+        }
+
+        isFormInvalid = !formValidityStates.name || 
+                        !formValidityStates.username || 
+                        !formValidityStates.email || 
+                        !formValidityStates.password;
+    } else if (formId === '#profile-form') {
+        isFormInvalid = !formValidityStates.email || 
+                        !formValidityStates.password;
+    }
+
+    if (isFormInvalid) {
+        button.disabled = true;
+        button.style.opacity = '0.5';
+        button.style.cursor = 'not-allowed';
+    } else {
+        button.disabled = false;
+        button.style.opacity = '1';
+        button.style.cursor = 'pointer';
+    }
+}
 
 function initRegisterValidation() {
     const form = document.getElementById('register-form');
@@ -211,18 +254,43 @@ function initRegisterValidation() {
     const status1 = document.getElementById('password-status1');
     const status2 = document.getElementById('password-status2');
 
+    updateSubmitButtonState('#register-form', 'button[type="submit"]');
+
     if (nameInput) {
-        nameInput.addEventListener('input', () => validateNameField(nameInput));
+        ['input', 'change'].forEach(evt => {
+            nameInput.addEventListener(evt, () => {
+                validateNameField(nameInput);
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+            });
+        });
     }
     if (usernameInput && usernameStatus) {
-        usernameInput.addEventListener('input', () => checkUsernameAvailabilityLive(usernameInput, usernameStatus));
+        ['input', 'change'].forEach(evt => {
+            usernameInput.addEventListener(evt, () => {
+                checkUsernameAvailabilityLive(usernameInput, usernameStatus);
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+            });
+        });
     }
     if (emailInput && emailStatus) {
-        emailInput.addEventListener('input', () =>checkEmailAvailabilityLive(emailInput, emailStatus));
+        ['input', 'change'].forEach(evt => {
+            emailInput.addEventListener(evt, () => {
+                checkEmailAvailabilityLive(emailInput, emailStatus);
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+            });
+        });
     }
     if (passInput && confirmInput) {
-        passInput.addEventListener('input', () => validatePasswordMatching(passInput, confirmInput, status1, status2, true));
-        confirmInput.addEventListener('input', () => validatePasswordMatching(passInput, confirmInput, status1, status2, true));
+        ['input', 'change'].forEach(evt => {
+            passInput.addEventListener(evt, () => {
+                validatePasswordMatching(passInput, confirmInput, status1, status2, true);
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+            });
+            confirmInput.addEventListener(evt, () => {
+                validatePasswordMatching(passInput, confirmInput, status1, status2, true);
+                updateSubmitButtonState('#register-form', 'button[type="submit"]');
+            });
+        });
     }
 
     if (form) {
@@ -249,12 +317,27 @@ function initProfileValidation() {
     formValidityStates.name = true;
     formValidityStates.username = true;
 
+    updateSubmitButtonState('#profile-form', 'button[type="submit"]');
+
     if (emailInput && emailStatus) {
-        emailInput.addEventListener('input', () => checkEmailAvailabilityLive(emailInput, emailStatus));
+        ['input', 'change'].forEach(evt => {
+            emailInput.addEventListener(evt, () => {
+                checkEmailAvailabilityLive(emailInput, emailStatus);
+                updateSubmitButtonState('#profile-form', 'button[type="submit"]');
+            });
+        });
     }
     if (passInput && confirmInput) {
-        passInput.addEventListener('input', () => validatePasswordMatching(passInput, confirmInput, status1, status2, false));
-        confirmInput.addEventListener('input', () => validatePasswordMatching(passInput, confirmInput, status1, status2, false));
+        ['input', 'change'].forEach(evt => {
+            passInput.addEventListener(evt, () => {
+                validatePasswordMatching(passInput, confirmInput, status1, status2, false);
+                updateSubmitButtonState('#profile-form', 'button[type="submit"]');
+            });
+            confirmInput.addEventListener(evt, () => {
+                validatePasswordMatching(passInput, confirmInput, status1, status2, false);
+                updateSubmitButtonState('#profile-form', 'button[type="submit"]');
+            });
+        });
     }
 
     if (form) {
