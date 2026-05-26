@@ -1,68 +1,306 @@
 /* ── Schedule Page ────────────────────────────── */
 
 .schedule-page {
-    padding: 3em 20px;
+    padding: 2em 20px 4em;
 }
 
-.schedule-layout {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 2em;
-    align-items: start;
-}
+/* ── Calendar ────────────────────────────────── */
 
-.filter-sidebar h3 {
-    margin-bottom: 1em;
-    color: var(--ladybug-white);
-    border-bottom: 2px solid var(--ladybug-red);
-    padding-bottom: 0.5em;
-}
-
-.class-time {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--ladybug-red);
-    margin-bottom: 0.2em;
-}
-
-.class-title {
-    font-size: 1.3rem;
-    margin-bottom: 0.1em;
-    color: var(--ladybug-white);
-}
-
-.class-trainer {
-    color: var(--ladybug-white);
-    font-size: 1rem;
-    margin-bottom: 1em;
-}
-
-.class-meta {
+.calendar-header {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.5em;
-    font-size: 0.85em;
-    color: var(--ladybug-white);
+    justify-content: space-between;
     margin-bottom: 1.5em;
-    background-color: var(--ladybug-medium-gray);
-    padding: 0.5em;
-    border-radius: 6px;
+    gap: 1em;
+    flex-wrap: wrap;
 }
 
-.class-meta span {
+.calendar-nav {
     display: flex;
     align-items: center;
-    gap: 0.4em;
+    gap: 1em;
 }
 
-.class-meta img {
-    width: 16px;
-    height: 16px;
+.calendar-nav-btn {
+    background: var(--ladybug-red);
+    color: var(--ladybug-white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.calendar-nav-btn:hover {
+    background: #a01028;
+}
+
+.calendar-week-label {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--ladybug-white);
+    min-width: 200px;
+    text-align: center;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #333;
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.calendar-day-header {
+    background: var(--ladybug-dark-gray);
+    color: var(--ladybug-white);
+    text-align: center;
+    padding: 0.8em 0.3em;
+    font-weight: bold;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.calendar-day {
+    background: #1a1a1a;
+    min-height: 140px;
+    padding: 0.4em;
+}
+
+.calendar-day.today {
+    background: #222;
+    box-shadow: inset 0 0 0 2px var(--ladybug-red);
+}
+
+.calendar-day.other-month {
+    opacity: 0.4;
+}
+
+.calendar-day-number {
+    font-size: 0.75em;
+    color: #888;
+    margin-bottom: 0.3em;
+    padding: 0.2em 0.4em;
+}
+
+.today .calendar-day-number {
+    color: var(--ladybug-red);
+    font-weight: bold;
+}
+
+.calendar-class-card {
+    background: var(--ladybug-dark-gray);
+    border-left: 3px solid var(--ladybug-red);
+    padding: 0.3em 0.5em;
+    margin-bottom: 0.3em;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.75em;
+}
+
+.calendar-class-card:hover {
+    background: #2a2a2a;
+}
+
+.calendar-class-card .ccal-time {
+    color: var(--ladybug-red);
+    font-weight: bold;
+    font-size: 0.85em;
+}
+
+.calendar-class-card .ccal-name {
+    color: var(--ladybug-white);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-class-card .ccal-trainer {
+    color: #999;
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-class-card .ccal-spots {
+    color: var(--ladybug-red);
+    font-size: 0.85em;
+}
+
+.calendar-class-card.full {
+    border-left-color: #555;
+    opacity: 0.6;
+}
+
+/* ── Modal ───────────────────────────────────── */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 2em;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    color: var(--ladybug-white);
+}
+
+.modal-close {
+    position: absolute;
+    top: 0.8em;
+    right: 1em;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: var(--ladybug-white);
+}
+
+.modal-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.3em;
+    color: var(--ladybug-white);
+}
+
+.modal-subtitle {
+    color: var(--ladybug-red);
+    font-size: 0.95em;
+    margin-bottom: 1em;
+}
+
+.modal-difficulty {
+    display: inline-block;
+    padding: 0.2em 0.8em;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+.diff-beginner { background: #2d7d2d; color: #fff; }
+.diff-intermediate { background: #b8860b; color: #fff; }
+.diff-advanced { background: #8b0000; color: #fff; }
+
+.modal-body {
+    line-height: 1.6;
+    color: #ccc;
+}
+
+.modal-body p {
+    margin-bottom: 0.8em;
+}
+
+.modal-body strong {
+    color: var(--ladybug-white);
+}
+
+.modal-footer {
+    margin-top: 1.5em;
+    padding-top: 1em;
+    border-top: 1px solid #333;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+/* ── Auth Modal ──────────────────────────────── */
+
+.auth-modal-btns {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin-top: 1.5em;
+}
+
+/* ── Trainer Detail in Modal ─────────────────── */
+
+.modal-trainer-info {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin: 1em 0;
+    padding: 1em;
+    background: #222;
+    border-radius: 8px;
+}
+
+.modal-trainer-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.modal-trainer-info .placeholder {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--ladybug-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.modal-trainer-info .mt-name {
+    font-weight: bold;
+    color: var(--ladybug-white);
+}
+
+.modal-trainer-info .mt-spec {
+    color: var(--ladybug-red);
+    font-size: 0.85em;
+}
+
+/* ── Responsive ──────────────────────────────── */
 
 @media (max-width: 900px) {
-    .schedule-layout {
-        grid-template-columns: 1fr;
+    .calendar-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .calendar-day-header {
+        display: none;
+    }
+    .calendar-day {
+        min-height: auto;
+        padding: 0.6em;
+        border-bottom: 1px solid #333;
+    }
+    .calendar-day-number {
+        font-size: 0.9em;
+        font-weight: bold;
     }
 }
