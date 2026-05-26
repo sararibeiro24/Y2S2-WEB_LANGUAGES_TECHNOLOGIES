@@ -261,7 +261,7 @@
 
 .flip-card-front {
     background-color: var(--white);
-    color: var(--dark);
+    color: var(--ladybug-black);
     padding: 1.5em;
     display: flex;
     flex-direction: column;

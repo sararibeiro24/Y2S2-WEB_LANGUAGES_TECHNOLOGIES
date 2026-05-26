@@ -99,6 +99,7 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/pages.css">
     <link rel="stylesheet" href="../css/shared.css">
     <link rel="stylesheet" href="../css/cards.css">
     <link rel="stylesheet" href="../css/carousel.css">
