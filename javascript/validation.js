@@ -17,6 +17,7 @@ const formValidityStates = {
 };
 
 let debounceTimeout;
+let emailTimeout;
 
 function validateNameField(inputElement) {
     if (!inputElement) return false;
@@ -52,10 +53,6 @@ function validateEmailField(inputElement, statusElement) {
     }
 
     if (emailRegex.test(email)) {
-        statusElement.textContent = 'Valid email format.';
-        statusElement.classList.add('success');
-        inputElement.classList.add('success');
-        formValidityStates.email = true;
         return true;
     } else {
         statusElement.textContent = 'Invalid email format.';
@@ -159,6 +156,47 @@ function checkUsernameAvailabilityLive(inputElement, statusElement) {
             });
     }, 300);
 }
+function checkEmailAvailabilityLive(inputElement, statusElement) {
+    if (!inputElement || !statusElement) return;
+
+    // First validate the format locally
+    if (!validateEmailField(inputElement, statusElement)) {
+        return; 
+    }
+
+    const email = inputElement.value.trim();
+    clearTimeout(emailTimeout);
+
+    formValidityStates.email = false;
+
+    emailDebounceTimeout = setTimeout(() => {
+        statusElement.textContent = 'Checking availability...';
+        statusElement.className = 'status-message checking';
+
+        fetch(`../actions/action_checkEmail.php?email=${encodeURIComponent(email)}`)
+            .then(response => response.json())
+            .then(data => {
+                statusElement.textContent = data.message;
+                statusElement.className = 'status-message'; 
+
+                if (data.available) {
+                    statusElement.classList.add('success');
+                    inputElement.classList.add('success'); 
+                    formValidityStates.email = true; // Unlock form submission
+                } else {
+                    statusElement.classList.add('error');
+                    inputElement.classList.add('error'); 
+                    formValidityStates.email = false; // Keep form submission locked
+                }
+            })
+            .catch(error => {
+                console.error('Error checking email:', error);
+                statusElement.textContent = 'Error verifying availability.';
+                statusElement.className = 'status-message error';
+                formValidityStates.email = false;
+            });
+    }, 400);
+}
 
 
 function initRegisterValidation() {
@@ -180,7 +218,7 @@ function initRegisterValidation() {
         usernameInput.addEventListener('input', () => checkUsernameAvailabilityLive(usernameInput, usernameStatus));
     }
     if (emailInput && emailStatus) {
-        emailInput.addEventListener('input', () => validateEmailField(emailInput, emailStatus));
+        emailInput.addEventListener('input', () =>checkEmailAvailabilityLive(emailInput, emailStatus));
     }
     if (passInput && confirmInput) {
         passInput.addEventListener('input', () => validatePasswordMatching(passInput, confirmInput, status1, status2, true));
@@ -212,7 +250,7 @@ function initProfileValidation() {
     formValidityStates.username = true;
 
     if (emailInput && emailStatus) {
-        emailInput.addEventListener('input', () => validateEmailField(emailInput, emailStatus));
+        emailInput.addEventListener('input', () => checkEmailAvailabilityLive(emailInput, emailStatus));
     }
     if (passInput && confirmInput) {
         passInput.addEventListener('input', () => validatePasswordMatching(passInput, confirmInput, status1, status2, false));
