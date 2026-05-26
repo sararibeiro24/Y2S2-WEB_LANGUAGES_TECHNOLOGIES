@@ -220,6 +220,17 @@
     100% { background-position: 1000px 0; }
 }
 
+/* ── Page Content Spacing ────────────────────── */
+
+main.container {
+    padding-top: 1em;
+}
+
+main.container.schedule-page,
+main.container.trainers-page {
+    padding-top: 0.5em;
+}
+
 /* ── Responsive (shared layouts) ─────────────── */
 
 @media (max-width: 900px) {

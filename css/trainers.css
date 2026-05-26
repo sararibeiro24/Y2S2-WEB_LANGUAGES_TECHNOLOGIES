@@ -1,7 +1,7 @@
 /* ── Trainers Page ──────────────────────────── */
 
 .trainers-page {
-    padding: 3em 20px;
+    padding: 2em 20px 4em;
 }
 
 .trainer-placeholder {
@@ -32,4 +32,46 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.trainer-card-clickable {
+    cursor: pointer;
+}
+
+.trainer-card-clickable:hover .team-member-image {
+    filter: brightness(1.1);
+}
+
+/* Trainer modal specifics */
+.modal-trainer-classes {
+    margin-top: 1em;
+}
+
+.modal-trainer-classes h4 {
+    color: var(--ladybug-red);
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modal-trainer-class-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3em 0;
+    border-bottom: 1px solid #222;
+    font-size: 0.9em;
+}
+
+.modal-trainer-class-item:last-child {
+    border-bottom: none;
+}
+
+.modal-trainer-class-item .tc-name {
+    color: var(--ladybug-white);
+}
+
+.modal-trainer-class-item .tc-count {
+    color: var(--ladybug-red);
+    font-weight: bold;
 }

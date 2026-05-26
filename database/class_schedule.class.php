@@ -155,6 +155,7 @@ class ClassSchedule {
                 c.name,
                 c.description,
                 c.capacity,
+                c.difficulty,
                 u.name AS trainer,
                 COUNT(e.id) AS enrolled
             FROM class_schedule cs
@@ -167,6 +168,72 @@ class ClassSchedule {
         ');
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    public static function getWeekClasses(string $weekStart, ?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $weekEnd = date('Y-m-d 23:59:59', strtotime($weekStart . ' +6 days'));
+        $stmt = $db->prepare('
+            SELECT
+                cs.id AS schedule_id,
+                cs.class_id,
+                cs.trainer_id,
+                cs.scheduled_at,
+                c.name,
+                c.description,
+                c.capacity,
+                c.difficulty,
+                u.name AS trainer,
+                u.id AS trainer_user_id,
+                COUNT(e.id) AS enrolled
+            FROM class_schedule cs
+            JOIN classes c ON cs.class_id = c.id
+            JOIN users u ON cs.trainer_id = u.id
+            LEFT JOIN enrollments e ON e.schedule_id = cs.id
+            WHERE cs.scheduled_at >= ? AND cs.scheduled_at <= ?
+            GROUP BY cs.id
+            ORDER BY cs.scheduled_at ASC
+        ');
+        $stmt->execute([$weekStart, $weekEnd]);
+        return $stmt->fetchAll();
+    }
+
+    public static function getUserEnrollmentIds(int $userId, ?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('SELECT schedule_id FROM enrollments WHERE user_id = ?');
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public static function getDetail(int $scheduleId, ?PDO $db = null): ?array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('
+            SELECT
+                cs.id AS schedule_id,
+                cs.class_id,
+                cs.trainer_id,
+                cs.scheduled_at,
+                c.name,
+                c.description,
+                c.capacity,
+                c.difficulty,
+                u.name AS trainer,
+                u.profile_photo AS trainer_photo,
+                tp.bio AS trainer_bio,
+                tp.specializations AS trainer_specs,
+                tp.years_experience,
+                COUNT(e.id) AS enrolled
+            FROM class_schedule cs
+            JOIN classes c ON cs.class_id = c.id
+            JOIN users u ON cs.trainer_id = u.id
+            LEFT JOIN trainer_profiles tp ON tp.user_id = u.id
+            LEFT JOIN enrollments e ON e.schedule_id = cs.id
+            WHERE cs.id = ?
+            GROUP BY cs.id
+        ');
+        $stmt->execute([$scheduleId]);
+        $row = $stmt->fetch();
+        return $row ?: null;
     }
 }
 ?>

@@ -12,6 +12,7 @@ class Trainer {
     private ?string $bio;
     private ?string $specializations;
     private ?string $certifications;
+    private int $yearsExperience;
     private ?PDO $db;
 
     public function __construct(
@@ -23,6 +24,7 @@ class Trainer {
         ?string $bio = null,
         ?string $specializations = null,
         ?string $certifications = null,
+        int $yearsExperience = 0,
         ?PDO $db = null
     ) {
         $this->id = $id;
@@ -33,6 +35,7 @@ class Trainer {
         $this->bio = $bio;
         $this->specializations = $specializations;
         $this->certifications = $certifications;
+        $this->yearsExperience = $yearsExperience;
         $this->db = $db ?? getDatabaseConnection();
     }
 
@@ -44,12 +47,26 @@ class Trainer {
     public function getBio(): ?string { return $this->bio; }
     public function getSpecializations(): ?string { return $this->specializations; }
     public function getCertifications(): ?string { return $this->certifications; }
+    public function getYearsExperience(): int { return $this->yearsExperience; }
 
     public function getSpecializationsList(): array {
         if ($this->specializations === null || $this->specializations === '') {
             return [];
         }
         return array_map('trim', explode(',', $this->specializations));
+    }
+
+    public function getClasses(): array {
+        $stmt = $this->db->prepare('
+            SELECT DISTINCT c.name, COUNT(cs.id) AS session_count
+            FROM classes c
+            JOIN class_schedule cs ON cs.class_id = c.id
+            WHERE cs.trainer_id = ?
+            GROUP BY c.id
+            ORDER BY session_count DESC
+        ');
+        $stmt->execute([$this->id]);
+        return $stmt->fetchAll();
     }
 
     public static function getAllTrainers(?PDO $db = null): array {
@@ -63,7 +80,8 @@ class Trainer {
                 COALESCE(u.profile_photo, \'\') AS profile_photo,
                 tp.bio,
                 tp.specializations,
-                tp.certifications
+                tp.certifications,
+                COALESCE(tp.years_experience, 0) AS years_experience
             FROM users u
             LEFT JOIN trainer_profiles tp ON u.id = tp.user_id
             WHERE u.role = \'trainer\' AND u.active = 1
@@ -83,6 +101,7 @@ class Trainer {
                 $row['bio'],
                 $row['specializations'],
                 $row['certifications'],
+                (int)$row['years_experience'],
                 $db
             );
         }

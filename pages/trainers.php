@@ -17,10 +17,21 @@ drawPageHeader('MEET OUR TRAINERS', 'Certified professionals dedicated to your s
     </div>
     <div class="team-showcase" id="trainerGrid">
         <?php foreach ($trainers as $trainer): ?>
-            <?php drawTrainerCard($trainer); ?>
+            <div onclick="openTrainerModal(<?= $trainer->getId() ?>)">
+                <?php drawTrainerCard($trainer); ?>
+            </div>
         <?php endforeach; ?>
     </div>
 </main>
+
+<!-- Trainer Detail Modal -->
+<div class="modal-overlay" id="trainerModal">
+    <div class="modal-content" id="trainerModalContent">
+        <button class="modal-close" onclick="closeModal('trainerModal')">&times;</button>
+        <div id="trainerModalBody">Loading...</div>
+    </div>
+</div>
+
 <script src="../javascript/trainer_filter.js" defer></script>
 <?php
 drawFooter();
