@@ -9,6 +9,7 @@ function drawHead($title) {
         <title><?php echo htmlspecialchars($title); ?></title>
         <?php drawCSSLinks(); ?>
         <script src="../javascript/register_validation.js" defer></script>
+        <script src="../javascript/extras.js" defer></script>
     </head>
     <body>
     <?php
@@ -44,6 +45,9 @@ function drawHeader() {
                 <ul>
                     <li><a href="index.php">Home</a></li>
                     <li><a href="schedule.php">Classes</a></li>
+                    <li><a href="plans.php">Plans</a></li>
+                    <li><a href="equipment.php">Equipment</a></li>
+                    <li><a href="nutrition.php">Nutrition</a></li>
                     <li><a href="#">Trainers</a></li>
                     <?php if ($isLoggedIn): ?>
                         <li><a href="profile.php">My Profile</a></li>
@@ -63,6 +67,7 @@ function drawHeader() {
         });
     </script>
     <?php
+    drawMessages();
 }
 
 function drawPageHeader($title,$subtitle){

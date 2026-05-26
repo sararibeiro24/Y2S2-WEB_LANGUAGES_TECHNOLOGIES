@@ -4,6 +4,7 @@ declare(strict_types=1);
 class Session {
     private const SESSION_KEY_USER = 'user_id';
     private const SESSION_KEY_MESSAGES = 'messages';
+    private const SESSION_KEY_CSRF = 'csrf_token';
 
     public static function start(): void {
         if (session_status() === PHP_SESSION_NONE) {
@@ -26,6 +27,22 @@ class Session {
     public static function setUser(int $userId): void {
         self::start();
         $_SESSION[self::SESSION_KEY_USER] = $userId;
+    }
+
+    public static function getCsrfToken(): string {
+        self::start();
+        if (!isset($_SESSION[self::SESSION_KEY_CSRF])) {
+            $_SESSION[self::SESSION_KEY_CSRF] = bin2hex(random_bytes(32));
+        }
+        return $_SESSION[self::SESSION_KEY_CSRF];
+    }
+
+    public static function validateCsrfToken(string $token): bool {
+        self::start();
+        if (empty($token) || !isset($_SESSION[self::SESSION_KEY_CSRF])) {
+            return false;
+        }
+        return hash_equals($_SESSION[self::SESSION_KEY_CSRF], $token);
     }
 
     public static function destroy(): void {

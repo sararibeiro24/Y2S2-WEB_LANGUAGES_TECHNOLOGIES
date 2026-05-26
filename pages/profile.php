@@ -1,5 +1,29 @@
 <?php
 require_once(__DIR__ . '/../templates/common.tpl.php');
+require_once(__DIR__ . '/../database/user.class.php');
+require_once(__DIR__ . '/../utils/session.php');
+
+Session::start();
+
+if (!Session::isLoggedIn()) {
+    header('Location: login.php');
+    exit;
+}
+
+$userId = Session::getUserId();
+$user = User::getById($userId);
+if ($user === null) {
+    header('Location: login.php');
+    exit;
+}
+
+$roleBadge = 'Member';
+if ($user->getRole() === 'trainer') {
+    $roleBadge = 'Trainer';
+} elseif ($user->getRole() === 'admin') {
+    $roleBadge = 'Admin';
+}
+
 drawHead("My Profile | Ladybug's Gym");
 drawHeader();
 
@@ -20,8 +44,8 @@ drawHeader();
             
             <aside class="profile-sidebar card">
                 <img src="../img/John_Doe.png" alt="Current Profile Photo" class="profile-avatar">
-                <h3>johndoe_99</h3>
-                <span class="badge badge-green">Pro Member</span>
+                <h3><?php echo htmlspecialchars($user->getUsername()); ?></h3>
+                <span class="badge badge-green"><?php echo htmlspecialchars($roleBadge); ?></span>
                 <p class="member-since">Member since Jan 2026</p>
                 
                 <ul class="profile-stats">
@@ -39,18 +63,18 @@ drawHeader();
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" name="fullName" class="input-field" value="John Doe" required>
+                                <input type="text" id="fullName" name="fullName" class="input-field" value="<?php echo htmlspecialchars($user->getName()); ?>" required>
                             </div>
                             
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" id="username" name="username" class="input-field" value="johndoe_99" required>
+                                <input type="text" id="username" name="username" class="input-field" value="<?php echo htmlspecialchars($user->getUsername()); ?>" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="input-field" value="john.doe@example.com" required>
+                            <input type="email" id="email" name="email" class="input-field" value="<?php echo htmlspecialchars($user->getEmail()); ?>" required>
                         </div>
                     </fieldset>
 

@@ -180,6 +180,25 @@ INSERT OR IGNORE INTO equipment_status (equipment_id, available_quantity) VALUES
 (3, 8),
 (4, 35);
 
+-- MEMBERSHIP PLAN DATA
+INSERT OR IGNORE INTO plans (name, price, billing_cycle, features) VALUES
+('Starter Weekly', 9.99, 'weekly', 'Gym floor access, 1 class per week, Basic support'),
+('Basic Monthly', 19.99, 'monthly', 'Access to gym floor, 1 class per week, Standard support'),
+('Premium Weekly', 24.99, 'weekly', 'Unlimited classes, Equipment reservations, Nutrition consultation'),
+('Premium Monthly', 39.99, 'monthly', 'Unlimited classes, Equipment reservations, Nutrition consultation'),
+('Elite Weekly', 34.99, 'weekly', 'Personal trainer booking, Nutrition plan, Priority support'),
+('Elite Monthly', 59.99, 'monthly', 'Personal trainer booking, Nutrition plan, Priority support'),
+('Annual Pass', 599.99, 'yearly', 'Unlimited access, premium support, guest passes, exclusive perks');
+
+UPDATE users SET plan_id = 1 WHERE username = 'joaosilva';
+UPDATE users SET plan_id = 2 WHERE username = 'anacosta';
+
+-- NUTRITION PLANS DATA
+INSERT OR IGNORE INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES
+(1, 3, 1800, 'Weight Loss', 'High protein breakfast, light lunch, balanced dinner.'),
+(2, 4, 2500, 'Muscle Gain', 'Calorie surplus with lean proteins and carbs.'),
+(1, 4, 2000, 'Maintenance', 'Three meals with healthy fats and vegetables.');
+
 -- BOOKINGS
 INSERT OR IGNORE INTO bookings (member_id, trainer_id, scheduled_at, status) VALUES
 (1, 3, '2026-05-22 14:00:00', 'booked'),
