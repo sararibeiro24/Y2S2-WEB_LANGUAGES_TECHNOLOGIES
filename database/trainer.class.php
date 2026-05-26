@@ -69,6 +69,18 @@ class Trainer {
         return $stmt->fetchAll();
     }
 
+    public function updateProfile(string $bio, string $specializations, string $certifications): bool {
+        $stmt = $this->db->prepare('
+            INSERT INTO trainer_profiles (user_id, bio, specializations, certifications)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(user_id) DO UPDATE SET
+                bio = excluded.bio,
+                specializations = excluded.specializations,
+                certifications = excluded.certifications
+        ');
+        return $stmt->execute([$this->id, $bio, $specializations, $certifications]);
+    }
+
     public static function getAllTrainers(?PDO $db = null): array {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('

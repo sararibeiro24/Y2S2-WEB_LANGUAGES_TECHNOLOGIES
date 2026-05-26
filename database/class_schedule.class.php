@@ -205,6 +205,40 @@ class ClassSchedule {
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    public static function getTrainerSchedules(int $trainerId, ?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('
+            SELECT
+                cs.id AS schedule_id,
+                cs.scheduled_at,
+                c.name,
+                c.capacity,
+                c.difficulty,
+                COUNT(e.id) AS enrolled
+            FROM class_schedule cs
+            JOIN classes c ON cs.class_id = c.id
+            LEFT JOIN enrollments e ON e.schedule_id = cs.id
+            WHERE cs.trainer_id = ? AND cs.scheduled_at >= datetime(\'now\')
+            GROUP BY cs.id
+            ORDER BY cs.scheduled_at ASC
+        ');
+        $stmt->execute([$trainerId]);
+        return $stmt->fetchAll();
+    }
+
+    public static function getEnrolledMembers(int $scheduleId, ?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('
+            SELECT u.id, u.name, u.username, u.email, u.profile_photo, e.created_at AS enrolled_at
+            FROM enrollments e
+            JOIN users u ON e.user_id = u.id
+            WHERE e.schedule_id = ?
+            ORDER BY e.created_at ASC
+        ');
+        $stmt->execute([$scheduleId]);
+        return $stmt->fetchAll();
+    }
+
     public static function getDetail(int $scheduleId, ?PDO $db = null): ?array {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('

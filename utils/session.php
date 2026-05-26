@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 class Session {
     private const SESSION_KEY_USER = 'user_id';
+    private const SESSION_KEY_ROLE = 'user_role';
     private const SESSION_KEY_MESSAGES = 'messages';
     private const SESSION_KEY_CSRF = 'csrf_token';
 
@@ -24,9 +25,23 @@ class Session {
         return (int)$_SESSION[self::SESSION_KEY_USER];
     }
 
-    public static function setUser(int $userId): void {
+    public static function setUser(int $userId, string $role = 'member'): void {
         self::start();
         $_SESSION[self::SESSION_KEY_USER] = $userId;
+        $_SESSION[self::SESSION_KEY_ROLE] = $role;
+    }
+
+    public static function getUserRole(): ?string {
+        self::start();
+        return $_SESSION[self::SESSION_KEY_ROLE] ?? null;
+    }
+
+    public static function isTrainer(): bool {
+        return self::getUserRole() === 'trainer';
+    }
+
+    public static function isAdmin(): bool {
+        return self::getUserRole() === 'admin';
     }
 
     public static function getCsrfToken(): string {

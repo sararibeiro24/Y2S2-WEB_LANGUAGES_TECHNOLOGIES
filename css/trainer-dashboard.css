@@ -1,0 +1,185 @@
+/* ── Trainer Dashboard ────────────────────────── */
+
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.dashboard-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1.5em;
+}
+
+.dashboard-card h3 {
+    color: var(--ladybug-white);
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #333;
+}
+
+/* ── Profile Form ────────────────────────────── */
+
+.trainer-profile-form .form-group {
+    margin-bottom: 1em;
+}
+
+.trainer-profile-form label {
+    display: block;
+    color: var(--ladybug-white);
+    font-weight: 600;
+    margin-bottom: 0.3em;
+    font-size: 0.9em;
+}
+
+.field-hint {
+    color: #888;
+    font-weight: normal;
+    font-size: 0.85em;
+}
+
+.trainer-profile-form input[type="text"],
+.trainer-profile-form textarea {
+    width: 100%;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 0.6em;
+    color: var(--ladybug-white);
+    font-family: inherit;
+    font-size: 0.95em;
+}
+
+.trainer-profile-form input[type="text"]:focus,
+.trainer-profile-form textarea:focus {
+    outline: none;
+    border-color: var(--ladybug-red);
+}
+
+.trainer-profile-form button {
+    margin-top: 0.5em;
+}
+
+/* ── Class Rosters ───────────────────────────── */
+
+.class-roster-block {
+    background: #222;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.class-roster-block:last-child {
+    margin-bottom: 0;
+}
+
+.class-roster-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 0.8em;
+    flex-wrap: wrap;
+}
+
+.class-roster-header strong {
+    color: var(--ladybug-white);
+    font-size: 1em;
+}
+
+.roster-meta {
+    display: block;
+    color: #999;
+    font-size: 0.8em;
+    margin-top: 0.2em;
+}
+
+.roster-count {
+    color: var(--ladybug-red);
+    font-weight: 600;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.roster-count.full {
+    color: #888;
+}
+
+/* ── Roster Table ────────────────────────────── */
+
+.roster-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+}
+
+.roster-table th {
+    text-align: left;
+    color: #888;
+    font-weight: 600;
+    padding: 0.5em 0.6em;
+    border-bottom: 1px solid #333;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.roster-table td {
+    padding: 0.5em 0.6em;
+    color: #ccc;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.roster-table tr:last-child td {
+    border-bottom: none;
+}
+
+.roster-member {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.roster-photo {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.roster-photo-placeholder {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ladybug-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.empty-state {
+    color: #666;
+    font-style: italic;
+}
+
+/* ── Responsive ──────────────────────────────── */
+
+@media (max-width: 700px) {
+    .class-roster-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .roster-table {
+        font-size: 0.8em;
+    }
+    .roster-table th:nth-child(3),
+    .roster-table td:nth-child(3) {
+        display: none;
+    }
+}

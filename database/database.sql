@@ -139,16 +139,16 @@ INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile
 
 ('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member'),
 ('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),
-('migueltrainer', 'miguel@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Miguel Ferreira', 'trainer'),
-('sofiatrainer', 'sofia@gmail.com', '$2y$10$.cOjn2hP7/.CPu4QKe6u.Otld1fWYlzuLwgmx1EcXAU7snQfHn2Ay', 'Sofia Martins', 'trainer'),
+('migueltrainer', 'miguel@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Miguel Ferreira', 'trainer'),
+('sofiatrainer', 'sofia@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Sofia Martins', 'trainer'),
 ('adminuser', 'admin@gmail.com', '$2y$10$JfG.ZWCgLbrOjQMcBGrjLu92oNsSa9OQgTyxbzRKQVd6l5wiH1omm', 'Admin User', 'admin');
 
 -- Additional trainers
 INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES
-('carlostrainer', 'carlos@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Carlos Santos', 'trainer', 'boxing_trainer.jpg'),
-('anatrai', 'ana.t@mail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Ana Rodrigues', 'trainer', 'female_trainer2.jpg'),
-('pedrotrainer', 'pedro@mail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Pedro Alves', 'trainer', NULL),
-('lenatrainer', 'lena@mail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Elena Kovač', 'trainer', 'female_trainer4.jpg');
+('carlostrainer', 'carlos@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Carlos Santos', 'trainer', 'boxing_trainer.jpg'),
+('anatrai', 'ana.t@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Ana Rodrigues', 'trainer', 'female_trainer2.jpg'),
+('pedrotrainer', 'pedro@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Pedro Alves', 'trainer', NULL),
+('lenatrainer', 'lena@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Elena Kovač', 'trainer', 'female_trainer4.jpg');
 
 -- TRAINER PROFILES
 INSERT OR IGNORE INTO trainer_profiles (user_id, bio, specializations, certifications, years_experience) VALUES

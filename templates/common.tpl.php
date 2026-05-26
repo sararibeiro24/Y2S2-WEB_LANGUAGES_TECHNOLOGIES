@@ -53,6 +53,9 @@ function drawHeader() {
                     <li><a href="index.php#feedback">Feedback</a></li>
                     <li><a href="index.php#qa">Q&A</a></li>
                     <?php if ($isLoggedIn): ?>
+                        <?php if (Session::isTrainer()): ?>
+                            <li><a href="trainer_dashboard.php">Trainer Dashboard</a></li>
+                        <?php endif; ?>
                         <li><a href="profile.php">My Profile</a></li>
                         <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>
                     <?php else: ?>
@@ -108,6 +111,7 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/trainers.css">
+    <link rel="stylesheet" href="../css/trainer-dashboard.css">
     <?php
 }
 function drawMessages() {

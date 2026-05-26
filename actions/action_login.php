@@ -20,7 +20,7 @@ if ($loginType === 'user') {
     $user = User::authenticate($usernameOrEmail, $password);
         
         if ($user) {
-            Session::setUser($user->getId());
+            Session::setUser($user->getId(), $user->getRole());
             Session::addMessage('success', 'Welcome back, ' . htmlspecialchars($user->getName()) . '!');
             header('Location: ../pages/index.php');
             exit; 
