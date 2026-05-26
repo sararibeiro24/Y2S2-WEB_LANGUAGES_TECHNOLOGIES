@@ -130,5 +130,9 @@ class User {
         
         return new User($id, $username, $email, $name, 'member', true, null, $db);
     }
+    public function updateProfilePhoto(string $photoPath): bool {
+    $stmt = $this->db->prepare('UPDATE users SET profile_photo = ? WHERE id = ?');
+    return $stmt->execute([$photoPath, $this->id]);
+}
 }
 ?>
