@@ -1,4 +1,4 @@
-<section id="qa" class="teaser-section bg-hero">
+<section id="qa" class="teaser-section bg-qa">
     <div class="container">
         <h2>FREQUENTLY ASKED QUESTIONS</h2>
         <p class="subtitle large-subtitle">Got questions? We've got answers!</p>

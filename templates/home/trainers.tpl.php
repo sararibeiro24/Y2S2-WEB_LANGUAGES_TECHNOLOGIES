@@ -8,7 +8,7 @@
             <div class="carousel-container" id="trainers-carousel">
                 <div class="carousel-item">
                     <div class="team-member">
-                        <img src="../img/John_Doe.png" alt="John Doe" class="team-member-image" loading="lazy">
+                        <img src="../img/John_Doe.png" alt="John Doe" class="team-member-image">
                         <div class="team-member-info">
                             <h3 class="team-member-name">John Doe</h3>
                             <p class="team-member-role">Strength & Conditioning</p>
@@ -19,7 +19,7 @@
 
                 <div class="carousel-item">
                     <div class="team-member">
-                        <img src="../img/female staff-trainer.jpg" alt="Sarah Coach" class="team-member-image" loading="lazy">
+                        <img src="../img/female staff-trainer.jpg" alt="Sarah Coach" class="team-member-image">
                         <div class="team-member-info">
                             <h3 class="team-member-name">Sarah Coach</h3>
                             <p class="team-member-role">HIIT & Cardio</p>
@@ -30,7 +30,7 @@
 
                 <div class="carousel-item">
                     <div class="team-member">
-                        <img src="../img/Maria_Silva.png" alt="Maria Silva" class="team-member-image" loading="lazy">
+                        <img src="../img/Maria_Silva.png" alt="Maria Silva" class="team-member-image">
                         <div class="team-member-info">
                             <h3 class="team-member-name">Maria Silva</h3>
                             <p class="team-member-role">Yoga & Flexibility</p>
@@ -41,7 +41,7 @@
 
                 <div class="carousel-item">
                     <div class="team-member">
-                        <img src="../img/man training.jpg" alt="Marcus Strong" class="team-member-image" loading="lazy">
+                        <img src="../img/man training.jpg" alt="Marcus Strong" class="team-member-image">
                         <div class="team-member-info">
                             <h3 class="team-member-name">Marcus Strong</h3>
                             <p class="team-member-role">Powerlifting</p>

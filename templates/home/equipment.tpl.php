@@ -8,35 +8,35 @@
             <div class="carousel-container" id="equipment-carousel">
                 <div class="carousel-item">
                     <div class="equipment-card">
-                        <img src="../img/leg press.jpg" alt="Leg Press" class="equipment-image" loading="lazy">
+                        <img src="../img/leg press.jpg" alt="Leg Press" class="equipment-image">
                         <h3>Leg Press Machine</h3>
                         <p>Heavy-duty leg press for maximum strength building</p>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="equipment-card">
-                        <img src="../img/cardio.jpg" alt="Cardio" class="equipment-image" loading="lazy">
+                        <img src="../img/cardio.jpg" alt="Cardio" class="equipment-image">
                         <h3>Cardio Treadmills</h3>
                         <p>State-of-the-art treadmills with built-in programs</p>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="equipment-card">
-                        <img src="../img/dumbells.jpg" alt="Dumbbells" class="equipment-image" loading="lazy">
+                        <img src="../img/dumbells.jpg" alt="Dumbbells" class="equipment-image">
                         <h3>Dumbbell Set</h3>
                         <p>Complete range from 5kg to 50kg dumbbells</p>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="equipment-card">
-                        <img src="../img/dumbells 2.jpg" alt="Dumbbells 2" class="equipment-image" loading="lazy">
+                        <img src="../img/dumbells 2.jpg" alt="Dumbbells 2" class="equipment-image">
                         <h3>Adjustable Dumbbells</h3>
                         <p>Space-saving adjustable dumbbell system</p>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="equipment-card">
-                        <img src="../img/heavy weights.jpg" alt="Heavy Weights" class="equipment-image" loading="lazy">
+                        <img src="../img/heavy weights.jpg" alt="Heavy Weights" class="equipment-image">
                         <h3>Barbell Rack</h3>
                         <p>Professional barbell rack with safety bars</p>
                     </div>

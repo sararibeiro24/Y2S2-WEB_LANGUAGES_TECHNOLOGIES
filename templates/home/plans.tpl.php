@@ -1,4 +1,4 @@
-<section id="plans" class="teaser-section bg-hero slanted-bottom">
+<section id="plans" class="teaser-section bg-plans slanted-bottom">
     <div class="container">
         <h2 class="huge-text text-white">BECOME UN-BEETLE-ABLE TODAY!</h2>
         <p class="subtitle text-white">Join now and start your transformation with our affordable plans</p>

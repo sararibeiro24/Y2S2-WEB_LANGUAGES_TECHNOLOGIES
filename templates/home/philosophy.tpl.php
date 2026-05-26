@@ -1,4 +1,4 @@
-<section id="philosophy" class="teaser-section bg-hero">
+<section id="philosophy" class="teaser-section bg-philosophy">
     <div class="container center-layout">
         <h2>OUR 3-STEP PHILOSOPHY</h2>
         <p class="subtitle">Leave your old shell behind and transform with us</p>
