@@ -1,71 +1,63 @@
 <?php
+declare(strict_types=1);
 
 require_once(__DIR__ . '/../database/database.db.php');
 require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../database/class_schedule.class.php');
 
-$session = new Session();
+Session::start();
 
-if (!$session->isLoggedIn()) {
-  die('Access denied');
+if (!Session::isLoggedIn()) {
+    http_response_code(403);
+    die('Access denied');
+}
+
+$userId = Session::getUserId();
+$scheduleId = (int) ($_POST['schedule_id'] ?? 0);
+
+if ($scheduleId <= 0) {
+    http_response_code(400);
+    die('Invalid request');
 }
 
 $db = getDatabaseConnection();
 
-$userId = $session->getUserid();
-
-$scheduleId = (int) $_POST['schedule_id'];
-
-
-// CHECK CAPACITY
-
+// Check capacity and prevent duplicates in one go
 $stmt = $db->prepare('
-  SELECT
-    classes.capacity,
-    COUNT(enrollments.id) as enrolled
-
-  FROM class_schedule
-
-  JOIN classes
-    ON classes.id = class_schedule.class_id
-
-  LEFT JOIN enrollments
-    ON enrollments.schedule_id = class_schedule.id
-
-  WHERE class_schedule.id = ?
+    SELECT
+        c.capacity,
+        COUNT(e.id) AS enrolled
+    FROM class_schedule cs
+    JOIN classes c ON c.id = cs.class_id
+    LEFT JOIN enrollments e ON e.schedule_id = cs.id
+    WHERE cs.id = ?
 ');
-
 $stmt->execute([$scheduleId]);
-
 $class = $stmt->fetch();
 
-if ($class['enrolled'] >= $class['capacity']) {
-  die('Class is full');
+if (!$class) {
+    http_response_code(404);
+    die('Class not found');
 }
 
+if ($class['enrolled'] >= $class['capacity']) {
+    http_response_code(409);
+    die('Class is full');
+}
 
-// PREVENT DUPLICATES
-
-$stmt = $db->prepare('
-  SELECT *
-  FROM enrollments
-  WHERE user_id = ?
-  AND schedule_id = ?
-');
-
+// Check for duplicate enrollment
+$stmt = $db->prepare('SELECT id FROM enrollments WHERE user_id = ? AND schedule_id = ?');
 $stmt->execute([$userId, $scheduleId]);
 
 if ($stmt->fetch()) {
-  die('Already enrolled');
+    http_response_code(409);
+    die('Already enrolled');
 }
 
-
-// INSERT
-
-$stmt = $db->prepare('
-  INSERT INTO enrollments(user_id, schedule_id)
-  VALUES (?, ?)
-');
-
+// Enroll
+$stmt = $db->prepare('INSERT INTO enrollments (user_id, schedule_id) VALUES (?, ?)');
 $stmt->execute([$userId, $scheduleId]);
 
+Session::addMessage('success', 'Successfully enrolled!');
 header('Location: ../pages/schedule.php');
+exit;
