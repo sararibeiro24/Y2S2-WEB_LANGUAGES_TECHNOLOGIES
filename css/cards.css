@@ -194,6 +194,14 @@
     box-shadow: 0 12px 24px rgba(196, 30, 58, 0.2);
 }
 
+.nutrition-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}
+
 .nutrition-badge {
     display: inline-block;
     background-color: var(--ladybug-red);
@@ -202,14 +210,14 @@
     border-radius: 20px;
     font-size: 0.85em;
     font-weight: bold;
-    margin-bottom: 0.8em;
+    margin: 0.8em 0 0.4em;
 }
 
 .nutrition-name {
     font-size: 1.2em;
     font-weight: bold;
     color: var(--ladybug-white);
-    margin: 0.8em 0;
+    margin: 0.4em 0 0.8em;
 }
 
 .nutrition-description {
