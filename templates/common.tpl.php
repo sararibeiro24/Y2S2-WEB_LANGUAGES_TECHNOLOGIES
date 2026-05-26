@@ -9,6 +9,7 @@ function drawHead($title) {
         <title><?php echo htmlspecialchars($title); ?></title>
         <?php drawCSSLinks(); ?>
         <script src="../javascript/register_validation.js" defer></script>
+        <script src="../javascript/validation.js" defer></script>
         <script src="../javascript/extras.js" defer></script>
     </head>
     <body>
@@ -48,7 +49,9 @@ function drawHeader() {
                     <li><a href="plans.php">Plans</a></li>
                     <li><a href="equipment.php">Equipment</a></li>
                     <li><a href="nutrition.php">Nutrition</a></li>
-                    <li><a href="#">Trainers</a></li>
+                    <li><a href="trainers.php">Trainers</a></li>
+                    <li><a href="index.php#feedback">Feedback</a></li>
+                    <li><a href="index.php#qa">Q&A</a></li>
                     <?php if ($isLoggedIn): ?>
                         <li><a href="profile.php">My Profile</a></li>
                         <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>
@@ -96,7 +99,14 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/cards.css">
+    <link rel="stylesheet" href="../css/carousel.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/schedule.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/trainers.css">
     <?php
 }
 function drawMessages() {

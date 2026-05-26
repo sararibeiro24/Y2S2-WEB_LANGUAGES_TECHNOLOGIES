@@ -1,83 +1,35 @@
-
-
 <?php
 require_once(__DIR__ . '/../templates/common.tpl.php');
 
-drawHead("Welcome to Ladybug's Gym");
+drawHead("Ladybug's Gym | Welcome");
 drawHeader();
-
-
-
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<body>
-
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h2>Train Smarter, Not Harder</h2>
-                <p>Book classes, track equipment, and improve your fitness.</p>
-                <a href="schedule.php" class="button">Explore Classes</a>
-            </div>
-        </section>
-
-        <section class="classes">
-            <div class="container">
-                <h2>Featured Classes</h2>
-                <div class="grid-container">
-                    <article class="card">
-                        <h3>Yoga</h3>
-                        <p>Relax and improve flexibility.</p>
-                    </article>
-                    <article class="card">
-                        <h3>HIIT</h3>
-                        <p>High intensity training for fast results.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Spinning</h3>
-                        <p>Burn calories with intense cycling sessions.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="trainers">
-            <div class="container">
-                <h2>Our Trainers</h2>
-                <div class="grid-container">
-                    <article class="card trainer-card">
-                        <img src="../img/John_Doe.png"  alt="Portrait of Trainer John Doe">
-                        <h3>John Doe</h3>
-                        <p class="specialization">Strength & Conditioning</p>
-                    </article>
-                    <article class="card trainer-card">
-                        <img src="../img/Maria_Silva.png" alt="Portrait of Trainer Maria Silva">
-                        <h3>Maria Silva</h3>
-                        <p class="specialization">Yoga Instructor</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="equipment">
-            <div class="container">
-                <div class="equipment-box">
-                    <h2>Equipment Availability</h2>
-                    <ul class="equipment-list">
-
-                        <li><span>Treadmills</span> <span class="status available"> Available</span></li>
-                        <li><span>Bikes</span> <span class="status limited"> Limited</span></li>
-                        <li><span>Weight Benches</span> <span class="status unavailable"> Unavailable</span></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
+    <main class="scrollable-home">
+        <?php require __DIR__ . '/../templates/home/hero.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/plans.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/cta.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/news.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/philosophy.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/equipment.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/classes.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/trainers.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/nutrition.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/feedback.tpl.php'; ?>
+        <?php require __DIR__ . '/../templates/home/qa.tpl.php'; ?>
     </main>
+
+    <script>
+        function scrollCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            const itemWidth = carousel.querySelector('.carousel-item').offsetWidth + 32;
+
+            if (direction === 1) {
+                carousel.scrollLeft += itemWidth;
+            } else {
+                carousel.scrollLeft -= itemWidth;
+            }
+        }
+    </script>
+<?php drawFooter(); ?>
 </body>
 </html>
-<?php
-drawFooter();
-?>

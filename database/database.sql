@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS trainer_profiles (
     bio TEXT,
     specializations TEXT,
     certifications TEXT,
+    years_experience INTEGER DEFAULT 0,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -34,7 +35,8 @@ CREATE TABLE IF NOT EXISTS classes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
-    capacity INTEGER NOT NULL CHECK(capacity > 0)
+    capacity INTEGER NOT NULL CHECK(capacity > 0),
+    difficulty TEXT DEFAULT 'Beginner'
 );
 
 -- CLASS SCHEDULE
@@ -106,7 +108,7 @@ CREATE TABLE IF NOT EXISTS plans (
     name TEXT NOT NULL,
     price REAL NOT NULL,
     billing_cycle TEXT CHECK(billing_cycle IN ('weekly', 'monthly', 'yearly')) DEFAULT 'weekly',
-    features TEXT -- Stored as a comma-separated list or JSON
+    features TEXT
 );
 
 -- NUTRITION PLANS
@@ -133,38 +135,82 @@ CREATE INDEX IF NOT EXISTS idx_bookings_member ON bookings(member_id);
 -- Populate 
 
 -- USERS
-INSERT OR IGNORE INTO users (username, email, password_hash, name, role) VALUES
+INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES
 
-('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member'), -- password: hashedpass1
-('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),   -- password: hashedpass2
-('migueltrainer', 'miguel@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Miguel Ferreira', 'trainer'),    -- password: hashedpass3
-('sofiatrainer', 'sofia@gmail.com', '$2y$10$.cOjn2hP7/.CPu4QKe6u.Otld1fWYlzuLwgmx1EcXAU7snQfHn2Ay', 'Sofia Martins', 'trainer'),    -- password: hashedpass4
-('adminuser', 'admin@gmail.com', '$2y$10$JfG.ZWCgLbrOjQMcBGrjLu92oNsSa9OQgTyxbzRKQVd6l5wiH1omm', 'Admin User', 'admin');    -- password: hashedadmin
+('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member'),
+('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),
+('migueltrainer', 'miguel@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Miguel Ferreira', 'trainer'),
+('sofiatrainer', 'sofia@gmail.com', '$2y$10$.cOjn2hP7/.CPu4QKe6u.Otld1fWYlzuLwgmx1EcXAU7snQfHn2Ay', 'Sofia Martins', 'trainer'),
+('adminuser', 'admin@gmail.com', '$2y$10$JfG.ZWCgLbrOjQMcBGrjLu92oNsSa9OQgTyxbzRKQVd6l5wiH1omm', 'Admin User', 'admin');
+
+-- Additional trainers
+INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES
+('carlostrainer', 'carlos@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Carlos Santos', 'trainer', 'boxing trainer.jpg'),
+('anatrai', 'ana.t@mail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Ana Rodrigues', 'trainer', 'female trainer 2.jpg'),
+('pedrotrainer', 'pedro@mail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Pedro Alves', 'trainer', NULL),
+('lenatrainer', 'lena@mail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Elena Kovač', 'trainer', 'female trainer 4.jpg');
+
 -- TRAINER PROFILES
-INSERT OR IGNORE INTO trainer_profiles (user_id, bio, specializations, certifications) VALUES
-(3, 'Experienced trainer focused on strength and conditioning.', 'Strength Training, HIIT', 'NASM Certified'),
-(4, 'Yoga and pilates instructor with years of experience.', 'Yoga, Pilates', 'ACE Certified');
+INSERT OR IGNORE INTO trainer_profiles (user_id, bio, specializations, certifications, years_experience) VALUES
+(3, 'Strength and conditioning coach with 8+ years of experience transforming athletes.', 'Strength Training, HIIT, Powerlifting', 'NASM Certified', 8),
+(4, 'Dedicated yoga and pilates instructor helping you find balance and flexibility.', 'Yoga, Pilates, Meditation', 'ACE Certified', 6),
+(5, 'Professional boxer turned coach. Get ready to sweat and learn real striking technique.', 'Boxing, Kickboxing, HIIT', 'IBF Certified', 10),
+(6, 'Holistic wellness coach specializing in mobility and functional training for all levels.', 'Pilates, Yoga, Recovery', 'Yoga Alliance RYT-500', 7),
+(7, 'Strength and hypertrophy specialist. Whether you want to build muscle or get stronger, I have you covered.', 'Strength Training, Bodybuilding, Calisthenics', 'NSCA Certified', 5),
+(8, 'Dance and cardio expert who makes fitness fun. Expect high energy and great music!', 'Zumba, Dance Cardio, HIIT', 'ACE Group Fitness', 4);
 
 -- FITNESS CLASSES
-INSERT OR IGNORE INTO classes (name, description, capacity) VALUES
-('Yoga', 'Relaxing yoga sessions focused on flexibility.', 20),
-('HIIT', 'High intensity interval training workouts.', 15),
-('Pilates', 'Core and posture improvement classes.', 18),
-('Strength Training', 'Resistance and muscle building workouts.', 12);
+INSERT OR IGNORE INTO classes (name, description, capacity, difficulty) VALUES
+('Yoga', 'Relaxing yoga sessions focused on flexibility.', 4, 'Beginner'),
+('HIIT', 'High intensity interval training workouts.', 2, 'Advanced'),
+('Pilates', 'Core and posture improvement classes.', 3, 'Intermediate'),
+('Strength Training', 'Resistance and muscle building workouts.', 2, 'Intermediate'),
+('Boxing', 'High-energy boxing and striking workouts.', 3, 'Advanced'),
+('Spinning', 'Indoor cycling for endurance and leg strength.', 4, 'Intermediate'),
+('Zumba', 'Dance-based cardio for all fitness levels.', 5, 'Beginner'),
+('CrossFit', 'Functional movements at high intensity.', 2, 'Advanced');
+
+-- Trainers lookup table for schedule inserts
+-- Miguel Ferreira = 3, Sofia Martins = 4, Carlos Santos = 9, Ana Rodrigues = 10, Pedro Alves = 11, Elena Kovač = 12
+-- NOTE: IDs may shift if additional users exist; adjust as needed.
 
 -- CLASS SCHEDULE
 INSERT OR IGNORE INTO class_schedule (class_id, trainer_id, scheduled_at) VALUES
-(1, 4, '2026-05-20 09:00:00'),
-(2, 3, '2026-05-20 11:00:00'),
-(3, 4, '2026-05-21 10:00:00'),
-(4, 3, '2026-05-21 18:00:00');
+-- Week of May 25 - May 31
+(1, 4, '2026-05-25 09:00:00'),
+(2, 3, '2026-05-25 11:00:00'),
+(3, 4, '2026-05-26 10:00:00'),
+(4, 3, '2026-05-26 18:00:00'),
+(5, 9, '2026-05-27 07:00:00'),
+(1, 10, '2026-05-27 09:00:00'),
+(2, 3, '2026-05-27 11:00:00'),
+(6, 10, '2026-05-28 08:00:00'),
+(3, 4, '2026-05-28 10:00:00'),
+(4, 3, '2026-05-28 18:00:00'),
+(1, 4, '2026-05-29 08:00:00'),
+(2, 9, '2026-05-29 17:00:00'),
+(7, 12, '2026-05-30 10:00:00'),
+(8, 9, '2026-05-30 15:00:00'),
+-- Week of June 1 - June 7
+(1, 4, '2026-06-01 09:00:00'),
+(4, 11, '2026-06-01 17:00:00'),
+(5, 9, '2026-06-02 07:00:00'),
+(3, 10, '2026-06-02 10:00:00'),
+(2, 3, '2026-06-02 18:00:00'),
+(6, 10, '2026-06-03 08:00:00'),
+(7, 12, '2026-06-03 12:00:00'),
+(8, 9, '2026-06-04 07:00:00'),
+(1, 4, '2026-06-04 09:00:00'),
+(4, 11, '2026-06-04 18:00:00');
 
 -- ENROLLMENTS
 INSERT OR IGNORE INTO enrollments (user_id, schedule_id) VALUES
 (1, 1),
-(1, 2),
-(2, 1),
-(2, 3);
+(1, 4),
+(2, 2),
+(2, 4),
+(2, 6);
+
 
 -- EQUIPMENT
 INSERT OR IGNORE INTO equipment (name, total_quantity) VALUES
@@ -206,8 +252,7 @@ INSERT OR IGNORE INTO bookings (member_id, trainer_id, scheduled_at, status) VAL
 (1, 4, '2026-05-25 10:00:00', 'cancelled');
 
 -- REVIEWS
--- REVIEWS
 INSERT OR IGNORE INTO reviews (user_id, class_id, schedule_id, rating, comment) VALUES
-(1, 1, 1, 5, 'Amazing yoga session!'),
-(2, 2, 2, 4, 'Very intense but enjoyable workout.'),
-(1, 4, 4, 5, 'Excellent trainer and atmosphere.');
+(1, 1, 5, 5, 'Amazing yoga session!'),
+(2, 2, 6, 4, 'Very intense but enjoyable workout.'),
+(1, 4, 8, 5, 'Excellent trainer and atmosphere.');

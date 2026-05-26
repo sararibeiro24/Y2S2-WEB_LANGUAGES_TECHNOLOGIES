@@ -13,9 +13,13 @@
 }
 
 .site-header {
-    background-color: var(--white);
-    border-bottom: 2px solid var(--light-green);
+    background-color: var(--ladybug-white);
+    border-bottom: 3px solid var(--ladybug-red);
     padding: 1em 0;
+}
+
+.site-header a, .site-header h1, .site-header nav {
+    color: var(--ladybug-black);
 }
 
 .header-container {
@@ -29,14 +33,19 @@
 
 .site-header h1 {
     font-size: 1.5rem;
-    color: var(--primary-green);
+    color: var(--ladybug-black);
 }
 
 .site-footer {
     text-align: center;
     padding: 2em 0;
-    background-color: var(--primary-green);
-    color: var(--light-green);
+    background-color: var(--ladybug-white);
+    color: var(--ladybug-black);
+    border-top: 3px solid var(--ladybug-red);
+}
+
+.site-footer a {
+    color: var(--ladybug-red);
 }
 
 .site-footer .container {
@@ -46,16 +55,19 @@
 .hero {
     text-align: center;
     padding: 6em 0;
-    background-color: var(--light-green);
+    background-color: var(--ladybug-dark-gray);
 }
 
 .hero h2 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     margin-bottom: 0.3em;
+    color: var(--ladybug-white);
 }
 
 .hero p {
     margin-bottom: 1.2em;
+    font-size: 1.1rem;
+    color: var(--ladybug-white);
 }
 
 .logo-container {

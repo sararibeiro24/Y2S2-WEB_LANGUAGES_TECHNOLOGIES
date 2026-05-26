@@ -1,0 +1,77 @@
+/* ── Trainers Page ──────────────────────────── */
+
+.trainers-page {
+    padding: 2em 20px 4em;
+}
+
+.trainer-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--ladybug-red), #8b0000);
+    color: var(--ladybug-white);
+    font-size: 4rem;
+    font-weight: bold;
+    height: 300px;
+}
+
+.trainer-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    justify-content: center;
+    margin-top: 0.8em;
+}
+
+.trainer-spec-tag {
+    background: var(--ladybug-red);
+    color: var(--ladybug-white);
+    padding: 0.2em 0.6em;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.trainer-card-clickable {
+    cursor: pointer;
+}
+
+.trainer-card-clickable:hover .team-member-image {
+    filter: brightness(1.1);
+}
+
+/* Trainer modal specifics */
+.modal-trainer-classes {
+    margin-top: 1em;
+}
+
+.modal-trainer-classes h4 {
+    color: var(--ladybug-red);
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modal-trainer-class-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3em 0;
+    border-bottom: 1px solid #222;
+    font-size: 0.9em;
+}
+
+.modal-trainer-class-item:last-child {
+    border-bottom: none;
+}
+
+.modal-trainer-class-item .tc-name {
+    color: var(--ladybug-white);
+}
+
+.modal-trainer-class-item .tc-count {
+    color: var(--ladybug-red);
+    font-weight: bold;
+}
