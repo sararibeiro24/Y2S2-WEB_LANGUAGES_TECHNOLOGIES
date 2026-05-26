@@ -22,7 +22,8 @@ if (!$user) {
 $Name = $user->getName();
 $Username = $user->getUsername();
 $Email = $user->getEmail();
-$ProfilePhoto = $user->getProfilePhoto() ?? "../img/default.png";
+$ProfilePhoto = $user->getProfilePhoto() ?? "/img/default.png";
+
 drawHead("My Profile | Ladybug's Gym");
 drawHeader();
 drawProfileForm($Name, $Username, $Email, $ProfilePhoto);

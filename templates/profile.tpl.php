@@ -35,7 +35,7 @@ function drawProfileForm($Name,$Username,$Email,$ProfilePhoto){
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="fullName"><?= htmlspecialchars($Name) ?></label>
+                                <label for="fullName">Full Name</label>
                                 <input type="text" id="fullName" name="fullName" class="input-field" value="<?= htmlspecialchars($Name) ?>" required>
                             </div>
                             

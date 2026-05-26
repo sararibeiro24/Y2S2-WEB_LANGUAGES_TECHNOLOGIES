@@ -36,7 +36,7 @@ class User {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('SELECT id, username, email, name, role, active, profile_photo FROM users WHERE id = ?');
         $stmt->execute([$id]);
-        $row = $stmt->fetch();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if (!$row) {
             return null;
