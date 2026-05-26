@@ -239,6 +239,114 @@ class ClassSchedule {
         return $stmt->fetchAll();
     }
 
+    // ── Class CRUD (admin) ────────────────────────────
+
+    public static function getAllClasses(?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->query('
+            SELECT c.*, COUNT(cs.id) AS scheduled_count
+            FROM classes c
+            LEFT JOIN class_schedule cs ON cs.class_id = c.id
+            GROUP BY c.id
+            ORDER BY c.name ASC
+        ');
+        return $stmt->fetchAll();
+    }
+
+    public static function createClass(string $name, string $description, int $capacity, string $difficulty, ?PDO $db = null): int {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('INSERT INTO classes (name, description, capacity, difficulty) VALUES (?, ?, ?, ?)');
+        $stmt->execute([$name, $description, $capacity, $difficulty]);
+        return (int)$db->lastInsertId();
+    }
+
+    public static function updateClass(int $id, string $name, string $description, int $capacity, string $difficulty, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('UPDATE classes SET name = ?, description = ?, capacity = ?, difficulty = ? WHERE id = ?');
+        return $stmt->execute([$name, $description, $capacity, $difficulty, $id]);
+    }
+
+    public static function deleteClass(int $id, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('DELETE FROM classes WHERE id = ?');
+        return $stmt->execute([$id]);
+    }
+
+    // ── Schedule assignments ─────────────────────────
+
+    public static function getScheduleForClass(int $classId, ?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('
+            SELECT cs.*, u.name AS trainer_name
+            FROM class_schedule cs
+            JOIN users u ON cs.trainer_id = u.id
+            WHERE cs.class_id = ?
+            ORDER BY cs.scheduled_at ASC
+        ');
+        $stmt->execute([$classId]);
+        return $stmt->fetchAll();
+    }
+
+    public static function addSchedule(int $classId, int $trainerId, string $scheduledAt, ?PDO $db = null): int {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('INSERT INTO class_schedule (class_id, trainer_id, scheduled_at) VALUES (?, ?, ?)');
+        $stmt->execute([$classId, $trainerId, $scheduledAt]);
+        return (int)$db->lastInsertId();
+    }
+
+    public static function removeSchedule(int $scheduleId, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('DELETE FROM class_schedule WHERE id = ?');
+        return $stmt->execute([$scheduleId]);
+    }
+
+    // ── Equipment CRUD (admin) ─────────────────────────
+
+    public static function getAllEquipment(?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->query('
+            SELECT e.id, e.name, e.total_quantity, COALESCE(es.available_quantity, e.total_quantity) AS available_quantity, es.last_updated
+            FROM equipment e
+            LEFT JOIN equipment_status es ON e.id = es.equipment_id
+            ORDER BY e.name ASC
+        ');
+        return $stmt->fetchAll();
+    }
+
+    public static function addEquipment(string $name, int $totalQuantity, ?PDO $db = null): int {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('INSERT INTO equipment (name, total_quantity) VALUES (?, ?)');
+        $stmt->execute([$name, $totalQuantity]);
+        $id = (int)$db->lastInsertId();
+        $stmt = $db->prepare('INSERT INTO equipment_status (equipment_id, available_quantity) VALUES (?, ?)');
+        $stmt->execute([$id, $totalQuantity]);
+        return $id;
+    }
+
+    public static function updateEquipment(int $id, string $name, int $totalQuantity, int $availableQuantity, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('UPDATE equipment SET name = ?, total_quantity = ? WHERE id = ?');
+        $stmt->execute([$name, $totalQuantity, $id]);
+        // Upsert equipment_status
+        $stmt = $db->prepare('SELECT id FROM equipment_status WHERE equipment_id = ?');
+        $stmt->execute([$id]);
+        if ($stmt->fetch()) {
+            $stmt = $db->prepare('UPDATE equipment_status SET available_quantity = ?, last_updated = CURRENT_TIMESTAMP WHERE equipment_id = ?');
+            return $stmt->execute([$availableQuantity, $id]);
+        } else {
+            $stmt = $db->prepare('INSERT INTO equipment_status (equipment_id, available_quantity) VALUES (?, ?)');
+            return $stmt->execute([$id, $availableQuantity]);
+        }
+    }
+
+    public static function deleteEquipment(int $id, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('DELETE FROM equipment_status WHERE equipment_id = ?');
+        $stmt->execute([$id]);
+        $stmt = $db->prepare('DELETE FROM equipment WHERE id = ?');
+        return $stmt->execute([$id]);
+    }
+
     public static function getDetail(int $scheduleId, ?PDO $db = null): ?array {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('

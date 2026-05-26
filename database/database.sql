@@ -141,7 +141,7 @@ INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile
 ('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),
 ('migueltrainer', 'miguel@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Miguel Ferreira', 'trainer'),
 ('sofiatrainer', 'sofia@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Sofia Martins', 'trainer'),
-('adminuser', 'admin@gmail.com', '$2y$10$JfG.ZWCgLbrOjQMcBGrjLu92oNsSa9OQgTyxbzRKQVd6l5wiH1omm', 'Admin User', 'admin');
+('adminuser', 'admin@gmail.com', '$2y$12$X2JgpAQ.iTJ8up4R9xEXD.YGLLO7SmRGr1hnuwdJmCjtgWoQI2orC', 'Admin User', 'admin');
 
 -- Additional trainers
 INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES

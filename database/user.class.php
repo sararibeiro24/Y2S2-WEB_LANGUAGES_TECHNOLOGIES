@@ -169,5 +169,27 @@ class User {
         }
         return false;
     }
+
+    public static function getAllUsers(?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->query('
+            SELECT id, username, email, name, role, active, profile_photo, created_at
+            FROM users
+            ORDER BY role ASC, name ASC
+        ');
+        return $stmt->fetchAll();
+    }
+
+    public function setActive(bool $active): bool {
+        $stmt = $this->db->prepare('UPDATE users SET active = ? WHERE id = ?');
+        return $stmt->execute([$active ? 1 : 0, $this->id]);
+    }
+
+    public function setRole(string $role): bool {
+        $allowed = ['member', 'trainer', 'admin'];
+        if (!in_array($role, $allowed)) return false;
+        $stmt = $this->db->prepare('UPDATE users SET role = ? WHERE id = ?');
+        return $stmt->execute([$role, $this->id]);
+    }
 }
 ?>

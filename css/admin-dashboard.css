@@ -1,0 +1,219 @@
+/* ── Admin Dashboard ──────────────────────────── */
+
+/* ── Tabs ─────────────────────────────────────── */
+
+.admin-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2em;
+    border-bottom: 2px solid #333;
+}
+
+.admin-tab {
+    padding: 0.7em 1.5em;
+    color: #888;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95em;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.admin-tab:hover { color: var(--ladybug-white); }
+.admin-tab.active { color: var(--ladybug-red); border-bottom-color: var(--ladybug-red); }
+
+/* ── Sections ─────────────────────────────────── */
+
+.admin-section {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1.5em;
+}
+
+.admin-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 1em;
+    flex-wrap: wrap;
+}
+
+.admin-section-header h3 {
+    color: var(--ladybug-white);
+    font-size: 1.1em;
+    margin-right: auto;
+}
+
+/* ── Table ────────────────────────────────────── */
+
+.admin-table-wrap {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+}
+
+.admin-table th {
+    text-align: left;
+    color: #888;
+    font-weight: 600;
+    padding: 0.6em 0.5em;
+    border-bottom: 2px solid #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    padding: 0.5em;
+    color: #ccc;
+    border-bottom: 1px solid #2a2a2a;
+    vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table input[type="text"],
+.admin-table input[type="email"],
+.admin-table input[type="number"],
+.admin-table select {
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 0.3em 0.5em;
+    color: var(--ladybug-white);
+    font-size: 0.9em;
+    font-family: inherit;
+}
+
+.admin-table input:focus,
+.admin-table select:focus {
+    outline: none;
+    border-color: var(--ladybug-red);
+}
+
+.inline-input {
+    max-width: 180px;
+}
+
+.action-cell {
+    white-space: nowrap;
+    display: flex;
+    gap: 0.4em;
+    align-items: center;
+}
+
+.admin-table .button-small {
+    padding: 0.25em 0.7em;
+    font-size: 0.8em;
+}
+
+/* ── Badges ───────────────────────────────────── */
+
+.badge {
+    display: inline-block;
+    padding: 0.15em 0.6em;
+    border-radius: 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.badge-active { background: #2d7d2d; color: #fff; }
+.badge-inactive { background: #8b0000; color: #fff; }
+
+/* ── Forms ─────────────────────────────────────── */
+
+.admin-form {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.admin-form input,
+.admin-form select {
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 0.4em 0.6em;
+    color: var(--ladybug-white);
+    font-size: 0.9em;
+    font-family: inherit;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+    outline: none;
+    border-color: var(--ladybug-red);
+}
+
+.inline-form {
+    width: 100%;
+    margin-top: 0.5em;
+}
+
+.inline-form-row {
+    gap: 0.5em;
+}
+
+/* ── Schedule Slots ─────────────────────────────── */
+
+.schedule-subrow td {
+    padding: 0.3em 0.5em 0.3em 2em;
+    background: #151515;
+}
+
+.schedule-slots {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    flex-wrap: wrap;
+}
+
+.schedule-slots strong {
+    color: #888;
+    font-size: 0.85em;
+}
+
+.slot-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 0.2em 0.5em;
+    font-size: 0.8em;
+    color: #ccc;
+}
+
+.slot-remove {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 0;
+    line-height: 1;
+}
+
+.slot-remove:hover { color: var(--ladybug-red); }
+
+/* ── Responsive ───────────────────────────────── */
+
+@media (max-width: 800px) {
+    .admin-table { font-size: 0.8em; }
+    .admin-table td, .admin-table th { padding: 0.4em 0.3em; }
+    .inline-input { max-width: 100px; }
+    .admin-form { flex-direction: column; align-items: stretch; }
+}
