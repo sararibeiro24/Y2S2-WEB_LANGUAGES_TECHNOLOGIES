@@ -3,60 +3,21 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../templates/common.tpl.php');
 require_once(__DIR__ . '/../templates/schedule.tpl.php');
-
-require_once(__DIR__ . '/../database/database.db.php');
-require_once(__DIR__ . '/../database/classes.class.php');
 require_once(__DIR__ . '/../database/class_schedule.class.php');
 require_once(__DIR__ . '/../database/trainer.class.php');
 
-drawHead("Class Schedule | Ladybug's Gym"); 
-drawHeader();
-
-$schedules = ClassSchedule::getUpcomingClasses();
+$schedules = ClassSchedule::getUpcomingWithStats();
 $trainers = Trainer::getAllTrainers();
 
+drawHead("Class Schedule | Ladybug's Gym");
+drawHeader();
 drawPageHeader('Class Schedule', 'Find and book your next workout session.');
-
-$db = getDatabaseConnection();
-$classes = GymClass::getAll($db);
-
-/* depois mudar isto para ir buscar a base de dados*/
-/*$classes = [
-    [
-        'time' => '09:00 AM',
-        'status' => 'Available',
-        'title' => 'Morning Yoga',
-        'trainer' => 'Maria Silva',
-        'duration' => '60',
-        'spots' => '12/20'
-    ],
-    [
-        'time' => '12:30 PM',
-        'status' => 'Full',
-        'title' => 'Lunchtime HIIT',
-        'trainer' => 'John Doe',
-        'duration' => '45',
-        'spots' => '15/15',
-        'buttonText' => 'Waitlist'
-    ],
-    [
-        'time' => '18:00 PM',
-        'status' => 'Few Spots',
-        'title' => 'Advanced Spinning',
-        'trainer' => 'John Doe',
-        'duration' => '60',
-        'spots' => '18/20'
-    ]
-];*/
 ?>
-
-
-
 <main class="container schedule-page">
     <div class="schedule-layout">
         <aside class="filter-sidebar">
             <h3>Filter Classes</h3>
-            <form action="#" method="GET">
+            <form action="#" method="GET" id="filterForm">
                 <fieldset>
                     <legend class="sr-only">Search Filters</legend>
 
@@ -86,35 +47,18 @@ $classes = GymClass::getAll($db);
         </aside>
 
         <div class="class-results">
-            <div class="grid-container">
-                <?php foreach ($schedules as $schedule):
-                    $enrolledCount = $schedule->getEnrolledCount();
-                    $capacity = $schedule->getCapacity();
-                    $spots = $enrolledCount . '/' . $capacity;
-
-            <div class="class-results">
-                <div class="grid-container">
-                    
-                    
-                <?php foreach ($classes as $class) { ?>
-
-                    <?php
-
+            <div class="grid-container" id="classGrid">
+                <?php foreach ($schedules as $class):
                     $status = 'Available';
-
                     if ($class['enrolled'] >= $class['capacity']) {
                         $status = 'Full';
-                    }
-                    elseif ($class['enrolled'] >= $class['capacity'] - 2) {
+                    } elseif ($class['enrolled'] >= $class['capacity'] - 1) {
                         $status = 'Few Spots';
                     }
 
-                    $time = date(
-                        'H:i',
-                        strtotime($class['scheduled_at'])
-                    );
-
-                    drawClassCard(
+                    $time = date('H:i', strtotime($class['scheduled_at']));
+                ?>
+                    <?php drawClassCard(
                         $class['schedule_id'],
                         $time,
                         $status,
@@ -123,46 +67,13 @@ $classes = GymClass::getAll($db);
                         60,
                         $class['enrolled'],
                         $class['capacity']
-                    );
-
-                    ?>
-
-                <?php } ?>
-                     
-
-                    
-
-
-                </div>
-                    if ($enrolledCount >= $capacity) {
-                        $status = 'Full';
-                        $buttonText = 'Waitlist';
-                    } elseif ($enrolledCount >= $capacity * 0.75) {
-                        $status = 'Few Spots';
-                        $buttonText = 'Enroll Now';
-                    } else {
-                        $status = 'Available';
-                        $buttonText = 'Enroll Now';
-                    }
-
-                    $time = date('g:i A', strtotime($schedule->getScheduledAt()));
-                ?>
-                    <?php drawClassCard(
-                        $time,
-                        $status,
-                        $schedule->getClassName() ?? 'Class',
-                        $schedule->getTrainerName() ?? 'Trainer',
-                        '60',
-                        $spots,
-                        'relogio.png',
-                        'follower.png',
-                        $buttonText
                     ); ?>
                 <?php endforeach; ?>
             </div>
         </div>
     </div>
 </main>
+<script src="../javascript/schedule_filter.js" defer></script>
 <?php
 drawFooter();
 ?>

@@ -12,12 +12,16 @@ drawHeader();
 drawPageHeader('MEET OUR TRAINERS', 'Certified professionals dedicated to your success.');
 ?>
 <main class="container trainers-page">
-    <div class="team-showcase">
+    <div class="trainer-search">
+        <input type="text" id="trainerSearch" class="input-field" placeholder="Search by name, specialization, or keyword..." style="width: 100%; max-width: 500px; display: block; margin: 0 auto 2em;">
+    </div>
+    <div class="team-showcase" id="trainerGrid">
         <?php foreach ($trainers as $trainer): ?>
             <?php drawTrainerCard($trainer); ?>
         <?php endforeach; ?>
     </div>
 </main>
+<script src="../javascript/trainer_filter.js" defer></script>
 <?php
 drawFooter();
 ?>
