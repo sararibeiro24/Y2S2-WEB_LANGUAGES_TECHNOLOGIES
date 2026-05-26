@@ -142,7 +142,14 @@ class User {
 
 
     public function updatePassword(string $newPassword) {
-    
+        $stmt = $this->db->prepare('SELECT password_hash FROM users WHERE id = ?');
+        $stmt->execute([$this->id]);
+        $row = $stmt->fetch();
+        if ($row) {
+            if (password_verify($newPassword, $row['password_hash'])) {
+                return false; 
+            }
+        }
         $options = ['cost' => 12];
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT, $options);
     
@@ -151,7 +158,9 @@ class User {
     }
 
     public function updateEmail(string $newEmail): bool {
-
+        if (strtolower(trim($newEmail)) === strtolower(trim($this->email))) {
+            return false;
+        }
         $stmt = $this->db->prepare('UPDATE users SET email = ? WHERE id = ?');
         
         if ($stmt->execute([$newEmail, $this->id])) {

@@ -7,7 +7,6 @@ require_once(__DIR__ . '/../database/user.class.php');
 
 Session::start();
 
-// Kick unauthorized access attempts out
 if (!Session::isLoggedIn()) {
     header('Location: ../pages/login.php');
     exit;
@@ -57,8 +56,13 @@ if (!empty($newPassword) || !empty($confirmPassword)) {
         exit;
     }
 
-    $user->updatePassword($newPassword);
-    $hasChanges = true;
+   if ($user->updatePassword($newPassword)) {
+        $hasChanges = true;
+    } else {
+        Session::addMessage('error', 'New password cannot be the same as your previous password.');
+        header('Location: ../pages/profile.php');
+        exit;
+    }
 }
 
 
