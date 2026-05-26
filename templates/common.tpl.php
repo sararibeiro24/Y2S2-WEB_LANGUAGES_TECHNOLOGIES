@@ -8,6 +8,7 @@ function drawHead($title) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo htmlspecialchars($title); ?></title>
         <?php drawCSSLinks(); ?>
+        <script src="../javascript/register_validation.js" defer></script>
     </head>
     <body>
     <?php
@@ -42,8 +43,15 @@ function drawHeader() {
             <nav class="wings-nav">
                 <ul>
                     <li><a href="index.php">Home</a></li>
+                    <li><a href="index.php#plans">Plans</a></li>
+                    <li><a href="index.php#news">News</a></li>
+                    <li><a href="index.php#philosophy">Our Philosophy</a></li>
+                    <li><a href="index.php#equipment">Equipment</a></li>
                     <li><a href="schedule.php">Classes</a></li>
-                    <li><a href="#">Trainers</a></li>
+                    <li><a href="trainers.php">Trainers</a></li>
+                    <li><a href="index.php#nutrition">Nutrition</a></li>
+                    <li><a href="index.php#feedback">Feedback</a></li>
+                    <li><a href="index.php#qa">Q&A</a></li>
                     <?php if ($isLoggedIn): ?>
                         <li><a href="profile.php">My Profile</a></li>
                         <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>
@@ -64,6 +72,16 @@ function drawHeader() {
     <?php
 }
 
+function drawPageHeader($title,$subtitle){
+?>
+     <div class="page-header">
+            <h2><?php echo htmlspecialchars($title); ?></h2>
+            <p><?php echo htmlspecialchars($subtitle); ?></p>
+        </div>
+
+
+<?php
+}
 
 function drawFooter() {
     ?>
@@ -80,6 +98,27 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/cards.css">
+    <link rel="stylesheet" href="../css/carousel.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/schedule.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/trainers.css">
     <?php
+}
+function drawMessages() {
+
+    $messages = Session::getMessages(); 
+    
+    if (empty($messages)) return;
+
+    echo '<section id="messages">';
+    foreach ($messages as $message) {
+        $type = htmlspecialchars($message['type']);
+        $text = htmlspecialchars($message['text']);
+        echo "<div class=\"alert alert-$type\">$text</div>";
+    }
+    echo '</section>';
 }

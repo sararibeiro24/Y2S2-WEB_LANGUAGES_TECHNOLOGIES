@@ -1,0 +1,35 @@
+/* ── Trainers Page ──────────────────────────── */
+
+.trainers-page {
+    padding: 3em 20px;
+}
+
+.trainer-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--ladybug-red), #8b0000);
+    color: var(--ladybug-white);
+    font-size: 4rem;
+    font-weight: bold;
+    height: 300px;
+}
+
+.trainer-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    justify-content: center;
+    margin-top: 0.8em;
+}
+
+.trainer-spec-tag {
+    background: var(--ladybug-red);
+    color: var(--ladybug-white);
+    padding: 0.2em 0.6em;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}

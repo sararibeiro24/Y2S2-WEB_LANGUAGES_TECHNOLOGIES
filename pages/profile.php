@@ -19,7 +19,7 @@ drawHeader();
         <div class="profile-layout">
             
             <aside class="profile-sidebar card">
-                <img src="../img/John_Doe.png" alt="Current Profile Photo" class="profile-avatar">
+                <img src="../img/male trainer 3.jpg" alt="Current Profile Photo" class="profile-avatar" loading="lazy">
                 <h3>johndoe_99</h3>
                 <span class="badge badge-green">Pro Member</span>
                 <p class="member-since">Member since Jan 2026</p>
