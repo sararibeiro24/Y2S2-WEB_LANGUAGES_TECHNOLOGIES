@@ -135,7 +135,7 @@ CREATE INDEX IF NOT EXISTS idx_bookings_member ON bookings(member_id);
 -- Populate 
 
 -- USERS
-INSERT OR IGNORE INTO users (username, email, password_hash, name, role) VALUES
+INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES
 
 ('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member'),
 ('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),
@@ -205,11 +205,12 @@ INSERT OR IGNORE INTO class_schedule (class_id, trainer_id, scheduled_at) VALUES
 
 -- ENROLLMENTS
 INSERT OR IGNORE INTO enrollments (user_id, schedule_id) VALUES
-(1, 6),
-(1, 8),
-(2, 7),
-(2, 8),
-(2, 10);
+(1, 1),
+(1, 4),
+(2, 2),
+(2, 4),
+(2, 6);
+
 
 -- EQUIPMENT
 INSERT OR IGNORE INTO equipment (name, total_quantity) VALUES
