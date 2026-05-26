@@ -1,11 +1,6 @@
 <?php
-function drawProfileForm($Name,$Username,$Email,$ProfilePhoto){
+function drawProfileForm($Name, $Username, $Email, $ProfilePhoto){
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<body>
-
     <main class="container profile-page">   
         
         <div class="page-header">
@@ -28,7 +23,7 @@ function drawProfileForm($Name,$Username,$Email,$ProfilePhoto){
             </aside>
 
             <div class="profile-form-container card">
-                <form action="#" method="POST" enctype="multipart/form-data">
+                <form id="profile-form" action="../actions/action_editProfile.php" method="POST" enctype="multipart/form-data">
                     
                     <fieldset class="form-section">
                         <legend>Personal Information</legend>
@@ -36,26 +31,28 @@ function drawProfileForm($Name,$Username,$Email,$ProfilePhoto){
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" id="fullName" name="fullName" class="input-field" value="<?= htmlspecialchars($Name) ?>" required>
+                                <input type="text" id="fullName" name="fullName" class="input-field" value="<?= htmlspecialchars($Name) ?>" disabled>
                             </div>
                             
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" id="username" name="username" class="input-field" value="<?= htmlspecialchars($Username) ?>" required>
+                                <input type="text" id="username" name="username" class="input-field" value="<?= htmlspecialchars($Username) ?>" disabled>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="input-field" value="<?= htmlspecialchars($Email) ?>" required>
+                            <label for="profile-email-input">Email Address</label>
+                            <input type="email" id="profile-email-input" name="email" class="input-field" value="<?= htmlspecialchars($Email) ?>" required>
+                            <span id="profile-email-status" class="status-message"></span>
                         </div>
                     </fieldset>
 
                     <fieldset class="form-section">
                         <legend>Profile Photo</legend>
                         <div class="form-group">
-                            <label for="profilePhoto">Upload New Photo</label>
-                            <input type="file" id="profilePhoto" name="profilePhoto" class="input-field" accept="image/png, image/jpeg">
+                            <label for="profile-photo-input">Upload New Photo</label>
+                            <input type="file" id="profile-photo-input" name="profile_photo" class="input-field" accept="image/png, image/jpeg, image/webp">
+                            <span id="profile-photo-status" class="status-message"></span>
                         </div>
                     </fieldset>
 
@@ -63,19 +60,21 @@ function drawProfileForm($Name,$Username,$Email,$ProfilePhoto){
                         <legend>Security</legend>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="newPassword">New Password</label>
-                                <input type="password" id="newPassword" name="newPassword" class="input-field" placeholder="Leave blank to keep current">
+                                <label for="profile-password-input">New Password</label>
+                                <input type="password" id="profile-password-input" name="password" class="input-field" placeholder="Leave blank to keep current">
+                                <span id="profile-password-status1" class="status-message"></span>
                             </div>
                             
                             <div class="form-group">
-                                <label for="confirmPassword">Confirm Password</label>
-                                <input type="password" id="confirmPassword" name="confirmPassword" class="input-field" placeholder="Confirm new password">
+                                <label for="profile-confirm-password-input">Confirm Password</label>
+                                <input type="password" id="profile-confirm-password-input" name="confirmPassword" class="input-field" placeholder="Confirm new password">
+                                <span id="profile-password-status2" class="status-message"></span>
                             </div>
                         </div>
                     </fieldset>
 
                     <div class="form-actions">
-                        <button type="button" class="button button-outline">Cancel</button>
+                        <button type="button" class="button button-outline" onclick="window.location.href='index.php'">Cancel</button>
                         <button type="submit" class="button">Save Changes</button>
                     </div>
                 </form>
@@ -83,8 +82,6 @@ function drawProfileForm($Name,$Username,$Email,$ProfilePhoto){
         </div>
 
     </main>
-</body>
-</html>
 <?php
 }
 ?>

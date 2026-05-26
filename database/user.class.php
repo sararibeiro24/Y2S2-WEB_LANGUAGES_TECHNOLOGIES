@@ -130,9 +130,35 @@ class User {
         
         return new User($id, $username, $email, $name, 'member', true, null, $db);
     }
+
     public function updateProfilePhoto(string $photoPath): bool {
     $stmt = $this->db->prepare('UPDATE users SET profile_photo = ? WHERE id = ?');
-    return $stmt->execute([$photoPath, $this->id]);
-}
+    if ($stmt->execute([$photoPath, $this->id])) {
+        $this->profilePhoto = $photoPath;
+        return true;
+        }
+        return false;
+    }
+
+
+    public function updatePassword(string $newPassword) {
+    
+        $options = ['cost' => 12];
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT, $options);
+    
+        $stmt = $this->db->prepare('UPDATE users SET password_hash = ? WHERE id = ?');
+        return $stmt->execute([$hashedPassword, $this->id]);
+    }
+
+    public function updateEmail(string $newEmail): bool {
+
+        $stmt = $this->db->prepare('UPDATE users SET email = ? WHERE id = ?');
+        
+        if ($stmt->execute([$newEmail, $this->id])) {
+            $this->email = $newEmail; 
+            return true;
+        }
+        return false;
+    }
 }
 ?>
