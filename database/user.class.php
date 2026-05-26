@@ -9,16 +9,18 @@ class User {
     private string $email;
     private string $name;
     private string $role;
+    private ?string $profilePhoto;
     private bool $active;
     private ?PDO $db;
 
-    public function __construct(int $id, string $username, string $email, string $name, string $role = 'member', bool $active = true, ?PDO $db = null) {
+    public function __construct(int $id, string $username, string $email, string $name, string $role = 'member', bool $active = true, ?string $profilePhoto = null, ?PDO $db = null) {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->name = $name;
         $this->role = $role;
         $this->active = $active;
+        $this->profilePhoto = $profilePhoto;
         $this->db = $db ?? getDatabaseConnection();
     }
 
@@ -27,11 +29,12 @@ class User {
     public function getEmail(): string { return $this->email; }
     public function getName(): string { return $this->name; }
     public function getRole(): string { return $this->role; }
+    public function getProfilePhoto(): ?string { return $this->profilePhoto; }
     public function isActive(): bool { return $this->active; }
 
     public static function getById(int $id, ?PDO $db = null): ?User {
         $db = $db ?? getDatabaseConnection();
-        $stmt = $db->prepare('SELECT id, username, email, name, role, active FROM users WHERE id = ?');
+        $stmt = $db->prepare('SELECT id, username, email, name, role, active, profile_photo FROM users WHERE id = ?');
         $stmt->execute([$id]);
         $row = $stmt->fetch();
         
@@ -40,12 +43,13 @@ class User {
         }
 
         return new User(
-            $row['id'],
+            (int)$row['id'],
             $row['username'],
             $row['email'],
             $row['name'],
             $row['role'],
             (bool)$row['active'],
+            $row['profile_photo'],
             $db
         );
     }
@@ -53,7 +57,7 @@ class User {
     public static function getByUsernameOrEmail(string $usernameOrEmail, ?PDO $db = null): ?User {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('
-            SELECT id, username, email, name, role, active 
+            SELECT id, username, email, name, role, active, profile_photo 
             FROM users 
             WHERE (username = ? OR email = ?) AND active = 1
         ');
@@ -65,12 +69,13 @@ class User {
         }
 
         return new User(
-            $row['id'],
+            (int)$row['id'],
             $row['username'],
             $row['email'],
             $row['name'],
             $row['role'],
             (bool)$row['active'],
+            $row['profile_photo'],
             $db
         );
     }
@@ -78,7 +83,7 @@ class User {
     public static function authenticate(string $usernameOrEmail, string $password, ?PDO $db = null): ?User {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('
-            SELECT id, username, email, name, role, password_hash, active 
+            SELECT id, username, email, name, role, password_hash, active, profile_photo 
             FROM users 
             WHERE (username = ? OR email = ?) AND active = 1
         ');
@@ -88,16 +93,18 @@ class User {
         if (!$row) {
             return null;
         }
+
         if (password_verify($password, $row['password_hash'])) {
-        return new User(
-            $row['id'],
-            $row['username'],
-            $row['email'],
-            $row['name'],
-            $row['role'],
-            (bool)$row['active'],
-            $db
-        );
+            return new User(
+                (int)$row['id'],
+                $row['username'],
+                $row['email'],
+                $row['name'],
+                $row['role'],
+                (bool)$row['active'],
+                $row['profile_photo'],
+                $db
+            );
         }   
         return null;
     }
@@ -113,17 +120,15 @@ class User {
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $db->prepare('
-            INSERT INTO users (username, email, name, password_hash, role, active) 
-            VALUES (?, ?, ?, ?, \'member\', 1)
+            INSERT INTO users (username, email, name, password_hash, role, active, profile_photo) 
+            VALUES (?, ?, ?, ?, \'member\', 1, NULL)
         ');
 
         $stmt->execute([$username, $email, $name, $hash]);
 
         $id = (int)$db->lastInsertId();
         
-        return new User($id, $username, $email, $name, 'member', true, $db);
+        return new User($id, $username, $email, $name, 'member', true, null, $db);
     }
-
-
 }
 ?>

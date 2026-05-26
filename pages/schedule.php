@@ -1,21 +1,12 @@
 <?php
-declare(strict_types=1);
-
 require_once(__DIR__ . '/../templates/common.tpl.php');
 require_once(__DIR__ . '/../templates/schedule.tpl.php');
 
 require_once(__DIR__ . '/../database/database.db.php');
 require_once(__DIR__ . '/../database/classes.class.php');
-require_once(__DIR__ . '/../database/class_schedule.class.php');
-require_once(__DIR__ . '/../database/trainer.class.php');
 
 drawHead("Class Schedule | Ladybug's Gym"); 
 drawHeader();
-
-$schedules = ClassSchedule::getUpcomingClasses();
-$trainers = Trainer::getAllTrainers();
-
-drawPageHeader('Class Schedule', 'Find and book your next workout session.');
 
 $db = getDatabaseConnection();
 $classes = GymClass::getAll($db);
@@ -85,13 +76,6 @@ $classes = GymClass::getAll($db);
             </form>
         </aside>
 
-        <div class="class-results">
-            <div class="grid-container">
-                <?php foreach ($schedules as $schedule):
-                    $enrolledCount = $schedule->getEnrolledCount();
-                    $capacity = $schedule->getCapacity();
-                    $spots = $enrolledCount . '/' . $capacity;
-
             <div class="class-results">
                 <div class="grid-container">
                     
@@ -134,35 +118,12 @@ $classes = GymClass::getAll($db);
 
 
                 </div>
-                    if ($enrolledCount >= $capacity) {
-                        $status = 'Full';
-                        $buttonText = 'Waitlist';
-                    } elseif ($enrolledCount >= $capacity * 0.75) {
-                        $status = 'Few Spots';
-                        $buttonText = 'Enroll Now';
-                    } else {
-                        $status = 'Available';
-                        $buttonText = 'Enroll Now';
-                    }
-
-                    $time = date('g:i A', strtotime($schedule->getScheduledAt()));
-                ?>
-                    <?php drawClassCard(
-                        $time,
-                        $status,
-                        $schedule->getClassName() ?? 'Class',
-                        $schedule->getTrainerName() ?? 'Trainer',
-                        '60',
-                        $spots,
-                        'relogio.png',
-                        'follower.png',
-                        $buttonText
-                    ); ?>
-                <?php endforeach; ?>
             </div>
+
         </div>
-    </div>
-</main>
+    </main>  
+</body>
+</html>
 <?php
 drawFooter();
 ?>
