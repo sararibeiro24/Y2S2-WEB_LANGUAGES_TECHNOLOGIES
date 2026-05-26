@@ -40,7 +40,7 @@
                 </div>
                 <div class="carousel-item">
                     <div class="class-card">
-                        <img src="../img/man swimming 2.jpg" alt="Aqua Fitness" class="class-image">
+                        <img src="../img/man_swimming2.jpg" alt="Aqua Fitness" class="class-image">
                         <h3>Aqua Fitness</h3>
                         <p>Low-impact cardio in the water.</p>
                         <p class="class-meta">Daily - 11:00 AM & 5:00 PM</p>

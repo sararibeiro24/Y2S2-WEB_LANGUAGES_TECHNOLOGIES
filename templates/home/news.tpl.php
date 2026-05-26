@@ -13,7 +13,7 @@
             </div>
 
             <div class="news-card">
-                <img src="../img/man swimming.jpg" alt="Swimming" class="news-image" loading="lazy">
+                <img src="../img/man_swimming.jpg" alt="Swimming" class="news-image" loading="lazy">
                 <div class="news-content">
                     <h3 class="news-title">Pool Opening Celebration</h3>
                     <p class="news-excerpt">Join us for the grand opening of our Olympic-sized swimming pool with free classes for all members this weekend!</p>

@@ -65,6 +65,7 @@
 
 .page-header {
     text-align: center;
+    margin-top: 1.5em;
     margin-bottom: 2.5em;
 }
 
@@ -228,7 +229,7 @@ main.container {
 
 main.container.schedule-page,
 main.container.trainers-page {
-    padding-top: 0.5em;
+    padding-top: 1em;
 }
 
 /* ── Responsive (shared layouts) ─────────────── */

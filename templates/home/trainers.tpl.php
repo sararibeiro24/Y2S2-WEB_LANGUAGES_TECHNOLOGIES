@@ -41,7 +41,7 @@
 
                 <div class="carousel-item">
                     <div class="team-member">
-                        <img src="../img/man training.jpg" alt="Marcus Strong" class="team-member-image">
+                        <img src="../img/man_training.jpg" alt="Marcus Strong" class="team-member-image">
                         <div class="team-member-info">
                             <h3 class="team-member-name">Marcus Strong</h3>
                             <p class="team-member-role">Powerlifting</p>
