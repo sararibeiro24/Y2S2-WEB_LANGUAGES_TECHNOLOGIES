@@ -16,19 +16,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const nutritionGoalFilter = document.getElementById('nutritionGoalFilter');
     const nutritionTrainerFilter = document.getElementById('nutritionTrainerFilter');
 
-    function createFlipCard(frontHtml, backHtml) {
-        return `
-            <article class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        ${frontHtml}
-                    </div>
-                    <div class="flip-card-back">
-                        ${backHtml}
-                    </div>
-                </div>
-            </article>
-        `;
+    const foodImages = [
+        'top-view-chicken-salad-with-chopped-cabbage-colorful-bell-peppers-plate.jpg',
+        'grilled-cod-with-vegetables-plate-black-stone-background.jpg',
+        'grilled-chicken-skewers-green-salad-menu-recipe-idea.jpg',
+        'english-breakfast-dish.jpg',
+        'chicken-salad-with-vegetables-olives.jpg',
+        'mixed-vegetable-salad-with-colorful-food.jpg',
+        'stew.jpg',
+        'green salad.jpg',
+        'protein bowl.jpg',
+        'protein smoothie.jpg',
+        'breakfast.png',
+        'close-up-traditional-indian-food-with-chicken.jpg',
+        'omega3.jpg'
+    ];
+
+    const equipImages = [
+        'dumbells.jpg',
+        'heavy weights.jpg',
+        'leg press.jpg',
+        'cardio.jpg',
+        'box ring.jpg',
+        'boxing.jpg',
+        'girl training.jpg',
+        'man_training.jpg',
+        'gym enviorment.jpg',
+        'class.jpg',
+        'dumbells 2.jpg',
+        'cardio 2.jpg'
+    ];
+
+    function imgUrl(filename) {
+        const u = new URL('../img/' + encodeURIComponent(filename), window.location.origin);
+        return u.toString();
+    }
+
+    function createFlipCard(frontHtml, backHtml, imageUrl) {
+        const hasImage = imageUrl ? ' has-image' : '';
+        const style = imageUrl ? ' style="background-image: url(\'' + imageUrl + '\');"' : '';
+        return '<article class="flip-card">' +
+            '<div class="flip-card-inner">' +
+            '<div class="flip-card-front' + hasImage + '"' + style + '>' +
+            frontHtml +
+            '</div>' +
+            '<div class="flip-card-back">' +
+            backHtml +
+            '</div>' +
+            '</div>' +
+            '</article>';
+    }
+
+    function goalBadgeClass(goal) {
+        if (!goal) return '';
+        const cls = goal.toLowerCase().replace(/\s+/g, '-');
+        return 'nutrition-goal-badge ' + cls;
     }
 
     function renderEquipment(items) {
@@ -38,24 +80,38 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        equipmentResults.innerHTML = items.map(item => {
-            const availabilityLabel = item.available_quantity > 0 ? 'Available' : 'Unavailable';
-            const statusClass = item.available_quantity > 0 ? 'available' : 'unavailable';
+        equipmentResults.innerHTML = items.map(function (item, idx) {
+            var availabilityLabel = item.available_quantity > 0 ? 'Available' : 'Unavailable';
+            var statusClass = item.available_quantity > 0 ? 'available-equip' : 'unavailable-equip';
+            var image = imgUrl(equipImages[idx % equipImages.length]);
 
-            const front = `
-                <div class="card-header">
-                    <h3>${item.name}</h3>
-                    <span class="badge ${statusClass}">${availabilityLabel}</span>
-                </div>
-                <p class="card-copy">${item.available_quantity}/${item.total_quantity} ready to use.</p>
-            `;
-            const back = `
-                <p><strong>Total units:</strong> ${item.total_quantity}</p>
-                <p><strong>Available now:</strong> ${item.available_quantity}</p>
-                <p><strong>Last updated:</strong> ${item.last_updated}</p>
-                <p class="card-copy">Keep your training session smooth with updated availability.</p>
-            `;
-            return createFlipCard(front, back);
+            var front = '' +
+                '<div class="card-header">' +
+                '<h3>' + item.name + '</h3>' +
+                '<span class="equipment-status-badge ' + statusClass + '">' + availabilityLabel + '</span>' +
+                '</div>' +
+                '<div class="equipment-count">' +
+                item.available_quantity + ' <span class="total">/ ' + item.total_quantity + '</span>' +
+                '</div>' +
+                '<p class="card-copy">ready to use</p>';
+
+            var back = '' +
+                '<span class="equipment-status-badge ' + statusClass + '">' + availabilityLabel + '</span>' +
+                '<div class="equip-detail-row">' +
+                '<span class="label">Total units</span>' +
+                '<span class="value">' + item.total_quantity + '</span>' +
+                '</div>' +
+                '<div class="equip-detail-row">' +
+                '<span class="label">Available now</span>' +
+                '<span class="value">' + item.available_quantity + '</span>' +
+                '</div>' +
+                '<div class="equip-detail-row">' +
+                '<span class="label">Last updated</span>' +
+                '<span class="value">' + (item.last_updated || '-') + '</span>' +
+                '</div>' +
+                '<p class="card-copy" style="margin-top:0.6em;color:rgba(255,255,255,0.7);">Keep your training session smooth with updated availability.</p>';
+
+            return createFlipCard(front, back, image);
         }).join('');
     }
 
@@ -66,21 +122,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        nutritionResults.innerHTML = plans.map(plan => {
-            const front = `
-                <div class="card-header">
-                    <h3>${plan.goal}</h3>
-                    <span class="badge badge-green">${plan.trainer_name}</span>
-                </div>
-                <p class="card-copy"><strong>Calories:</strong> ${plan.target_calories || 'Custom'}</p>
-                <p class="card-copy">For <strong>${plan.member_name}</strong></p>
-            `;
-            const back = `
-                <p><strong>Meal plan:</strong></p>
-                <p class="card-copy">${plan.meal_details || 'Personalized nutrition guidance tailored to your goal.'}</p>
-                <p><strong>Assigned:</strong> ${plan.created_at}</p>
-            `;
-            return createFlipCard(front, back);
+        nutritionResults.innerHTML = plans.map(function (plan, idx) {
+            var image = imgUrl(foodImages[idx % foodImages.length]);
+
+            var front = '' +
+                '<div class="card-header">' +
+                '<h3>' + plan.goal + '</h3>' +
+                '<span class="badge-trainer">' + plan.trainer_name + '</span>' +
+                '</div>' +
+                '<div class="nutrition-calories">' +
+                (plan.target_calories || 'Custom') + ' <small>kcal</small>' +
+                '</div>' +
+                '<p class="nutrition-member">for <strong>' + plan.member_name + '</strong></p>';
+
+            var back = '' +
+                '<span class="' + goalBadgeClass(plan.goal) + '">' + (plan.goal || 'Plan') + '</span>' +
+                '<div class="meal-detail">' + (plan.meal_details || 'Personalized nutrition guidance tailored to your goal.') + '</div>' +
+                '<p class="nutrition-date">Assigned ' + (plan.created_at || '-') + '</p>';
+
+            return createFlipCard(front, back, image);
         }).join('');
     }
 
