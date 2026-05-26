@@ -202,8 +202,106 @@ function renderClassModal(data) {
                 (data.years_experience ? '<div style="color: #999; font-size: 0.85em; margin-top: 0.3em;">' + data.years_experience + ' years experience</div>' : '') +
             '</div>' +
         '</div>' +
-        '<div class="modal-footer">' + actionHtml + '</div>';
+        '<div class="modal-footer">' + actionHtml + '</div>' +
+        renderReviewsSection(data);
 }
+
+function renderReviewsSection(data) {
+    var html = '<div class="modal-reviews">';
+    html += '<h4 class="reviews-title">Reviews' +
+        (data.review_count ? ' <span class="review-count">(' + data.review_count + ')</span>' : '') +
+        (data.avg_rating ? ' <span class="avg-rating">' + renderStars(parseFloat(data.avg_rating)) + ' ' + data.avg_rating + '</span>' : '') +
+        '</h4>';
+
+    // User review form
+    if (data.can_review) {
+        var userRating = data.user_review ? data.user_review.rating : 5;
+        var userComment = data.user_review ? escapeHtml(data.user_review.comment) : '';
+        var btnText = data.user_review ? 'Update Review' : 'Submit Review';
+        html += '<form class="review-form" onsubmit="submitReview(event, ' + data.schedule_id + ')">' +
+            '<div class="star-rating">' +
+                '<input type="hidden" name="rating" id="reviewRating_' + data.schedule_id + '" value="' + userRating + '">';
+        for (var i = 5; i >= 1; i--) {
+            var checked = i === userRating ? ' checked' : '';
+            html += '<input type="radio" name="star" id="star' + i + '_' + data.schedule_id + '" value="' + i + '"' + checked + ' onchange="document.getElementById(\'reviewRating_' + data.schedule_id + '\').value=' + i + '">' +
+                '<label for="star' + i + '_' + data.schedule_id + '" title="' + i + ' stars">&#9733;</label>';
+        }
+        html += '</div>' +
+            '<textarea name="comment" placeholder="Share your experience..." maxlength="500" rows="3">' + userComment + '</textarea>' +
+            '<button class="button button-small">' + btnText + '</button>' +
+            '<span class="review-msg" id="reviewMsg_' + data.schedule_id + '"></span>' +
+            '</form>';
+    }
+
+    // Existing reviews
+    if (data.reviews && data.reviews.length > 0) {
+        html += '<div class="reviews-list">';
+        data.reviews.forEach(function (r) {
+            var photo = r.user_photo
+                ? '<img src="../img/' + escapeHtml(r.user_photo) + '" alt="' + escapeHtml(r.user_name) + '">'
+                : '<div class="review-avatar-placeholder">' + getInitials(r.user_name) + '</div>';
+            html += '<div class="review-item">' +
+                '<div class="review-header">' +
+                    photo +
+                    '<div>' +
+                        '<strong>' + escapeHtml(r.user_name) + '</strong>' +
+                        '<div class="review-stars">' + renderStars(r.rating) + '</div>' +
+                    '</div>' +
+                '</div>' +
+                (r.comment ? '<p class="review-comment">' + escapeHtml(r.comment) + '</p>' : '') +
+                '</div>';
+        });
+        html += '</div>';
+    }
+
+    if (!data.reviews || data.reviews.length === 0 && !data.can_review) {
+        html += '<p class="no-reviews">No reviews yet.</p>';
+    }
+
+    html += '</div>';
+    return html;
+}
+
+function renderStars(rating) {
+    var full = Math.floor(rating);
+    var half = rating - full >= 0.5;
+    var html = '';
+    for (var i = 0; i < full; i++) html += '<span class="star full">&#9733;</span>';
+    if (half) html += '<span class="star half">&#9733;</span>';
+    for (var i = full + (half ? 1 : 0); i < 5; i++) html += '<span class="star empty">&#9734;</span>';
+    return html;
+}
+
+window.submitReview = function (event, scheduleId) {
+    event.preventDefault();
+    var form = event.target;
+    var rating = document.getElementById('reviewRating_' + scheduleId).value;
+    var comment = form.querySelector('textarea').value;
+    var msgEl = document.getElementById('reviewMsg_' + scheduleId);
+
+    var fd = new FormData();
+    fd.append('schedule_id', scheduleId);
+    fd.append('rating', rating);
+    fd.append('comment', comment);
+
+    fetch('../actions/action_add_review.php', { method: 'POST', body: fd })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            if (data.success) {
+                msgEl.textContent = 'Review saved!';
+                msgEl.className = 'review-msg success';
+                // Reload modal to show updated reviews
+                openClassModal(scheduleId);
+            } else {
+                msgEl.textContent = data.error || 'Failed to save review.';
+                msgEl.className = 'review-msg error';
+            }
+        })
+        .catch(function () {
+            msgEl.textContent = 'Network error.';
+            msgEl.className = 'review-msg error';
+        });
+};
 
 function escapeHtml(str) {
     if (!str) return '';
