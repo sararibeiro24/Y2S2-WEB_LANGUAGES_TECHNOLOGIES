@@ -1,7 +1,7 @@
 <section id="news" class="teaser-section bg-dark">
     <div class="container center-layout">
         <h2>LATEST NEWS & UPDATES</h2>
-        <p class="subtitle large-subtitle">Stay informed about gym events, new classes, and achievements from our community</p>
+        <p class="subtitle large-subtitle">The buzz is real. Stay in the loop with everything happening at Ladybug's.</p>
 
         <div class="cards-grid cards-grid-3">
             <div class="news-card">

@@ -1,7 +1,7 @@
 <section id="nutrition" class="teaser-section bg-nutrition">
     <div class="container">
         <h2 class="text-white">SPOT-ON NUTRITION PLANS</h2>
-        <p class="subtitle text-white">Tailored meal plans for muscle gain or weight loss</p>
+        <p class="subtitle text-white">Eat smart. Perform better. Fuel that matches your fire.</p>
 
         <div class="carousel-wrapper" style="margin-top: 3em;">
             <button class="carousel-nav-btn prev" onclick="scrollCarousel('nutrition-carousel', -1)">❮</button>
@@ -38,7 +38,7 @@
                         <img src="../img/omega3.jpg" alt="Omega-3 Delight" class="nutrition-image">
                         <span class="nutrition-badge">350 kcal</span>
                         <h3 class="nutrition-name">Omega-3 Delight</h3>
-                        <p class="nutrition-description">Salmon, wild rice, asparagus. Heart-healthy and muscle-supporting.</p>
+                        <p class="nutrition-description">Salmon, wild rice, asparagus. Heart-healthy and muscle-supporting fuel.</p>
                     </div>
                 </div>
 

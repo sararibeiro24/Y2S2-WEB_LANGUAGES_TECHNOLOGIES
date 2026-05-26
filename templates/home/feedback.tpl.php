@@ -1,7 +1,7 @@
 <section id="feedback" class="teaser-section bg-news">
     <div class="container">
         <h2>WHAT OUR MEMBERS SAY</h2>
-        <p class="subtitle large-subtitle">Real testimonials from people just like you who transformed with Ladybug's Gym</p>
+        <p class="subtitle large-subtitle">Hear it from the hive. Real stories, real results.</p>
 
         <div class="cards-grid cards-grid-3">
             <div class="feedback-card">

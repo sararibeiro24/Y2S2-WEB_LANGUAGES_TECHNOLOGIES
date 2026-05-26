@@ -1,7 +1,7 @@
 <section id="philosophy" class="teaser-section bg-philosophy">
     <div class="container center-layout">
         <h2>OUR 3-STEP PHILOSOPHY</h2>
-        <p class="subtitle">Leave your old shell behind and transform with us</p>
+        <p class="subtitle">Three steps. One mission. Your transformation begins here.</p>
 
         <div class="metamorphosis-grid">
             <div class="step">

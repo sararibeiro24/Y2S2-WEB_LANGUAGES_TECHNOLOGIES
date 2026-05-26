@@ -1,7 +1,7 @@
 <section id="plans" class="teaser-section bg-plans slanted-bottom">
     <div class="container">
         <h2 class="huge-text text-white">BECOME UN-BEETLE-ABLE TODAY!</h2>
-        <p class="subtitle text-white">Join now and start your transformation with our affordable plans</p>
+        <p class="subtitle text-white">Your dream body starts here. No excuses, no hidden fees — just results.</p>
 
         <div class="carousel-wrapper" style="margin-top: 3em;">
             <button class="carousel-nav-btn prev" onclick="scrollCarousel('plans-carousel', -1)">❮</button>
