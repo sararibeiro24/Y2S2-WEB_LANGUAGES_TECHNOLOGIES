@@ -8,8 +8,9 @@ function drawHead($title) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo htmlspecialchars($title); ?></title>
         <?php drawCSSLinks(); ?>
+        <script src="../javascript/register_validation.js" defer></script>
         <script src="../javascript/validation.js" defer></script>
-
+        <script src="../javascript/extras.js" defer></script>
     </head>
     <body>
     <?php
@@ -44,13 +45,11 @@ function drawHeader() {
             <nav class="wings-nav">
                 <ul>
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="index.php#plans">Plans</a></li>
-                    <li><a href="index.php#news">News</a></li>
-                    <li><a href="index.php#philosophy">Our Philosophy</a></li>
-                    <li><a href="index.php#equipment">Equipment</a></li>
                     <li><a href="schedule.php">Classes</a></li>
+                    <li><a href="plans.php">Plans</a></li>
+                    <li><a href="equipment.php">Equipment</a></li>
+                    <li><a href="nutrition.php">Nutrition</a></li>
                     <li><a href="trainers.php">Trainers</a></li>
-                    <li><a href="index.php#nutrition">Nutrition</a></li>
                     <li><a href="index.php#feedback">Feedback</a></li>
                     <li><a href="index.php#qa">Q&A</a></li>
                     <?php if ($isLoggedIn): ?>
@@ -71,6 +70,7 @@ function drawHeader() {
         });
     </script>
     <?php
+    drawMessages();
 }
 
 function drawPageHeader($title,$subtitle){

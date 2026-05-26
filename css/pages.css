@@ -1,0 +1,354 @@
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5em;
+}
+
+.page-header h2 {
+    color: var(--primary-green);
+    font-size: 2.2rem;
+}
+
+.schedule-page {
+    padding: 3em 20px;
+}
+
+.schedule-layout {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 2em;
+    align-items: start; 
+}
+
+.filter-sidebar h3 {
+    margin-bottom: 1em;
+    color: var(--primary-green);
+    border-bottom: 2px solid var(--light-green);
+    padding-bottom: 0.5em;
+}
+
+.class-time {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-green);
+    margin-bottom: 0.2em;
+}
+
+.class-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.1em;
+}
+
+.class-trainer {
+    color: var(--gray);
+    font-size: 0.9em;
+    margin-bottom: 1em;
+}
+
+.class-meta {
+    display: flex;
+    flex-direction: column;   
+    align-items: center;  
+    gap: 0.5em;
+    font-size: 0.85em;
+    color: var(--gray);
+    margin-bottom: 1.5em;
+    background-color: var(--bg-color);
+    padding: 0.5em;
+    border-radius: 6px;
+}
+
+.class-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
+.class-meta img {
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 900px) {
+    .schedule-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.profile-page {
+    padding: 3em 20px;
+}
+
+.profile-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2em;
+    align-items: start;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1em auto;
+    border: 4px solid var(--light-green);
+}
+
+.member-since {
+    color: var(--gray);
+    font-size: 0.85em;
+    margin-bottom: 1.5em;
+}
+
+.profile-stats {
+    border-top: 1px solid var(--light-green);
+    padding-top: 1.5em;
+    text-align: left;
+}
+
+.profile-stats li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8em;
+    color: var(--gray);
+    font-size: 0.9em;
+}
+
+.profile-stats strong {
+    color: var(--primary-green);
+}
+
+.profile-form-container {
+    text-align: left; 
+}
+
+.form-section {
+    margin-bottom: 2.5em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid var(--light-green);
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 1.5em;
+}
+
+.form-section legend {
+    font-size: 1.2rem;
+    color: var(--primary-green);
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5em;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+    margin-top: 2em;
+}
+
+@media (max-width: 900px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+.plans-page,
+.equipment-page,
+.nutrition-page {
+    padding: 3em 20px;
+}
+
+.plans-filter-form .form-row,
+.equipment-search .form-row,
+.nutrition-search .form-row {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 1.5em;
+    align-items: end;
+}
+
+.plans-grid,
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 1.75em;
+    margin-top: 2em;
+}
+
+.plan-card {
+    text-align: left;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.plan-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.plan-price {
+    font-size: 2rem;
+    color: var(--primary-green);
+    margin: 0.6em 0;
+}
+
+.feature-list {
+    list-style: disc;
+    padding-left: 1.2em;
+    color: var(--gray);
+    margin-bottom: 1.2em;
+}
+
+.feature-list li {
+    margin-bottom: 0.6em;
+}
+
+.current-plan {
+    border: 2px solid #1b4332;
+}
+
+.empty-state {
+    color: var(--gray);
+    text-align: center;
+    grid-column: 1/-1;
+}
+
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+    min-height: 260px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 18px;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.flip-card-front {
+    background-color: var(--white);
+    color: var(--dark);
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flip-card-back {
+    background-color: var(--primary-green);
+    color: var(--white);
+    transform: rotateY(180deg);
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: inherit;
+}
+
+.card-copy {
+    color: inherit;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+    .plans-filter-form .form-row,
+    .equipment-search .form-row,
+    .nutrition-search .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .plans-filter-form .form-row,
+    .equipment-search .form-row,
+    .nutrition-search .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .plans-grid,
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.login-page {
+    padding: 3em 20px;
+    max-width: 900px; 
+}
+
+.login-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+}
+
+.login-card {
+    text-align: left;
+    padding: 2em;
+}
+
+.login-card h3 {
+    color: var(--primary-green);
+    font-size: 1.5rem;
+    margin-bottom: 0.2em;
+    text-align: center;
+}
+
+.login-subtitle {
+    color: var(--gray);
+    text-align: center;
+    font-size: 0.9em;
+    margin-bottom: 2em;
+}
+
+.admin-login {
+    border-top: 5px solid #ba1a1a;
+}
