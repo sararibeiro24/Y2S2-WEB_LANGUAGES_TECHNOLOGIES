@@ -133,13 +133,13 @@ CREATE INDEX IF NOT EXISTS idx_bookings_member ON bookings(member_id);
 -- Populate 
 
 -- USERS
-INSERT OR IGNORE INTO users (username, email, password_hash, name, role) VALUES
+INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES
 
-('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member'), -- password: hashedpass1
-('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),   -- password: hashedpass2
-('migueltrainer', 'miguel@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Miguel Ferreira', 'trainer'),    -- password: hashedpass3
-('sofiatrainer', 'sofia@gmail.com', '$2y$10$.cOjn2hP7/.CPu4QKe6u.Otld1fWYlzuLwgmx1EcXAU7snQfHn2Ay', 'Sofia Martins', 'trainer'),    -- password: hashedpass4
-('adminuser', 'admin@gmail.com', '$2y$10$JfG.ZWCgLbrOjQMcBGrjLu92oNsSa9OQgTyxbzRKQVd6l5wiH1omm', 'Admin User', 'admin');    -- password: hashedadmin
+('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member', '/img/male_trainer3.jpg'), -- password: hashedpass1
+('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member', '/img/female_trainer2.jpg'),   -- password: hashedpass2
+('migueltrainer', 'miguel@gmail.com', '$2y$10$pu4RO98YESWtqJgpqMQdr.y0z4VcKKIhzHJlloDe2KchqwejJAa9C', 'Miguel Ferreira', 'trainer', '/img/male_trainer.jpg'),    -- password: hashedpass3
+('sofiatrainer', 'sofia@gmail.com', '$2y$10$.cOjn2hP7/.CPu4QKe6u.Otld1fWYlzuLwgmx1EcXAU7snQfHn2Ay', 'Sofia Martins', 'trainer', '/img/female_trainer.jpg'),    -- password: hashedpass4
+('adminuser', 'admin@gmail.com', '$2y$10$JfG.ZWCgLbrOjQMcBGrjLu92oNsSa9OQgTyxbzRKQVd6l5wiH1omm', 'Admin User', 'admin', '/img/admin_user.jpg');    -- password: hashedadmin
 -- TRAINER PROFILES
 INSERT OR IGNORE INTO trainer_profiles (user_id, bio, specializations, certifications) VALUES
 (3, 'Experienced trainer focused on strength and conditioning.', 'Strength Training, HIIT', 'NASM Certified'),
@@ -163,11 +163,12 @@ INSERT OR IGNORE INTO class_schedule (class_id, trainer_id, scheduled_at) VALUES
 
 -- ENROLLMENTS
 INSERT OR IGNORE INTO enrollments (user_id, schedule_id) VALUES
-(1, 6),
-(1, 8),
-(2, 7),
-(2, 8),
-(2, 10);
+(1, 1),
+(1, 4),
+(2, 2),
+(2, 4),
+(2, 6);
+
 
 -- EQUIPMENT
 INSERT OR IGNORE INTO equipment (name, total_quantity) VALUES
@@ -191,6 +192,6 @@ INSERT OR IGNORE INTO bookings (member_id, trainer_id, scheduled_at, status) VAL
 
 -- REVIEWS
 INSERT OR IGNORE INTO reviews (user_id, class_id, schedule_id, rating, comment) VALUES
-(1, 1, 5, 5, 'Amazing yoga session!'),
-(2, 2, 6, 4, 'Very intense but enjoyable workout.'),
-(1, 4, 8, 5, 'Excellent trainer and atmosphere.');
+(1, 1, 1, 5, 'Amazing yoga session!'),
+(2, 2, 2, 4, 'Very intense but enjoyable workout.'),
+(1, 4, 4, 5, 'Excellent trainer and atmosphere.');

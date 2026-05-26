@@ -8,7 +8,8 @@ function drawHead($title) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo htmlspecialchars($title); ?></title>
         <?php drawCSSLinks(); ?>
-        <script src="../javascript/register_validation.js" defer></script>
+        <script src="../javascript/validation.js" defer></script>
+
     </head>
     <body>
     <?php
