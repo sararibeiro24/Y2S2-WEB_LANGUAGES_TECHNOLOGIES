@@ -48,7 +48,7 @@ function drawHeader() {
                     <li><a href="index.php#philosophy">Our Philosophy</a></li>
                     <li><a href="index.php#equipment">Equipment</a></li>
                     <li><a href="schedule.php">Classes</a></li>
-                    <li><a href="index.php#trainers">Trainers</a></li>
+                    <li><a href="trainers.php">Trainers</a></li>
                     <li><a href="index.php#nutrition">Nutrition</a></li>
                     <li><a href="index.php#feedback">Feedback</a></li>
                     <li><a href="index.php#qa">Q&A</a></li>
@@ -105,6 +105,7 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/schedule.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/trainers.css">
     <?php
 }
 function drawMessages() {
