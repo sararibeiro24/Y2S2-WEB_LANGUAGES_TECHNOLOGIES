@@ -232,6 +232,51 @@ main.container.trainers-page {
     padding-top: 1em;
 }
 
+/* ── Toast Messages ──────────────────────────── */
+
+.toast-container {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    pointer-events: none;
+}
+
+.toast {
+    padding: 0.8em 1.2em;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    pointer-events: auto;
+    animation: toast-in 0.3s ease-out;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    max-width: 360px;
+}
+
+.toast-success {
+    background: var(--ladybug-dark-gray);
+    color: var(--ladybug-white);
+}
+
+.toast-error {
+    background: #8b0000;
+    color: #fff;
+}
+
+.toast-hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
 /* ── Responsive (shared layouts) ─────────────── */
 
 @media (max-width: 900px) {

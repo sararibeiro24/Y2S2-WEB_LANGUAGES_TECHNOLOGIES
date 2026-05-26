@@ -103,7 +103,7 @@ date_default_timezone_set('UTC');
 <script>
     const CURRENT_WEEK = '<?= $weekStart ?>';
     const IS_LOGGED_IN = <?= $isLoggedIn ? 'true' : 'false' ?>;
-    const ENROLLED_IDS = <?= json_encode($enrolledIds) ?>;
+    let ENROLLED_IDS = <?= json_encode($enrolledIds) ?>;
 </script>
 <script src="../javascript/schedule_filter.js" defer></script>
 <?php

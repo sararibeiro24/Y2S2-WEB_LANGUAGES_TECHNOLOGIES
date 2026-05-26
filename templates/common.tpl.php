@@ -119,16 +119,15 @@ function drawCSSLinks() {
     <?php
 }
 function drawMessages() {
-
-    $messages = Session::getMessages(); 
-    
+    $messages = Session::getMessages();
     if (empty($messages)) return;
-
-    echo '<section id="messages">';
-    foreach ($messages as $message) {
-        $type = htmlspecialchars($message['type']);
-        $text = htmlspecialchars($message['text']);
-        echo "<div class=\"alert alert-$type\">$text</div>";
+    echo '<div class="toast-container">';
+    foreach ($messages as $m) {
+        $type = htmlspecialchars($m['type']);
+        $text = htmlspecialchars($m['text']);
+        echo "<div class=\"toast toast-$type\">$text</div>";
     }
-    echo '</section>';
+    echo '</div>';
+    // Auto-dismiss script runs once per batch
+    echo '<script>(function(){var t=document.querySelectorAll(".toast");t.forEach(function(e){setTimeout(function(){e.classList.add("toast-hide");setTimeout(function(){e.remove()},400)},2000)})})()</script>';
 }

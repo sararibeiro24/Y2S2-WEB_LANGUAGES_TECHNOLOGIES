@@ -34,7 +34,7 @@ $stmt = $db->prepare('
         tp.specializations AS trainer_specs,
         tp.years_experience,
         tp.certifications,
-        COUNT(e.id) AS enrolled,
+        COUNT(DISTINCT e.id) AS enrolled,
         ROUND(AVG(r.rating), 1) AS avg_rating,
         COUNT(DISTINCT r.id) AS review_count
     FROM class_schedule cs

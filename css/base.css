@@ -36,7 +36,7 @@
     --font-body: 'Lora', Georgia, serif;
     --font-accent: 'Treova', 'Segoe UI', sans-serif;
 
-    --primary-green: #1b4332;  
+    --primary-green: var(--ladybug-gray);
     --accent-green: var(--ladybug-red);
     --light-green: var(--ladybug-light);      
     --white: var(--ladybug-white);

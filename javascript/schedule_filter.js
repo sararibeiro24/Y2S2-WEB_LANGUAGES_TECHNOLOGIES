@@ -176,13 +176,9 @@ function renderClassModal(data) {
     } else if (!IS_LOGGED_IN) {
         actionHtml = '<button class="button button-small" onclick="closeModal(\'classModal\'); showModal(\'authModal\')">Enroll Now</button>';
     } else if (enrolled) {
-        actionHtml = '<form action="../actions/action_unenroll.php" method="post" style="display:inline">' +
-            '<input type="hidden" name="schedule_id" value="' + data.schedule_id + '">' +
-            '<button class="button button-small button-outline" style="border-color: #888; color: #888;">Un-enroll</button></form>';
+        actionHtml = '<button class="button button-small button-outline" onclick="unenrollAjax(' + data.schedule_id + ')">Un-enroll</button>';
     } else {
-        actionHtml = '<form action="../actions/action_enroll.php" method="post" style="display:inline">' +
-            '<input type="hidden" name="schedule_id" value="' + data.schedule_id + '">' +
-            '<button class="button button-small">Enroll Now</button></form>';
+        actionHtml = '<button class="button button-small" onclick="enrollAjax(' + data.schedule_id + ')">Enroll Now</button>';
     }
 
     document.getElementById('classModalBody').innerHTML =
@@ -301,6 +297,117 @@ window.submitReview = function (event, scheduleId) {
             msgEl.textContent = 'Network error.';
             msgEl.className = 'review-msg error';
         });
+};
+
+function enrollXhr(scheduleId, onSuccess, onError) {
+    var fd = new FormData();
+    fd.append('schedule_id', scheduleId);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../actions/action_enroll.php');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function () {
+        if (xhr.status === 200) { onSuccess(); }
+        else {
+            var msg = 'Could not enroll.';
+            try { var d = JSON.parse(xhr.responseText); if (d.error) msg = d.error; } catch(e) {}
+            onError(msg);
+        }
+    };
+    xhr.onerror = function () { onError('Network error.'); };
+    xhr.send(fd);
+}
+
+function unenrollXhr(scheduleId, onSuccess, onError) {
+    var fd = new FormData();
+    fd.append('schedule_id', scheduleId);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../actions/action_unenroll.php');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function () {
+        if (xhr.status === 200) { onSuccess(); }
+        else {
+            var msg = 'Could not un-enroll.';
+            try { var d = JSON.parse(xhr.responseText); if (d.error) msg = d.error; } catch(e) {}
+            onError(msg);
+        }
+    };
+    xhr.onerror = function () { onError('Network error.'); };
+    xhr.send(fd);
+}
+
+function showConfirmModal(message, onConfirm) {
+    var overlay = document.getElementById('confirmModal');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'confirmModal';
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML =
+            '<div class="modal-content" style="text-align:center;max-width:400px">' +
+                '<h3 class="modal-title" style="margin-top:0.3em">Confirm</h3>' +
+                '<p class="modal-body" id="confirmMsg"></p>' +
+                '<div style="display:flex;gap:1em;justify-content:center;margin-top:1.5em">' +
+                    '<button class="button" id="confirmYes">Yes</button>' +
+                    '<button class="button button-outline" id="confirmNo">Cancel</button>' +
+                '</div>' +
+            '</div>';
+        document.body.appendChild(overlay);
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('active'); });
+    }
+    document.getElementById('confirmMsg').textContent = message;
+    var yesBtn = document.getElementById('confirmYes');
+    var noBtn = document.getElementById('confirmNo');
+    var newYes = yesBtn.cloneNode(true);
+    var newNo = noBtn.cloneNode(true);
+    yesBtn.parentNode.replaceChild(newYes, yesBtn);
+    noBtn.parentNode.replaceChild(newNo, noBtn);
+    newYes.addEventListener('click', function () { overlay.classList.remove('active'); onConfirm(); });
+    newNo.addEventListener('click', function () { overlay.classList.remove('active'); });
+    overlay.classList.add('active');
+}
+
+function showAlertModal(message) {
+    var overlay = document.getElementById('alertModal');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'alertModal';
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML =
+            '<div class="modal-content" style="text-align:center;max-width:400px">' +
+                '<p class="modal-body" id="alertMsg" style="margin:1em 0"></p>' +
+                '<button class="button" id="alertOk">OK</button>' +
+            '</div>';
+        document.body.appendChild(overlay);
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('active'); });
+    }
+    document.getElementById('alertMsg').textContent = message;
+    var okBtn = document.getElementById('alertOk');
+    var newOk = okBtn.cloneNode(true);
+    okBtn.parentNode.replaceChild(newOk, okBtn);
+    newOk.addEventListener('click', function () { overlay.classList.remove('active'); });
+    overlay.classList.add('active');
+}
+
+window.enrollAjax = function (scheduleId) {
+    if (!IS_LOGGED_IN) { closeModal('classModal'); showModal('authModal'); return; }
+    enrollXhr(scheduleId,
+        function () {
+            if (!ENROLLED_IDS.includes(String(scheduleId))) ENROLLED_IDS.push(String(scheduleId));
+            openClassModal(scheduleId);
+        },
+        function (msg) { showAlertModal(msg); }
+    );
+};
+
+window.unenrollAjax = function (scheduleId) {
+    showConfirmModal('Are you sure you want to un-enroll from this class?', function () {
+        unenrollXhr(scheduleId,
+            function () {
+                ENROLLED_IDS = ENROLLED_IDS.filter(function (id) { return id !== String(scheduleId); });
+                openClassModal(scheduleId);
+            },
+            function (msg) { showAlertModal(msg); }
+        );
+    });
 };
 
 function escapeHtml(str) {
