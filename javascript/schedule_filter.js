@@ -69,12 +69,13 @@ function showModal(id) {
     document.getElementById(id).classList.add('active');
 }
 
-function loadWeek(weekStr) {
+function loadWeek(weekStr, updateURL = true) {
     var grid = document.getElementById('calendarGrid');
     var label = document.getElementById('weekLabel');
 
-    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 2em;">Loading...</p>';
-
+    if (updateURL) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 2em;">Loading...</p>';
+    }
     fetch('../actions/api_calendar_week.php?week_start=' + weekStr)
         .then(function (r) { return r.json(); })
         .then(function (data) {
@@ -91,8 +92,9 @@ function loadWeek(weekStr) {
 
             renderCalendar(grid, data.week_start, data.classes || []);
             grid.dataset.week = data.week_start;
-            window.history.replaceState({}, '', '?week=' + data.week_start);
-        })
+            if (updateURL) {
+                window.history.replaceState({}, '', '?week=' + data.week_start);
+            }        })
         .catch(function () {
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Failed to load classes.</p>';
         });
@@ -159,7 +161,9 @@ function renderClassModal(data) {
     var isFull = data.enrolled >= data.capacity;
     var diffClass = 'diff-' + (data.difficulty || 'beginner').toLowerCase();
 
-    var enrolled = ENROLLED_IDS && ENROLLED_IDS.includes(String(data.schedule_id));
+    var enrolled = ENROLLED_IDS && ENROLLED_IDS.some(function(id) {
+    return String(id) === String(data.schedule_id);
+    });
 
     var photo = data.trainer_photo
         ? '<img src="../img/' + escapeHtml(data.trainer_photo) + '" alt="' + escapeHtml(data.trainer) + '">'
@@ -395,7 +399,7 @@ window.enrollAjax = function (scheduleId) {
             openClassModal(scheduleId);
             var grid = document.getElementById('calendarGrid');
             if (grid && grid.dataset.week) {
-                loadWeek(grid.dataset.week);
+                loadWeek(grid.dataset.week,false);
             }
         },
         function (msg) { showAlertModal(msg); }
@@ -410,7 +414,7 @@ window.unenrollAjax = function (scheduleId) {
                 openClassModal(scheduleId);
                 var grid = document.getElementById('calendarGrid');
                 if (grid && grid.dataset.week) {
-                    loadWeek(grid.dataset.week);
+                    loadWeek(grid.dataset.week,false);
                 }
             },
             function (msg) { showAlertModal(msg); }
