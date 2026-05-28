@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Expose functions globally for onclick handlers
     window.navigateWeek = function (direction) {
         var grid = document.getElementById('calendarGrid');
         var currentWeek = grid.dataset.week;
@@ -39,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById(id).classList.remove('active');
     };
 
-    // Close modals on overlay click
     document.querySelectorAll('.modal-overlay').forEach(function (el) {
         el.addEventListener('click', function (e) {
             if (e.target === this) {
@@ -73,9 +71,6 @@ function loadWeek(weekStr, updateURL = true) {
     var grid = document.getElementById('calendarGrid');
     var label = document.getElementById('weekLabel');
 
-    if (updateURL) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 2em;">Loading...</p>';
-    }
     fetch('../actions/api_calendar_week.php?week_start=' + weekStr)
         .then(function (r) { return r.json(); })
         .then(function (data) {
@@ -106,12 +101,10 @@ function renderCalendar(grid, weekStart, classes) {
     var todayStr = formatDate(today);
     var html = '';
 
-    // Headers
     dayNames.forEach(function (name) {
         html += '<div class="calendar-day-header">' + name + '</div>';
     });
 
-    // Group by day
     var byDay = {};
     classes.forEach(function (c) {
         var d = c.scheduled_at.substring(0, 10);
@@ -119,7 +112,6 @@ function renderCalendar(grid, weekStart, classes) {
         byDay[d].push(c);
     });
 
-    // Day cells
     dayNames.forEach(function (_, i) {
         var d = new Date(weekStart);
         d.setDate(d.getDate() + i);
@@ -133,19 +125,21 @@ function renderCalendar(grid, weekStart, classes) {
         html += '<div class="calendar-day-number">' + dayNum + '</div>';
 
         if (byDay[dateStr]) {
-            byDay[dateStr].sort(function (a, b) {
-                return a.scheduled_at.localeCompare(b.scheduled_at);
-            });
-            byDay[dateStr].forEach(function (c) {
-                var isFull = c.enrolled >= c.capacity;
-                var time = c.scheduled_at.substring(11, 16);
-                html += '<div class="calendar-class-card' + (isFull ? ' full' : '') + '" data-id="' + c.schedule_id + '" onclick="openClassModal(' + c.schedule_id + ')">' +
-                    '<div class="ccal-time">' + time + '</div>' +
-                    '<div class="ccal-name">' + escapeHtml(c.name) + '</div>' +
-                    '<div class="ccal-trainer">' + escapeHtml(c.trainer) + '</div>' +
-                    '<div class="ccal-spots">' + c.enrolled + '/' + c.capacity + '</div>' +
-                '</div>';
-            });
+            byDay[dateStr]
+                .sort(function (a, b) { return a.scheduled_at.localeCompare(b.scheduled_at); })
+                .forEach(function (c) {
+                    var isFull = c.enrolled >= c.capacity;
+                    var time   = c.scheduled_at.substring(11, 16);
+                    html +=
+                        '<div class="calendar-class-card' + (isFull ? ' full' : '') + '" ' +
+                            'data-id="' + c.schedule_id + '" ' +
+                            'onclick="openClassModal(' + c.schedule_id + ')">' +
+                            '<div class="ccal-time">'    + time                        + '</div>' +
+                            '<div class="ccal-name">'    + escapeHtml(c.name)          + '</div>' +
+                            '<div class="ccal-trainer">' + escapeHtml(c.trainer)       + '</div>' +
+                            '<div class="ccal-spots">'   + c.enrolled + '/' + c.capacity + '</div>' +
+                        '</div>';
+                });
         }
 
         html += '</div>';
@@ -153,7 +147,6 @@ function renderCalendar(grid, weekStart, classes) {
 
     grid.innerHTML = html;
 }
-
 function renderClassModal(data) {
     var time = data.scheduled_at.substring(11, 16);
     var date = new Date(data.scheduled_at);
@@ -169,10 +162,9 @@ function renderClassModal(data) {
         ? '<img src="../img/' + escapeHtml(data.trainer_photo) + '" alt="' + escapeHtml(data.trainer) + '">'
         : '<div class="placeholder">' + getInitials(data.trainer) + '</div>';
 
-    var specsHtml = '';
-    if (data.specs_list && data.specs_list.length > 0) {
-        specsHtml = data.specs_list.map(function (s) { return escapeHtml(s.trim()); }).join(' &bull; ');
-    }
+    var specsHtml = (data.specs_list && data.specs_list.length > 0)
+        ? data.specs_list.map(function (s) { return escapeHtml(s.trim()); }).join(' &bull; ')
+        : '';
 
     var actionHtml;
     if (isFull) {
@@ -199,12 +191,15 @@ function renderClassModal(data) {
             '<div>' +
                 '<div class="mt-name">' + escapeHtml(data.trainer) + '</div>' +
                 '<div class="mt-spec">' + specsHtml + '</div>' +
-                (data.years_experience ? '<div style="color: #999; font-size: 0.85em; margin-top: 0.3em;">' + data.years_experience + ' years experience</div>' : '') +
+                (data.years_experience
+                    ? '<div style="color:#999;font-size:0.85em;margin-top:0.3em">' + data.years_experience + ' years experience</div>'
+                    : '') +
             '</div>' +
         '</div>' +
         '<div class="modal-footer">' + actionHtml + '</div>' +
         renderReviewsSection(data);
 }
+
 
 function renderReviewsSection(data) {
     var html = '<div class="modal-reviews">';
@@ -213,7 +208,6 @@ function renderReviewsSection(data) {
         (data.avg_rating ? ' <span class="avg-rating">' + renderStars(parseFloat(data.avg_rating)) + ' ' + data.avg_rating + '</span>' : '') +
         '</h4>';
 
-    // User review form
     if (data.can_review) {
         var userRating = data.user_review ? data.user_review.rating : 5;
         var userComment = data.user_review ? escapeHtml(data.user_review.comment) : '';
@@ -233,7 +227,6 @@ function renderReviewsSection(data) {
             '</form>';
     }
 
-    // Existing reviews
     if (data.reviews && data.reviews.length > 0) {
         html += '<div class="reviews-list">';
         data.reviews.forEach(function (r) {
@@ -254,7 +247,7 @@ function renderReviewsSection(data) {
         html += '</div>';
     }
 
-    if (!data.reviews || data.reviews.length === 0 && !data.can_review) {
+    if (!data.reviews || (data.reviews.length === 0 && !data.can_review)) {
         html += '<p class="no-reviews">No reviews yet.</p>';
     }
 
@@ -264,7 +257,7 @@ function renderReviewsSection(data) {
 
 function renderStars(rating) {
     var full = Math.floor(rating);
-    var half = rating - full >= 0.5;
+    var half = (rating - full) >= 0.5;
     var html = '';
     for (var i = 0; i < full; i++) html += '<span class="star full">&#9733;</span>';
     if (half) html += '<span class="star half">&#9733;</span>';
@@ -290,7 +283,6 @@ window.submitReview = function (event, scheduleId) {
             if (data.success) {
                 msgEl.textContent = 'Review saved!';
                 msgEl.className = 'review-msg success';
-                // Reload modal to show updated reviews
                 openClassModal(scheduleId);
             } else {
                 msgEl.textContent = data.error || 'Failed to save review.';
@@ -339,68 +331,15 @@ function unenrollXhr(scheduleId, onSuccess, onError) {
     xhr.send(fd);
 }
 
-function showConfirmModal(message, onConfirm) {
-    var overlay = document.getElementById('confirmModal');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.id = 'confirmModal';
-        overlay.className = 'modal-overlay';
-        overlay.innerHTML =
-            '<div class="modal-content" style="text-align:center;max-width:400px">' +
-                '<h3 class="modal-title" style="margin-top:0.3em">Confirm</h3>' +
-                '<p class="modal-body" id="confirmMsg"></p>' +
-                '<div style="display:flex;gap:1em;justify-content:center;margin-top:1.5em">' +
-                    '<button class="button" id="confirmYes">Yes</button>' +
-                    '<button class="button button-outline" id="confirmNo">Cancel</button>' +
-                '</div>' +
-            '</div>';
-        document.body.appendChild(overlay);
-        overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('active'); });
-    }
-    document.getElementById('confirmMsg').textContent = message;
-    var yesBtn = document.getElementById('confirmYes');
-    var noBtn = document.getElementById('confirmNo');
-    var newYes = yesBtn.cloneNode(true);
-    var newNo = noBtn.cloneNode(true);
-    yesBtn.parentNode.replaceChild(newYes, yesBtn);
-    noBtn.parentNode.replaceChild(newNo, noBtn);
-    newYes.addEventListener('click', function () { overlay.classList.remove('active'); onConfirm(); });
-    newNo.addEventListener('click', function () { overlay.classList.remove('active'); });
-    overlay.classList.add('active');
-}
-
-function showAlertModal(message) {
-    var overlay = document.getElementById('alertModal');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.id = 'alertModal';
-        overlay.className = 'modal-overlay';
-        overlay.innerHTML =
-            '<div class="modal-content" style="text-align:center;max-width:400px">' +
-                '<p class="modal-body" id="alertMsg" style="margin:1em 0"></p>' +
-                '<button class="button" id="alertOk">OK</button>' +
-            '</div>';
-        document.body.appendChild(overlay);
-        overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('active'); });
-    }
-    document.getElementById('alertMsg').textContent = message;
-    var okBtn = document.getElementById('alertOk');
-    var newOk = okBtn.cloneNode(true);
-    okBtn.parentNode.replaceChild(newOk, okBtn);
-    newOk.addEventListener('click', function () { overlay.classList.remove('active'); });
-    overlay.classList.add('active');
-}
-
 window.enrollAjax = function (scheduleId) {
     if (!IS_LOGGED_IN) { closeModal('classModal'); showModal('authModal'); return; }
-    enrollXhr(scheduleId,
+    enrollXhr(
+        scheduleId,
         function () {
             if (!ENROLLED_IDS.includes(String(scheduleId))) ENROLLED_IDS.push(String(scheduleId));
             openClassModal(scheduleId);
             var grid = document.getElementById('calendarGrid');
-            if (grid && grid.dataset.week) {
-                loadWeek(grid.dataset.week,false);
-            }
+            if (grid && grid.dataset.week) loadWeek(grid.dataset.week, false);
         },
         function (msg) { showAlertModal(msg); }
     );
@@ -408,19 +347,46 @@ window.enrollAjax = function (scheduleId) {
 
 window.unenrollAjax = function (scheduleId) {
     showConfirmModal('Are you sure you want to un-enroll from this class?', function () {
-        unenrollXhr(scheduleId,
+        unenrollXhr(
+            scheduleId,
             function () {
                 ENROLLED_IDS = ENROLLED_IDS.filter(function (id) { return id !== String(scheduleId); });
                 openClassModal(scheduleId);
                 var grid = document.getElementById('calendarGrid');
-                if (grid && grid.dataset.week) {
-                    loadWeek(grid.dataset.week,false);
-                }
+                if (grid && grid.dataset.week) loadWeek(grid.dataset.week, false);
             },
             function (msg) { showAlertModal(msg); }
         );
     });
 };
+
+function showConfirmModal(message, onConfirm) {
+    var overlay = document.getElementById('confirmModal');
+    document.getElementById('confirmMsg').textContent = message;
+ 
+    var yesBtn = document.getElementById('confirmYes');
+    var noBtn  = document.getElementById('confirmNo');
+    var newYes = yesBtn.cloneNode(true);
+    var newNo  = noBtn.cloneNode(true);
+    yesBtn.parentNode.replaceChild(newYes, yesBtn);
+    noBtn.parentNode.replaceChild(newNo,  noBtn);
+    newYes.addEventListener('click', function () { overlay.classList.remove('active'); onConfirm(); });
+    newNo.addEventListener('click',  function () { overlay.classList.remove('active'); });
+ 
+    overlay.classList.add('active');
+}
+ 
+function showAlertModal(message) {
+    var overlay = document.getElementById('alertModal');
+    document.getElementById('alertMsg').textContent = message;
+ 
+    var okBtn = document.getElementById('alertOk');
+    var newOk = okBtn.cloneNode(true);
+    okBtn.parentNode.replaceChild(newOk, okBtn);
+    newOk.addEventListener('click', function () { overlay.classList.remove('active'); });
+ 
+    overlay.classList.add('active');
+}
 
 function escapeHtml(str) {
     if (!str) return '';
