@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const nutritionGoalFilter = document.getElementById('nutritionGoalFilter');
     const nutritionTrainerFilter = document.getElementById('nutritionTrainerFilter');
 
+    const openRequestModalBtn = document.getElementById('openRequestModalBtn');
+    const requestPlanModal = document.getElementById('requestPlanModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
     const foodImages = [
         'top-view-chicken-salad-with-chopped-cabbage-colorful-bell-peppers-plate.jpg',
         'grilled-cod-with-vegetables-plate-black-stone-background.jpg',
@@ -191,5 +195,21 @@ document.addEventListener('DOMContentLoaded', () => {
         nutritionGoalFilter?.addEventListener('change', fetchNutrition);
         nutritionTrainerFilter?.addEventListener('change', fetchNutrition);
         fetchNutrition();
+    }
+
+    if (openRequestModalBtn && requestPlanModal) {
+        openRequestModalBtn.addEventListener('click', () => {
+            requestPlanModal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            requestPlanModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === requestPlanModal) {
+                requestPlanModal.style.display = 'none';
+            }
+        });
     }
 });

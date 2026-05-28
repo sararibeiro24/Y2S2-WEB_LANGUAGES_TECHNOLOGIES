@@ -46,7 +46,9 @@ button:disabled {
     cursor: not-allowed;
     transform: none;
 }
-
+.button.nutrition {
+   margin-top: 2em;
+}
 .card {
     background-color: var(--ladybug-dark-gray);
     border-radius: 15px;

@@ -1,3 +1,74 @@
+<?php
+function drawNutritionPage(): void {
+?>
+<main class="container nutrition-page">
+    <?php drawPageHeader('Nutrition Plans', 'Browse custom meal guidance and trainer-approved plans.'); ?>
+
+    <section class="nutrition-search card">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nutritionSearchInput">Search plans</label>
+                <input id="nutritionSearchInput" type="text" class="input-field"
+                       placeholder="Search by goal, member or trainer">
+            </div>
+            <div class="form-group">
+                <label for="nutritionGoalFilter">Goal</label>
+                <select id="nutritionGoalFilter" class="input-field">
+                    <option value="">All goals</option>
+                    <option value="Weight Loss">Weight Loss</option>
+                    <option value="Muscle Gain">Muscle Gain</option>
+                    <option value="Maintenance">Maintenance</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nutritionTrainerFilter">Trainer</label>
+                <select id="nutritionTrainerFilter" class="input-field">
+                    <option value="">All trainers</option>
+                </select>
+            </div>
+            
+            <div class="form-group action-group">
+                <label class="hidden-label">&nbsp;</label>
+                <button type="button" id="openRequestModalBtn" class="button">
+                    Get Custom Plan
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div id="requestPlanModal" class="modal-overlay">
+        <div class="modal-content card">
+            <span id="closeModalBtn" class="modal-close" >&times;</span>
+            <h2>Request Custom Plan</h2>
+            <p>Select your objective, and a trainer will create a tailored meal plan for you.</p>
+            
+            <form id="requestPlanForm" method="POST" action="../actions/action_request_nutrition.php">
+                <div class="form-group">
+                    <label for="modalGoalSelect">What is your goal?</label>
+                    <select id="modalGoalSelect" name="goal" class="input-field" required>
+                        <option value="" disabled selected>Choose a fitness goal...</option>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Muscle Gain">Muscle Gain</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+                <button type="submit" class="button">
+                    Submit Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <section id="nutritionResults" class="cards-grid">
+        <p class="empty-state">Loading nutrition plans...</p>
+    </section>
+</main>
+<?php
+}
+
+
+function drawNutritionHomepage(): void{
+?>
 <section id="nutrition" class="teaser-section bg-nutrition">
     <div class="container">
         <h2 class="text-white">SPOT-ON NUTRITION PLANS</h2>
@@ -63,6 +134,9 @@
             <button class="carousel-nav-btn next" onclick="scrollCarousel('nutrition-carousel', 1)">❯</button>
         </div>
 
-        <a href="#" class="button" style="margin-top: 2em;">GET CUSTOM PLAN</a>
+        <a href="nutrition.php" class="button nutrition">DISCOVER MORE</a>
     </div>
 </section>
+<?php
+}
+?>
