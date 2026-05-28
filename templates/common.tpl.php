@@ -35,7 +35,7 @@ function drawHeader() {
         <div class="container header-container" id="headerContainer">
             
             <!-- Left Side: Title -->
-            <h1>Ladybug's Gym</h1>
+            <h1><a href="index.php">Ladybug's Gym</a></h1>
 
             <!-- Right Side: Ladybug Menu Toggle -->
             <div class="logo-container" id="ladybugToggle">
