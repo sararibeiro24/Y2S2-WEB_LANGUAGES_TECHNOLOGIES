@@ -1,24 +1,41 @@
 <?php
-function drawProfileForm($Name, $Username, $Email, $ProfilePhoto){
+function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $memberSince, $classesAttended, $upcomingClasses) {
+    $date = new DateTime($memberSince);
+    $formattedDate = $date->format('M Y');
+    $badgeClass = 'badge-gray';
+    if ($badge) {
+        $lowerBadge = strtolower($badge);
+        if (strpos($lowerBadge, 'elite') !== false || strpos($lowerBadge, 'annual') !== false) {
+            $badgeClass = 'badge-yellow';
+        } elseif (strpos($lowerBadge, 'premium') !== false || strpos($lowerBadge, 'pro') !== false) {
+            $badgeClass = 'badge-green';
+        }
+    }
 ?>
     <main class="container profile-page">   
         
         <div class="page-header">
             <h2>Account Settings</h2>
             <p>Update your personal information and security settings.</p>
-        </div>
+        </div>  
 
         <div class="profile-layout">
             
             <aside class="profile-sidebar card">
                 <img src="<?= htmlspecialchars($ProfilePhoto) ?>" alt="Current Profile Photo" class="profile-avatar" loading="lazy">
                 <h3><?= htmlspecialchars($Username) ?></h3>
-                <span class="badge badge-green">Pro Member</span>
-                <p class="member-since">Member since Jan 2026</p>
+                
+                <?php if ($badge): ?>
+                    <span class="badge <?= htmlspecialchars($badgeClass) ?>"><?= htmlspecialchars($badge) ?></span>
+                <?php else: ?>
+                    <span class="badge badge-gray">No Active Plan</span>
+                <?php endif; ?>
+                
+                <p class="member-since">Member since <?= htmlspecialchars($formattedDate) ?></p>
                 
                 <ul class="profile-stats">
-                    <li><span>Classes Attended</span> <strong>42</strong></li>
-                    <li><span>Upcoming</span> <strong>3</strong></li>
+                    <li><span>Classes Attended</span> <strong><?= htmlspecialchars((string)$classesAttended) ?></strong></li>
+                    <li><span>Upcoming</span> <strong><?= htmlspecialchars((string)$upcomingClasses) ?></strong></li>
                 </ul>
             </aside>
 

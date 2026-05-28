@@ -25,9 +25,12 @@ $Name = $user->getName();
 $Username = $user->getUsername();
 $Email = $user->getEmail();
 $ProfilePhoto = $user->getProfilePhoto() ?? '../img/default.png';
-
+$PlanName = $user->getPlanName();
+$CreatedAt = $user->getCreatedAt();
+$classesAttended = $user->getClassesAttendedCount();
+$upcomingClasses = $user->getUpcomingClassesCount();
 drawHead("My Profile | Ladybug's Gym");
 drawHeader();
 drawMessages();
-drawProfileForm($Name, $Username, $Email, $ProfilePhoto);
+drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $PlanName, $CreatedAt, $classesAttended, $upcomingClasses);
 drawFooter();

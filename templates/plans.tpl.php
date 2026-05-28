@@ -1,6 +1,5 @@
 <?php
 
-
 function drawPlansPage(array  $plans, bool   $isLoggedIn, ?int   $currentPlanId, string $csrfToken, string $queryTerm   = '',string $cycleFilter = ''): void {
 ?>
 <main class="container plans-page">
@@ -65,7 +64,7 @@ function drawPlanCard( array  $plan,bool   $isLoggedIn,?int   $currentPlanId,str
 <article class="card plan-card <?php echo $isCurrent ? 'current-plan' : ''; ?>">
     <div class="plan-card-header">
         <h3><?php echo htmlspecialchars($plan['name']); ?></h3>
-        <span class="badge badge-green">
+        <span class="badge badge-plan-cycle">
             <?php echo htmlspecialchars(ucfirst($plan['billing_cycle'])); ?>
         </span>
     </div>

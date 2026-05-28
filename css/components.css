@@ -107,10 +107,12 @@ button:disabled {
     text-transform: uppercase;
     margin-bottom: 0.5em;
 }
-
+.badge-plan-cycle {
+    background-color: var(--light-green);
+    color: var(--white);
+}
 .badge-green { 
-    background-color: var(--light-green); 
-    color: var(--white); 
+    background: #2ec4b6; color: #fff;
 }
 
 .badge-red { 
