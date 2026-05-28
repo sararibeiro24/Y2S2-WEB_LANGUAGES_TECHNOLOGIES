@@ -1,8 +1,8 @@
 <?php
-function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $memberSince, $classesAttended, $upcomingClasses) {
+function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $memberSince, $classesAttended, $upcomingClasses, $Role = 'member') {
     $date = new DateTime($memberSince);
     $formattedDate = $date->format('M Y');
-    $badgeClass = 'badge-gray';
+    $badgeClass ='';
     if ($badge) {
         $lowerBadge = strtolower($badge);
         if (strpos($lowerBadge, 'elite') !== false || strpos($lowerBadge, 'annual') !== false) {
@@ -17,7 +17,7 @@ function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $membe
         <div class="page-header">
             <h2>Account Settings</h2>
             <p>Update your personal information and security settings.</p>
-        </div>  
+        </div>
 
         <div class="profile-layout">
             
@@ -25,18 +25,29 @@ function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $membe
                 <img src="<?= htmlspecialchars($ProfilePhoto) ?>" alt="Current Profile Photo" class="profile-avatar" loading="lazy">
                 <h3><?= htmlspecialchars($Username) ?></h3>
                 
-                <?php if ($badge): ?>
-                    <span class="badge <?= htmlspecialchars($badgeClass) ?>"><?= htmlspecialchars($badge) ?></span>
+                <?php if ($Role === 'trainer' ): ?>
+                    
+                    <span class="badge badge-red">Trainer</span>
+                    <p class="member-since">Trainer since <?= htmlspecialchars($formattedDate) ?></p>
+                    
+                <?php elseif ($Role === 'member'): ?>
+                    
+                    <?php if ($badge): ?>
+                        <span class="badge <?= htmlspecialchars($badgeClass) ?>"><?= htmlspecialchars($badge) ?></span>
+                    <?php else: ?>
+                        <span class="badge badge-gray">No Active Plan</span>
+                    <?php endif; ?>
+                    
+                    <p class="member-since">Member since <?= htmlspecialchars($formattedDate) ?></p>
+                    
+                    <ul class="profile-stats">
+                        <li><span>Classes Attended</span> <strong><?= htmlspecialchars((string)$classesAttended) ?></strong></li>
+                        <li><span>Upcoming</span> <strong><?= htmlspecialchars((string)$upcomingClasses) ?></strong></li>
+                    </ul>
                 <?php else: ?>
-                    <span class="badge badge-gray">No Active Plan</span>
+                    <span class="badge badge-red">Admin</span>
+                    <p class="member-since">Admin since <?= htmlspecialchars($formattedDate) ?></p>
                 <?php endif; ?>
-                
-                <p class="member-since">Member since <?= htmlspecialchars($formattedDate) ?></p>
-                
-                <ul class="profile-stats">
-                    <li><span>Classes Attended</span> <strong><?= htmlspecialchars((string)$classesAttended) ?></strong></li>
-                    <li><span>Upcoming</span> <strong><?= htmlspecialchars((string)$upcomingClasses) ?></strong></li>
-                </ul>
             </aside>
 
             <div class="profile-form-container card">
