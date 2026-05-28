@@ -393,6 +393,10 @@ window.enrollAjax = function (scheduleId) {
         function () {
             if (!ENROLLED_IDS.includes(String(scheduleId))) ENROLLED_IDS.push(String(scheduleId));
             openClassModal(scheduleId);
+            var grid = document.getElementById('calendarGrid');
+            if (grid && grid.dataset.week) {
+                loadWeek(grid.dataset.week);
+            }
         },
         function (msg) { showAlertModal(msg); }
     );
@@ -404,6 +408,10 @@ window.unenrollAjax = function (scheduleId) {
             function () {
                 ENROLLED_IDS = ENROLLED_IDS.filter(function (id) { return id !== String(scheduleId); });
                 openClassModal(scheduleId);
+                var grid = document.getElementById('calendarGrid');
+                if (grid && grid.dataset.week) {
+                    loadWeek(grid.dataset.week);
+                }
             },
             function (msg) { showAlertModal(msg); }
         );
