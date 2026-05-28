@@ -1,5 +1,7 @@
 <?php
-function drawNutritionPage(): void {
+declare(strict_types=1);
+
+function drawNutritionPage(array $trainers): void {
 ?>
 <main class="container nutrition-page">
     <?php drawPageHeader('Nutrition Plans', 'Browse custom meal guidance and trainer-approved plans.'); ?>
@@ -24,6 +26,11 @@ function drawNutritionPage(): void {
                 <label for="nutritionTrainerFilter">Trainer</label>
                 <select id="nutritionTrainerFilter" class="input-field">
                     <option value="">All trainers</option>
+                    <?php foreach ($trainers as $trainer): ?>
+                        <option value="<?php echo htmlspecialchars((string)$trainer['id']); ?>">
+                            <?php echo htmlspecialchars($trainer['name']); ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             
@@ -65,7 +72,6 @@ function drawNutritionPage(): void {
 </main>
 <?php
 }
-
 
 function drawNutritionHomepage(): void{
 ?>
