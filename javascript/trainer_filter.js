@@ -1,168 +1,328 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var searchInput = document.getElementById('trainerSearch');
-    var grid = document.getElementById('trainerGrid');
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('trainerSearch') && document.getElementById('trainerGrid')) {
+        initTrainersPage();
+    }
+});
 
-    if (!searchInput || !grid) return;
+function initTrainersPage() {
+    const searchInput = document.getElementById('trainerSearch');
+    const grid = document.getElementById('trainerGrid');
+    const modal = document.getElementById('trainerModal');
+    const modalBody = document.getElementById('trainerModalBody');
+    
+    let debounceTimer;
 
-    window.openTrainerModal = function (trainerId) {
-        var body = document.getElementById('trainerModalBody');
-        body.innerHTML = '<p style="text-align: center; color: #888;">Loading...</p>';
+    grid.addEventListener('click', (e) => {
+        const cardWrapper = e.target.closest('#trainerGrid > div');
+        
+        if (cardWrapper) {
+            let trainerId = cardWrapper.dataset.id;
+            
+            if (!trainerId) {
+                const onclickAttr = cardWrapper.getAttribute('onclick');
+                if (onclickAttr) {
+                    const match = onclickAttr.match(/\d+/);
+                    if (match) trainerId = match[0];
+                }
+            }
+            
+            if (trainerId) {
+                openTrainerModal(trainerId);
+            }
+        }
+    });
+
+    searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(fetchTrainersLive, 300);
+    });
+
+    if (modal) {
+        const closeX = modal.querySelector('.modal-close');
+        if (closeX) {
+            closeX.removeAttribute('onclick');
+            closeX.addEventListener('click', () => closeModal('trainerModal'));
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal('trainerModal');
+        });
+    }
+
+    function openTrainerModal(trainerId) {
+        modalBody.innerHTML = '';
+        const loading = document.createElement('p');
+        loading.style.textAlign = 'center';
+        loading.style.color = '#888';
+        loading.textContent = 'Loading...';
+        modalBody.appendChild(loading);
+        
         showModal('trainerModal');
 
-        fetch('../actions/api_trainer_detail.php?id=' + trainerId)
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
+        fetch(`../actions/api_trainer_detail.php?id=${encodeURIComponent(trainerId)}`)
+            .then(response => response.json())
+            .then(data => {
                 if (data.error) {
-                    body.innerHTML = '<p>Trainer not found.</p>';
+                    modalBody.innerHTML = '';
+                    const errorMsg = document.createElement('p');
+                    errorMsg.textContent = 'Trainer not found.';
+                    modalBody.appendChild(errorMsg);
                     return;
                 }
-                renderTrainerModal(data);
+                renderTrainerModalContent(data);
             })
-            .catch(function () {
-                body.innerHTML = '<p>Failed to load trainer details.</p>';
+            .catch(() => {
+                modalBody.innerHTML = '';
+                const errorMsg = document.createElement('p');
+                errorMsg.textContent = 'Failed to load trainer details.';
+                modalBody.appendChild(errorMsg);
             });
-    };
+    }
 
-    function fetchTrainers() {
-        var params = new URLSearchParams();
-        var q = searchInput.value.trim();
-        if (q) params.set('search', q);
+    function fetchTrainersLive() {
+        const params = new URLSearchParams();
+        const query = searchInput.value.trim();
+        if (query) params.set('search', query);
 
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Loading...</p>';
-
-        fetch('../actions/api_trainers.php?' + params.toString())
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
+        fetch(`../actions/api_trainers.php?${params.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                grid.innerHTML = '';
                 if (data.length === 0) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">No trainers found.</p>';
+                    const noFound = document.createElement('p');
+                    noFound.style.gridColumn = '1/-1';
+                    noFound.style.textAlign = 'center';
+                    noFound.style.color = '#888';
+                    noFound.textContent = 'No trainers found.';
+                    grid.appendChild(noFound);
                     return;
                 }
-                grid.innerHTML = '';
-                data.forEach(function (t) {
-                    var wrapper = document.createElement('div');
-                    wrapper.setAttribute('onclick', 'openTrainerModal(' + t.id + ')');
-                    wrapper.appendChild(buildTrainerCard(t));
+                
+                data.forEach(trainer => {
+                    const wrapper = document.createElement('div');
+                    wrapper.dataset.id = trainer.id; 
+                    wrapper.appendChild(buildTrainerCardDOM(trainer));
                     grid.appendChild(wrapper);
                 });
             })
-            .catch(function () {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Failed to load trainers.</p>';
+            .catch(() => {
+                grid.innerHTML = '';
+                const errorMsg = document.createElement('p');
+                errorMsg.style.gridColumn = '1/-1';
+                errorMsg.style.textAlign = 'center';
+                errorMsg.style.color = 'red';
+                errorMsg.textContent = 'Failed to load trainers.';
+                grid.appendChild(errorMsg);
             });
     }
 
-    function buildTrainerCard(t) {
-        var div = document.createElement('div');
-        div.className = 'team-member trainer-card-clickable';
+    function buildTrainerCardDOM(t) {
+        const div = document.createElement('div');
+        div.className = 'team-member';
 
-        var initials = t.name.split(' ').map(function (s) { return s[0]; }).join('').toUpperCase().substring(0, 2);
-        var specsHtml = '';
-        if (t.specializations_list && t.specializations_list.length > 1) {
-            specsHtml = '<div class="trainer-specs">';
-            t.specializations_list.forEach(function (s) {
-                specsHtml += '<span class="trainer-spec-tag">' + escapeHtml(s.trim()) + '</span>';
-            });
-            specsHtml += '</div>';
+        if (t.profile_photo) {
+            const img = document.createElement('img');
+            img.src = `../img/${t.profile_photo}`;
+            img.alt = t.name;
+            img.className = 'team-member-image';
+            div.appendChild(img);
+        } else {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'team-member-image trainer-placeholder';
+            placeholder.textContent = t.name.split(' ').map(s => s[0]).join('').toUpperCase().substring(0, 2);
+            div.appendChild(placeholder);
         }
 
-        var firstSpec = t.specializations_list && t.specializations_list[0] ? escapeHtml(t.specializations_list[0]) : 'Fitness';
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'team-member-info';
 
-        div.innerHTML =
-            (t.profile_photo
-                ? '<img src="../img/' + escapeHtml(t.profile_photo) + '" alt="' + escapeHtml(t.name) + '" class="team-member-image">'
-                : '<div class="team-member-image trainer-placeholder">' + initials + '</div>'
-            ) +
-            '<div class="team-member-info">' +
-                '<h3 class="team-member-name">' + escapeHtml(t.name) + '</h3>' +
-                '<p class="team-member-role">' + firstSpec + '</p>' +
-                (t.bio ? '<p class="team-member-description">' + escapeHtml(t.bio) + '</p>' : '') +
-                specsHtml +
-            '</div>';
+        const h3 = document.createElement('h3');
+        h3.className = 'team-member-name';
+        h3.textContent = t.name;
+        infoDiv.appendChild(h3);
 
+        const role = document.createElement('p');
+        role.className = 'team-member-role';
+        role.textContent = t.specializations_list && t.specializations_list[0] ? t.specializations_list[0] : 'Fitness';
+        infoDiv.appendChild(role);
+
+        if (t.bio) {
+            const bio = document.createElement('p');
+            bio.className = 'team-member-description';
+            bio.textContent = t.bio;
+            infoDiv.appendChild(bio);
+        }
+
+        if (t.specializations_list && t.specializations_list.length > 1) {
+            const specsDiv = document.createElement('div');
+            specsDiv.className = 'trainer-specs';
+            t.specializations_list.forEach(s => {
+                const tag = document.createElement('span');
+                tag.className = 'trainer-spec-tag';
+                tag.textContent = s.trim();
+                specsDiv.appendChild(tag);
+            });
+            infoDiv.appendChild(specsDiv);
+        }
+
+        div.appendChild(infoDiv);
         return div;
     }
 
-    function renderTrainerModal(data) {
-        var photo = data.profile_photo
-            ? '<img src="../img/' + escapeHtml(data.profile_photo) + '" alt="' + escapeHtml(data.name) + '" class="team-member-image" style="height:250px;">'
-            : '<div class="team-member-image trainer-placeholder" style="height:250px;">' + getInitials(data.name) + '</div>';
+    function renderTrainerModalContent(data) {
+        modalBody.innerHTML = '';
 
-        var specsHtml = '';
+        if (data.profile_photo) {
+            const img = document.createElement('img');
+            img.src = `../img/${data.profile_photo}`;
+            img.alt = data.name;
+            img.className = 'team-member-image';
+            img.style.height = '250px';
+            modalBody.appendChild(img);
+        } else {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'team-member-image trainer-placeholder';
+            placeholder.style.height = '250px';
+            placeholder.textContent = getInitials(data.name);
+            modalBody.appendChild(placeholder);
+        }
+
+        const contentContainer = document.createElement('div');
+        contentContainer.style.padding = '1.5em';
+
+        const title = document.createElement('div');
+        title.className = 'modal-title';
+        title.textContent = data.name;
+        contentContainer.appendChild(title);
+
+        if (data.years_experience) {
+            const years = document.createElement('div');
+            years.style.color = 'var(--ladybug-red)';
+            years.style.fontSize = '0.9em';
+            years.style.marginBottom = '0.5em';
+            years.textContent = `${data.years_experience} years experience`;
+            contentContainer.appendChild(years);
+        }
+
         if (data.specializations_list && data.specializations_list.length > 0) {
-            specsHtml = data.specializations_list.map(function (s) {
-                return '<span class="trainer-spec-tag">' + escapeHtml(s.trim()) + '</span>';
-            }).join(' ');
+            const specsContainer = document.createElement('div');
+            specsContainer.style.marginBottom = '1em';
+            data.specializations_list.forEach(s => {
+                const tag = document.createElement('span');
+                tag.className = 'trainer-spec-tag';
+                tag.style.marginRight = '0.25em';
+                tag.textContent = s.trim();
+                specsContainer.appendChild(tag);
+            });
+            contentContainer.appendChild(specsContainer);
         }
 
-        var classesHtml = '';
+        if (data.bio) {
+            const bioBody = document.createElement('div');
+            bioBody.className = 'modal-body';
+            const p = document.createElement('p');
+            p.textContent = data.bio;
+            bioBody.appendChild(p);
+            contentContainer.appendChild(bioBody);
+        }
+
+        if (data.certifications) {
+            const certBody = document.createElement('div');
+            certBody.className = 'modal-body';
+            const p = document.createElement('p');
+            const strong = document.createElement('strong');
+            strong.textContent = 'Certifications: ';
+            p.appendChild(strong);
+            p.appendChild(document.createTextNode(data.certifications));
+            certBody.appendChild(p);
+            contentContainer.appendChild(certBody);
+        }
+
         if (data.classes && data.classes.length > 0) {
-            classesHtml = '<div class="modal-trainer-classes"><h4>Classes Taught</h4>';
-            data.classes.forEach(function (c) {
-                classesHtml += '<div class="modal-trainer-class-item"><span class="tc-name">' + escapeHtml(c.name) + '</span><span class="tc-count">' + c.session_count + ' sessions</span></div>';
+            const classesDiv = document.createElement('div');
+            classesDiv.className = 'modal-trainer-classes';
+            const h4 = document.createElement('h4');
+            h4.textContent = 'Classes Taught';
+            classesDiv.appendChild(h4);
+
+            data.classes.forEach(c => {
+                const item = document.createElement('div');
+                item.className = 'modal-trainer-class-item';
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'tc-name';
+                nameSpan.textContent = c.name;
+                const countSpan = document.createElement('span');
+                countSpan.className = 'tc-count';
+                countSpan.textContent = `${c.session_count} sessions`;
+                item.append(nameSpan, countSpan);
+                classesDiv.appendChild(item);
             });
-            classesHtml += '</div>';
+            contentContainer.appendChild(classesDiv);
         }
 
-        var upcomingHtml = '';
         if (data.upcoming_sessions && data.upcoming_sessions.length > 0) {
-            upcomingHtml = '<div class="modal-trainer-classes" style="margin-top:1em"><h4>Upcoming Sessions</h4>';
-            data.upcoming_sessions.forEach(function (s) {
-                var d = new Date(s.scheduled_at);
-                var dateStr = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-                var time = s.scheduled_at.substring(11, 16);
-                upcomingHtml += '<div class="modal-trainer-class-item"><span class="tc-name">' + escapeHtml(s.name) + '</span><span style="color:#999;font-size:0.85em;">' + dateStr + ' ' + time + '</span></div>';
+            const upcomingDiv = document.createElement('div');
+            upcomingDiv.className = 'modal-trainer-classes';
+            upcomingDiv.style.marginTop = '1em';
+            const h4 = document.createElement('h4');
+            h4.textContent = 'Upcoming Sessions';
+            upcomingDiv.appendChild(h4);
+
+            data.upcoming_sessions.forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'modal-trainer-class-item';
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'tc-name';
+                nameSpan.textContent = s.name;
+
+                const d = new Date(s.scheduled_at);
+                const dateStr = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                const time = s.scheduled_at.substring(11, 16);
+                
+                const timeSpan = document.createElement('span');
+                timeSpan.style.color = '#999';
+                timeSpan.style.fontSize = '0.85em';
+                timeSpan.textContent = `${dateStr} ${time}`;
+
+                item.append(nameSpan, timeSpan);
+                upcomingDiv.appendChild(item);
             });
-            upcomingHtml += '</div>';
+            contentContainer.appendChild(upcomingDiv);
         }
 
-        var yearsText = data.years_experience ? data.years_experience + ' years experience' : '';
+        const footer = document.createElement('div');
+        footer.className = 'modal-footer';
 
-        document.getElementById('trainerModalBody').innerHTML =
-            photo +
-            '<div style="padding: 1.5em;">' +
-                '<div class="modal-title">' + escapeHtml(data.name) + '</div>' +
-                (yearsText ? '<div style="color: var(--ladybug-red); font-size: 0.9em; margin-bottom: 0.5em;">' + yearsText + '</div>' : '') +
-                '<div style="margin-bottom: 1em;">' + specsHtml + '</div>' +
-                (data.bio ? '<div class="modal-body"><p>' + escapeHtml(data.bio) + '</p></div>' : '') +
-                (data.certifications ? '<div class="modal-body"><p><strong>Certifications:</strong> ' + escapeHtml(data.certifications) + '</p></div>' : '') +
-                classesHtml +
-                upcomingHtml +
-                '<div class="modal-footer">' +
-                    '<a href="schedule.php" class="button button-small button-outline">View Schedule</a>' +
-                    '<button class="button button-small button-outline" onclick="closeModal(\'trainerModal\')">Close</button>' +
-                '</div>' +
-            '</div>';
+        const schedBtn = document.createElement('a');
+        schedBtn.href = 'schedule.php';
+        schedBtn.className = 'button button-small button-outline';
+        schedBtn.textContent = 'View Schedule';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.id = 'modalCloseBtn';
+        closeBtn.className = 'button button-small button-outline';
+        closeBtn.textContent = 'Close';
+
+        footer.append(schedBtn, closeBtn);
+        contentContainer.appendChild(footer);
+        modalBody.appendChild(contentContainer);
+
+        closeBtn.addEventListener('click', () => closeModal('trainerModal'));
     }
-
-    window.closeModal = function (id) {
-        document.getElementById(id).classList.remove('active');
-    };
-
-    document.querySelectorAll('.modal-overlay').forEach(function (el) {
-        el.addEventListener('click', function (e) {
-            if (e.target === this) this.classList.remove('active');
-        });
-    });
-
-    var debounceTimer;
-    searchInput.addEventListener('input', function () {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(fetchTrainers, 300);
-    });
-});
-
-function escapeHtml(str) {
-    if (!str) return '';
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
 }
 
 function getInitials(name) {
     if (!name) return '?';
-    var parts = name.split(' ');
+    const parts = name.split(' ');
     return (parts[0] ? parts[0][0] : '') + (parts[1] ? parts[1][0] : '');
 }
 
 function showModal(id) {
-    document.getElementById(id).classList.add('active');
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+}
+
+function closeModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
 }

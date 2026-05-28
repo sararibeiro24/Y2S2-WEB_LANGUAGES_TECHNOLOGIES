@@ -12,6 +12,7 @@ function drawHead($title) {
         <script src="../javascript/validation.js" defer></script>
         <script src="../javascript/extras.js" defer></script>
         <script src="../javascript/schedule_filter.js" defer></script>
+        <script src="../javascript/trainer_filter.js" defer></script>
     </head>
     <body>
     <?php
