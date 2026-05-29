@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadWeek(weekStr);
     };
 
-    window.openClassModal = function (scheduleId,clearComment = false) {
+    window.openClassModal = function (scheduleId, clearComment = false) {
         var body = document.getElementById('classModalBody');
         body.innerHTML = '<p style="text-align: center; color: #888;">Loading...</p>';
         showModal('classModal');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
                 if (clearComment && data.user_review) {
-                data.user_review.comment = '';
+                    data.user_review.comment = '';
                 }
                 renderClassModal(data);
             })
@@ -150,6 +150,7 @@ function renderCalendar(grid, weekStart, classes) {
 
     grid.innerHTML = html;
 }
+
 function renderClassModal(data) {
     var time = data.scheduled_at.substring(11, 16);
     var date = new Date(data.scheduled_at);
@@ -157,8 +158,12 @@ function renderClassModal(data) {
     var isFull = data.enrolled >= data.capacity;
     var diffClass = 'diff-' + (data.difficulty || 'beginner').toLowerCase();
 
+    var now = new Date();
+    var classTime = new Date(data.scheduled_at);
+    var hasClassPassed = now > classTime;
+
     var enrolled = ENROLLED_IDS && ENROLLED_IDS.some(function(id) {
-    return String(id) === String(data.schedule_id);
+        return String(id) === String(data.schedule_id);
     });
 
     var photo = data.trainer_photo
@@ -170,7 +175,10 @@ function renderClassModal(data) {
         : '';
 
     var actionHtml;
-    if (isFull) {
+    
+    if (hasClassPassed) {
+        actionHtml = '<button class="button button-small" disabled>Class Already Happened</button>';
+    } else if (isFull && !enrolled) {
         actionHtml = '<button class="button button-small" disabled>Class Full</button>';
     } else if (!IS_LOGGED_IN) {
         actionHtml = '<button class="button button-small" onclick="closeModal(\'classModal\'); showModal(\'authModal\')">Enroll Now</button>';
@@ -195,14 +203,13 @@ function renderClassModal(data) {
                 '<div class="mt-name">' + escapeHtml(data.trainer) + '</div>' +
                 '<div class="mt-spec">' + specsHtml + '</div>' +
                 (data.years_experience
-                    ? '<div style="color:#999;font-size:0.85em;margin-top:0.3em">' + data.years_experience + ' years experience</div>'
+                    ? '<div class="experience">' + data.years_experience + ' years experience</div>'
                     : '') +
             '</div>' +
         '</div>' +
         '<div class="modal-footer">' + actionHtml + '</div>' +
         renderReviewsSection(data);
 }
-
 
 function renderReviewsSection(data) {
     var html = '<div class="modal-reviews">';
@@ -211,10 +218,23 @@ function renderReviewsSection(data) {
         (data.avg_rating ? ' <span class="avg-rating">' + renderStars(parseFloat(data.avg_rating)) + ' ' + data.avg_rating + '</span>' : '') +
         '</h4>';
 
-    if (data.can_review) {
-        var userRating = data.user_review ? data.user_review.rating : 5;
-        var userComment = data.user_review ? escapeHtml(data.user_review.comment) : '';
-        var btnText = data.user_review ? 'Update Review' : 'Submit Review';
+    var now = new Date();
+    var classTime = new Date(data.scheduled_at);
+    var hasClassPassed = now > classTime;
+    var isUserEnrolled = ENROLLED_IDS && ENROLLED_IDS.some(function(id) {
+        return String(id).trim() === String(data.schedule_id).trim();
+    });
+
+    if (isUserEnrolled && !hasClassPassed) {
+        html += '<p class="review-msg review-notice-past">' +
+                'You cannot review this class yet because it has not taken place.' + 
+                '</p>';
+    }
+    
+    if (data.can_review && !data.user_review && hasClassPassed) {
+        var userRating = 5;
+        var userComment = '';
+        var btnText = 'Submit Review';
         html += '<form class="review-form" onsubmit="submitReview(event, ' + data.schedule_id + ')">' +
             '<div class="star-rating">' +
                 '<input type="hidden" name="rating" id="reviewRating_' + data.schedule_id + '" value="' + userRating + '">';
@@ -228,6 +248,9 @@ function renderReviewsSection(data) {
             '<button class="button button-small">' + btnText + '</button>' +
             '<span class="review-msg" id="reviewMsg_' + data.schedule_id + '"></span>' +
             '</form>';
+    }
+    else if (data.user_review) {
+        html += '<p class="review-msg review-msg-already">You have already reviewed this class. Thank you!</p>';
     }
 
     if (data.reviews && data.reviews.length > 0) {
@@ -274,7 +297,6 @@ window.submitReview = function (event, scheduleId) {
     var rating = document.getElementById('reviewRating_' + scheduleId).value;
     var comment = form.querySelector('textarea').value;
     var msgEl = document.getElementById('reviewMsg_' + scheduleId);
-    const textarea= document.querySelector(".review-form textarea");
     var fd = new FormData();
     fd.append('schedule_id', scheduleId);
     fd.append('rating', rating);
@@ -291,13 +313,11 @@ window.submitReview = function (event, scheduleId) {
                 msgEl.textContent = data.error || 'Failed to save review.';
                 msgEl.className = 'review-msg error';
             }
-           
         })
         .catch(function () {
             msgEl.textContent = 'Network error.';
             msgEl.className = 'review-msg error';
         });
-
 };
 
 function enrollXhr(scheduleId, onSuccess, onError) {
@@ -341,7 +361,10 @@ window.enrollAjax = function (scheduleId) {
     enrollXhr(
         scheduleId,
         function () {
-            if (!ENROLLED_IDS.includes(String(scheduleId))) ENROLLED_IDS.push(String(scheduleId));
+            var idStr = String(scheduleId);
+            if (!ENROLLED_IDS.map(String).includes(idStr)) {
+                ENROLLED_IDS.push(idStr);
+            }
             openClassModal(scheduleId);
             var grid = document.getElementById('calendarGrid');
             if (grid && grid.dataset.week) loadWeek(grid.dataset.week, false);
@@ -355,7 +378,10 @@ window.unenrollAjax = function (scheduleId) {
         unenrollXhr(
             scheduleId,
             function () {
-                ENROLLED_IDS = ENROLLED_IDS.filter(function (id) { return id !== String(scheduleId); });
+                ENROLLED_IDS = ENROLLED_IDS.filter(function (id) { 
+                    return String(id).trim() !== String(scheduleId).trim(); 
+                });
+                
                 openClassModal(scheduleId);
                 var grid = document.getElementById('calendarGrid');
                 if (grid && grid.dataset.week) loadWeek(grid.dataset.week, false);
@@ -363,7 +389,7 @@ window.unenrollAjax = function (scheduleId) {
             function (msg) { showAlertModal(msg); }
         );
     });
-};
+};;
 
 function showConfirmModal(message, onConfirm) {
     var overlay = document.getElementById('confirmModal');

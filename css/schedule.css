@@ -284,6 +284,11 @@
     color: var(--ladybug-red);
     font-size: 0.85em;
 }
+.experience {
+    color: #999;
+    font-size: 0.85em;
+    margin-top: 0.3em;
+}
 
 /* ── Reviews in Modal ────────────────────────── */
 
@@ -343,6 +348,26 @@
 
 .review-msg.success { color: var(--ladybug-white); }
 .review-msg.error { color: #f44336; }
+
+
+.review-notice-past {
+    color: #eab308;
+    font-style: italic;
+    background: #2a2415;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #71581e;
+    font-size: 0.9em;
+}
+
+.review-msg-already {
+    color: #888;
+    font-style: italic;
+    margin-bottom: 15px;
+    display: block;
+    font-size: 0.9em;
+}
 
 /* ── Star Rating Input ───────────────────────── */
 
