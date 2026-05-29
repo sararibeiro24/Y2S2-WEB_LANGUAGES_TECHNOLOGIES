@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadWeek(weekStr);
     };
 
-    window.openClassModal = function (scheduleId) {
+    window.openClassModal = function (scheduleId,clearComment = false) {
         var body = document.getElementById('classModalBody');
         body.innerHTML = '<p style="text-align: center; color: #888;">Loading...</p>';
         showModal('classModal');
@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.error) {
                     body.innerHTML = '<p>Class not found.</p>';
                     return;
+                }
+                if (clearComment && data.user_review) {
+                data.user_review.comment = '';
                 }
                 renderClassModal(data);
             })
@@ -271,7 +274,7 @@ window.submitReview = function (event, scheduleId) {
     var rating = document.getElementById('reviewRating_' + scheduleId).value;
     var comment = form.querySelector('textarea').value;
     var msgEl = document.getElementById('reviewMsg_' + scheduleId);
-
+    const textarea= document.querySelector(".review-form textarea");
     var fd = new FormData();
     fd.append('schedule_id', scheduleId);
     fd.append('rating', rating);
@@ -283,16 +286,18 @@ window.submitReview = function (event, scheduleId) {
             if (data.success) {
                 msgEl.textContent = 'Review saved!';
                 msgEl.className = 'review-msg success';
-                openClassModal(scheduleId);
+                openClassModal(scheduleId, true);
             } else {
                 msgEl.textContent = data.error || 'Failed to save review.';
                 msgEl.className = 'review-msg error';
             }
+           
         })
         .catch(function () {
             msgEl.textContent = 'Network error.';
             msgEl.className = 'review-msg error';
         });
+
 };
 
 function enrollXhr(scheduleId, onSuccess, onError) {
