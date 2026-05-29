@@ -124,6 +124,14 @@ CREATE TABLE IF NOT EXISTS nutrition_plans (
     FOREIGN KEY(trainer_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
+-- Additional Nutrition Plans
+INSERT OR IGNORE INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES
+(1, 3, 1800, 'Weight Loss', 'Low-carb meals with high protein.'),
+(2, 4, 2500, 'Muscle Gain', 'High protein and calorie surplus meals.'),
+(3, 3, 2000, 'Maintenance', 'Balanced meals with healthy fats and carbs.'),
+(4, 4, 2200, 'Muscle Gain', 'Protein-rich meals with moderate carbs.'),
+(5, 3, 1600, 'Weight Loss', 'Low-calorie meals with vegetables and lean protein.');
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
 CREATE INDEX IF NOT EXISTS idx_class_schedule_trainer ON class_schedule(trainer_id);
@@ -240,10 +248,20 @@ UPDATE users SET plan_id = 1 WHERE username = 'joaosilva';
 UPDATE users SET plan_id = 2 WHERE username = 'anacosta';
 
 -- NUTRITION PLANS DATA
+DELETE FROM nutrition_plans;
 INSERT OR IGNORE INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES
 (1, 3, 1800, 'Weight Loss', 'High protein breakfast, light lunch, balanced dinner.'),
+(2, 3, 2250, 'Muscle Gain', 'Lean protein, smarter carbs, and recovery-focused eating.'),
+(1, 4, 2000, 'Maintenance', 'Three meals with healthy fats and vegetables.'),
 (2, 4, 2500, 'Muscle Gain', 'Calorie surplus with lean proteins and carbs.'),
-(1, 4, 2000, 'Maintenance', 'Three meals with healthy fats and vegetables.');
+(1, 9, 2100, 'Weight Loss', 'Protein-focused meals with lots of vegetables and hydration.'),
+(2, 9, 2150, 'Maintenance', 'Simple meal structure with mindful calories and good recovery.'),
+(1, 10, 2300, 'Muscle Gain', 'A calorie surplus with clean carbs, protein, and recovery fats.'),
+(2, 10, 2400, 'Muscle Gain', 'High-performance fueling with more protein and recovery nutrients.'),
+(1, 11, 2050, 'Maintenance', 'Balanced portions for daily energy, mobility, and recovery.'),
+(2, 11, 2200, 'Weight Loss', 'Smart portions with protein-first meals and steady hydration.'),
+(1, 12, 1900, 'Weight Loss', 'Portion-controlled meals, low sugar, and steady protein intake.'),
+(2, 12, 2350, 'Maintenance', 'Balanced nutrition for recovery, stamina, and everyday energy.');
 
 -- BOOKINGS
 INSERT OR IGNORE INTO bookings (member_id, trainer_id, scheduled_at, status) VALUES

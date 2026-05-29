@@ -5,13 +5,7 @@ require_once(__DIR__ . '/../database/database.db.php');
 require_once(__DIR__ . '/../utils/session.php');
 
 Session::start();
-$userId = Session::getUserId();
 header('Content-Type: application/json; charset=utf-8');
-
-if (!$userId) {
-    echo json_encode([]);
-    exit;
-}
 
 $query = trim($_GET['query'] ?? '');
 $goal = trim($_GET['goal'] ?? '');
@@ -25,9 +19,9 @@ $sql = 'SELECT np.id, np.target_calories, np.goal, np.meal_details, np.created_a
         FROM nutrition_plans np
         JOIN users member ON np.user_id = member.id
         JOIN users trainer ON np.trainer_id = trainer.id
-        WHERE np.user_id = ?';
+        WHERE 1=1';
 
-$params = [$userId];
+$params = [];
 
 if ($query !== '') {
     $sql .= ' AND (LOWER(np.goal) LIKE ? OR LOWER(np.meal_details) LIKE ? OR LOWER(trainer.name) LIKE ?)';
@@ -39,8 +33,8 @@ if ($goal !== '') {
     $params[] = $goal;
 }
 if ($trainer !== '') {
-    $sql .= ' AND trainer.name = ?';
-    $params[] = $trainer;
+    $sql .= ' AND np.trainer_id = ?';
+    $params[] = (int)$trainer;
 }
 
 $sql .= ' ORDER BY np.id DESC';
