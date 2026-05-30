@@ -95,7 +95,14 @@ if (!empty($_FILES['profile_photo']['name'])) {
         $destination = $uploadDir . $filename;
 
         if (move_uploaded_file($file['tmp_name'], $destination)) {
-            $user->updateProfilePhoto('/uploads/' . $filename);
+            $oldPhoto = $user->getProfilePhoto();
+            if ($oldPhoto && str_starts_with($oldPhoto, 'uploads/')) {
+                $oldPath = dirname(__DIR__) . '/' . $oldPhoto;
+                if (file_exists($oldPath)) {
+                unlink($oldPath);
+                }
+            }
+            $user->updateProfilePhoto('uploads/' . $filename);
             $hasChanges = true;
         } else {
             Session::addMessage('error', 'Failed to save uploaded image.');

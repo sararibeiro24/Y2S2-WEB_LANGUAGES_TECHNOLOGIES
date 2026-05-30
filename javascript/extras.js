@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const debounce = (fn, delay = 300) => {
         let timer;
@@ -211,4 +212,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+ 
 });

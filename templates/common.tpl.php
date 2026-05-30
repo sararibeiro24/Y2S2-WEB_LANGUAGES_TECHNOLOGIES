@@ -134,3 +134,9 @@ function drawMessages() {
     // Auto-dismiss script runs once per batch
     echo '<script>(function(){var t=document.querySelectorAll(".toast");t.forEach(function(e){setTimeout(function(){e.classList.add("toast-hide");setTimeout(function(){e.remove()},400)},2000)})})()</script>';
 }
+function resolvePhoto(?string $path, string $default = '/img/default.png'): string {
+    if (!$path) return $default;
+    $path = ltrim($path, '/');
+    if (str_starts_with($path, 'uploads/')) return '/' . $path;
+    return '/img/' . $path;
+}

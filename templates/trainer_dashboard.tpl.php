@@ -76,7 +76,7 @@ function drawClassRosterBlock(array $c, PDO $db): void {
                             <td>
                                 <div class="roster-member">
                                     <?php if (!empty($m['profile_photo'])): ?>
-                                        <img src="../img/<?= htmlspecialchars($m['profile_photo']) ?>" alt="" class="roster-photo">
+                                        <img src="<?= htmlspecialchars(resolvePhoto($m['profile_photo'])) ?>" alt="" class="roster-photo">
                                     <?php else: ?>
                                         <div class="roster-photo-placeholder"><?= htmlspecialchars(strtoupper(substr($m['name'] ?? 'U', 0, 1))) ?></div>
                                     <?php endif; ?>

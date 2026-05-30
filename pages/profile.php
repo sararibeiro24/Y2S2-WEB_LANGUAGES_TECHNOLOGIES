@@ -24,7 +24,7 @@ if (!$user) {
 $Name = $user->getName();
 $Username = $user->getUsername();
 $Email = $user->getEmail();
-$ProfilePhoto = $user->getProfilePhoto() ?? '../img/default.png';
+$ProfilePhoto = resolvePhoto($user->getProfilePhoto()) ?? '../img/default.png';
 $PlanName = $user->getPlanName();
 $CreatedAt = $user->getCreatedAt();
 $classesAttended = $user->getClassesAttendedCount();

@@ -259,8 +259,10 @@ function renderClassModal(data) {
     const isOwnClass = USER_ROLE === 'trainer' && USER_ID && Number(data.trainer_id) === Number(USER_ID);
 
     const photo = data.trainer_photo
-        ? '<img src="../img/' + escapeHtml(data.trainer_photo) + '" alt="' + escapeHtml(data.trainer) + '">'
-        : '<div class="placeholder">' + getInitials(data.trainer) + '</div>';
+    ? '<img src="' + escapeHtml(resolvePhoto(data.trainer_photo)) + '" alt="' + escapeHtml(data.trainer) + '">'
+    : '<div class="placeholder">' + getInitials(data.trainer) + '</div>';
+
+    
 
     const specsHtml = (data.specs_list && data.specs_list.length > 0)
         ? data.specs_list.map(function (s) { return escapeHtml(s.trim()); }).join(' &bull; ')
@@ -363,8 +365,8 @@ function renderReviewsSection(data) {
         html += '<div class="reviews-list">';
         data.reviews.forEach(function (r) {
             const photo = r.user_photo
-                ? '<img src="../img/' + escapeHtml(r.user_photo) + '" alt="' + escapeHtml(r.user_name) + '">'
-                : '<div class="review-avatar-placeholder">' + getInitials(r.user_name) + '</div>';
+            ? '<img src="' + escapeHtml(resolvePhoto(r.user_photo)) + '" alt="' + escapeHtml(r.user_name) + '">'
+            : '<div class="review-avatar-placeholder">' + getInitials(r.user_name) + '</div>';
             html += '<div class="review-item">' +
                 '<div class="review-header">' +
                     photo +
@@ -554,4 +556,10 @@ function getInitials(name) {
     if (!name) return '?';
     const parts = name.split(' ');
     return (parts[0] ? parts[0][0] : '') + (parts[1] ? parts[1][0] : '');
+}
+function resolvePhoto(path) {
+    if (!path) return null;
+    path = path.replace(/^\/+/, ''); 
+    if (path.startsWith('uploads/')) return '../' + path;
+    return '../img/' + path;
 }
