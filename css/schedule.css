@@ -1,7 +1,50 @@
 /* ── Schedule Page ────────────────────────────── */
 
 .schedule-page {
-    padding: 2em 20px 4em;
+    padding: 0 20px 4em;
+}
+
+/* ── Filter Bar ──────────────────────────────── */
+
+.schedule-filters {
+    background: linear-gradient(135deg, var(--ladybug-dark-gray), var(--ladybug-medium-gray));
+    border: 1px solid var(--ladybug-medium-gray);
+    border-radius: 15px;
+    padding: 1.2em 1.5em;
+    margin-bottom: 1em;
+    text-align: left;
+}
+
+.filter-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1.2fr 1fr 1fr auto;
+    gap: 1em;
+    align-items: end;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--ladybug-gray);
+    margin-bottom: 0.3em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-group .input-field {
+    font-size: 0.9em;
+    padding: 0.6em 0.8em;
+}
+
+.filter-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.filter-actions .button {
+    white-space: nowrap;
 }
 
 /* ── Calendar ────────────────────────────────── */
@@ -138,6 +181,29 @@
     font-size: 0.85em;
 }
 
+.calendar-class-card .ccal-enrolled-badge {
+    display: inline-block;
+    font-size: 0.6em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--ladybug-red);
+    color: var(--ladybug-white);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    margin-top: 0.2em;
+}
+
+.calendar-class-card.enrolled {
+    border-left-color: var(--ladybug-red);
+    background: linear-gradient(135deg, var(--ladybug-dark-gray), rgba(196, 30, 58, 0.12));
+}
+
+.calendar-class-card.past {
+    border-left-color: #555;
+    opacity: 0.45;
+}
+
 .calendar-class-card.full {
     border-left-color: #555;
     opacity: 0.6;
@@ -212,6 +278,45 @@
 .diff-beginner { background: var(--ladybug-dark-gray); color: var(--ladybug-white); }
 .diff-intermediate { background: #b8860b; color: #fff; }
 .diff-advanced { background: #8b0000; color: #fff; }
+
+.modal-enrolled-badge {
+    display: inline-block;
+    padding: 0.2em 0.8em;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--ladybug-red);
+    color: var(--ladybug-white);
+    margin-left: 0.5em;
+}
+
+.modal-self-class-badge {
+    display: inline-block;
+    padding: 0.2em 0.8em;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #555;
+    color: var(--ladybug-white);
+    margin-left: 0.5em;
+}
+
+.modal-past-badge {
+    display: inline-block;
+    padding: 0.2em 0.8em;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #333;
+    color: #888;
+    margin-left: 0.5em;
+}
 
 .modal-body {
     line-height: 1.6;
@@ -469,6 +574,18 @@
 
 /* ── Responsive ──────────────────────────────── */
 
+@media (max-width: 1100px) {
+    .filter-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    .filter-actions {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 0.5em;
+    }
+}
+
 @media (max-width: 900px) {
     .calendar-grid {
         grid-template-columns: repeat(1, 1fr);
@@ -484,5 +601,11 @@
     .calendar-day-number {
         font-size: 0.9em;
         font-weight: bold;
+    }
+}
+
+@media (max-width: 600px) {
+    .filter-row {
+        grid-template-columns: 1fr;
     }
 }
