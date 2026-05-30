@@ -247,6 +247,22 @@ class ClassSchedule {
         $stmt->execute([$trainerId]);
         return $stmt->fetchAll();
 }
+public static function getClassesByTrainer(int $trainerId, ?PDO $db = null): array {
+    return self::getTrainerSchedules($trainerId, $db);
+}
+public static function getClassByName(string $name, ?PDO $db = null): ?array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('SELECT id, description, difficulty FROM classes WHERE name = ? LIMIT 1');
+    $stmt->execute([$name]);
+    $row = $stmt->fetch();
+    return $row ?: null;
+}
+
+public static function clearScheduleEnrollments(int $scheduleId, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('DELETE FROM enrollments WHERE schedule_id = ?');
+    return $stmt->execute([$scheduleId]);
+}
 
 public static function trainerHasClassAtTime(int $trainerId, string $scheduledAt, ?int $excludeId = null, ?PDO $db = null): bool {
     $db = $db ?? getDatabaseConnection();

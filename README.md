@@ -62,7 +62,8 @@ The styling is organized into four modular files following a layered approach:
 - [ ] Oversee and ensure the smooth operation of the entire system.
 
 **Extra:**
-- [ ] Something extra (e.g., personal training bookings, membership plans, waitlist, ...).
+- [ ] Define tiered membership plans (e.g., basic, premium) with different access levels, and allow members to subscribe to or upgrade their plan.
+- [ ] Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
 
 ## Running
 

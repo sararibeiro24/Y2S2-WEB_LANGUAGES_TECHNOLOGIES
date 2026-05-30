@@ -119,5 +119,13 @@ class Trainer {
         }
         return $trainers;
     }
+    public static function getProfileByUserId(int $userId, ?PDO $db = null): ?array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('SELECT bio, specializations, certifications FROM trainer_profiles WHERE user_id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
 }
+
 ?>
