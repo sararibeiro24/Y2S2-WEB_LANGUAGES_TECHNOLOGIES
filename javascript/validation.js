@@ -22,17 +22,22 @@ let emailTimeout;
 function validateNameField(inputElement) {
     if (!inputElement) return false;
     const name = inputElement.value.trim();
-    
+    const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿÇç\s]+$/;
     inputElement.classList.remove('error', 'success');
     
     if (name.length === 0) {
         inputElement.classList.add('error');
         formValidityStates.name = false;
         return false;
-    } else {
+    }
+    if (nameRegex.test(name)) {
         inputElement.classList.add('success');
         formValidityStates.name = true;
         return true;
+    } else {
+        inputElement.classList.add('error');
+        formValidityStates.name = false;
+        return false;
     }
 }
 
@@ -216,7 +221,9 @@ function updateSubmitButtonState(formId, buttonSelector) {
     if (formId === '#register-form') {
         const nameVal = document.getElementById('name-input')?.value.trim() || '';
         const usernameVal = document.getElementById('username-input')?.value.trim() || '';
-        
+        if (nameVal) {
+            formValidityStates.name = validateNameField(nameVal);
+        }
         if (nameVal.length > 0) formValidityStates.name = true;
         if (usernameVal.length >= 3 && !document.getElementById('username-status')?.classList.contains('error')) {
             formValidityStates.username = true;
