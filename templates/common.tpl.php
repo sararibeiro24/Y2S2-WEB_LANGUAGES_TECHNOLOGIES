@@ -54,11 +54,8 @@ function drawHeader() {
                     <li><a href="index.php#feedback">Feedback</a></li>
                     <li><a href="index.php#qa">Q&A</a></li>
                     <?php if ($isLoggedIn): ?>
-                        <?php if (Session::isAdmin()): ?>
-                            <li><a href="admin_dashboard.php">Admin</a></li>
-                        <?php endif; ?>
-                        <?php if (Session::isTrainer()): ?>
-                            <li><a href="trainer_dashboard.php">Trainer Dashboard</a></li>
+                        <?php if (Session::isAdmin()||Session::isTrainer()): ?>
+                            <li><a href="dashboard.php">Dashboard</a></li>
                         <?php endif; ?>
                         <li><a href="profile.php">My Profile</a></li>
                         <li><a href="../actions/action_logout.php" class="button button-small">Logout</a></li>

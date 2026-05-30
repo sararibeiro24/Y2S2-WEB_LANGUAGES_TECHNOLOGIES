@@ -25,21 +25,33 @@ if ($action === 'add') {
         header('Location: ../pages/manage_classes.php');
         exit;
     }
-
     $scheduledAt = date('Y-m-d H:i:s', strtotime($scheduledAt));
+
+    if (ClassSchedule::trainerHasClassAtTime($userId, $scheduledAt, null, $db)) {
+    Session::addMessage('error', 'You already have a class at that time.');
+    header('Location: ../pages/manage_classes.php');
+    exit;
+    }
+
     ClassSchedule::addSchedule($classId, $userId, $scheduledAt, $db);
     Session::addMessage('success', 'Class slot added.');
 
 } elseif ($action === 'update') {
     $scheduleId = (int)($_POST['schedule_id'] ?? 0);
     $scheduledAt = trim($_POST['scheduled_at'] ?? '');
-
     if (!$scheduleId || !$scheduledAt) {
         Session::addMessage('error', 'Invalid data.');
         header('Location: ../pages/manage_classes.php');
         exit;
     }
+    $scheduledAt = date('Y-m-d H:i:s', strtotime($scheduledAt));
 
+    if (ClassSchedule::trainerHasClassAtTime($userId, $scheduledAt, $scheduleId, $db)) {
+    Session::addMessage('error', 'You already have a class at that time.');
+    header('Location: ../pages/manage_classes.php');
+    exit;
+    }
+    
     $schedule = ClassSchedule::getById($scheduleId, $db);
 
     if (!$schedule || $schedule->getTrainerId() !== $userId) {
@@ -47,8 +59,6 @@ if ($action === 'add') {
         header('Location: ../pages/manage_classes.php');
         exit;
     }
-
-    $scheduledAt = date('Y-m-d H:i:s', strtotime($scheduledAt));
     ClassSchedule::updateSchedule($scheduleId, $scheduledAt, $db);
     Session::addMessage('success', 'Schedule updated.');
 
