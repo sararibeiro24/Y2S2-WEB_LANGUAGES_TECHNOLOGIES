@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-function drawTrainerDashboard(string $bio, string $specializations, string $certifications, array $classes, PDO $db): void {
+function drawTrainerDashboard(string $bio, string $specializations, string $certifications, array $classes, array $nutritionRequests, PDO $db): void {
     ?>
     <main class="container" style="padding-top: 1em;">
         <div class="page-header">
             <h2>Trainer Dashboard</h2>
-            <p>Manage your profile and view class rosters.</p>
+            <p>Manage your profile, approve nutrition requests, and review class rosters.</p>
         </div>
 
         <div class="dashboard-layout">
@@ -27,6 +27,38 @@ function drawTrainerDashboard(string $bio, string $specializations, string $cert
                     </div>
                     <button class="button" type="submit">Save Profile</button>
                 </form>
+            </section>
+
+            <section class="dashboard-card nutrition-requests-card">
+                <h3>Nutrition Plan Requests</h3>
+                <?php if (empty($nutritionRequests)): ?>
+                    <p class="empty-state">No nutrition plan requests yet.</p>
+                <?php else: ?>
+                    <div class="nutrition-requests-list">
+                        <?php foreach ($nutritionRequests as $request): ?>
+                            <article class="nutrition-request-card">
+                                <div class="request-header">
+                                    <div>
+                                        <strong><?= htmlspecialchars($request['member_name']) ?></strong>
+                                        <span class="request-email"><?= htmlspecialchars($request['member_email']) ?></span>
+                                    </div>
+                                    <span class="request-goal"><?= htmlspecialchars($request['goal']) ?></span>
+                                </div>
+                                <div class="request-meta">
+                                    <span><strong>Calories:</strong> <?= htmlspecialchars((string)($request['target_calories'] ?? 'Custom')) ?> kcal</span>
+                                    <span>Requested <?= htmlspecialchars((new DateTime($request['created_at']))->format('M d, Y')) ?></span>
+                                </div>
+                                <p class="meal-summary"><?= nl2br(htmlspecialchars($request['meal_details'])) ?></p>
+                                <form class="nutrition-request-form" action="../actions/action_approve_nutrition.php" method="POST">
+                                    <input type="hidden" name="nutrition_id" value="<?= htmlspecialchars((string)$request['id']) ?>">
+                                    <label for="meal_details_<?= htmlspecialchars((string)$request['id']) ?>">Add meal plan details</label>
+                                    <textarea id="meal_details_<?= htmlspecialchars((string)$request['id']) ?>" name="meal_details" rows="4" placeholder="Write the nutrition plan details here..." required></textarea>
+                                    <button type="submit" class="button">Approve Request</button>
+                                </form>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </section>
 
             <section class="dashboard-card">

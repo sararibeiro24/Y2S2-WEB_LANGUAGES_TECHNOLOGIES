@@ -37,6 +37,9 @@ if ($trainer !== '') {
     $params[] = (int)$trainer;
 }
 
+$sql .= ' AND np.meal_details NOT LIKE ?';
+$params[] = 'Pending approval%';
+
 $sql .= ' ORDER BY np.id DESC';
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
