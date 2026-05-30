@@ -17,7 +17,12 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $weekStart)) {
 
 $weekEnd = date('Y-m-d 23:59:59', strtotime($weekStart . ' +6 days'));
 
-$stmt = $db->prepare('
+// Filter params
+$trainerId  = isset($_GET['trainer_id']) ? (int)$_GET['trainer_id'] : 0;
+$search     = trim($_GET['query'] ?? '');
+$difficulty = trim($_GET['difficulty'] ?? '');
+
+$sql = '
     SELECT
         cs.id AS schedule_id,
         cs.class_id,
@@ -35,10 +40,29 @@ $stmt = $db->prepare('
     JOIN users u ON cs.trainer_id = u.id
     LEFT JOIN enrollments e ON e.schedule_id = cs.id
     WHERE cs.scheduled_at >= ? AND cs.scheduled_at <= ?
-    GROUP BY cs.id
-    ORDER BY cs.scheduled_at ASC
-');
-$stmt->execute([$weekStart, $weekEnd]);
+';
+
+$params = [$weekStart, $weekEnd];
+
+if ($trainerId > 0) {
+    $sql .= ' AND cs.trainer_id = ?';
+    $params[] = $trainerId;
+}
+
+if ($search !== '') {
+    $sql .= ' AND LOWER(c.name) LIKE ?';
+    $params[] = '%' . strtolower($search) . '%';
+}
+
+if ($difficulty !== '') {
+    $sql .= ' AND LOWER(c.difficulty) = ?';
+    $params[] = strtolower($difficulty);
+}
+
+$sql .= ' GROUP BY cs.id ORDER BY cs.scheduled_at ASC';
+
+$stmt = $db->prepare($sql);
+$stmt->execute($params);
 $rows = $stmt->fetchAll();
 
 echo json_encode([

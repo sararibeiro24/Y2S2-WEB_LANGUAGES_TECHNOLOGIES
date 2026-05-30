@@ -26,10 +26,14 @@ if ($scheduleId <= 0) {
 
 $db = getDatabaseConnection();
 
-// Check capacity and prevent duplicates in one go
+// Get schedule details including trainer_id, scheduled_at
 $stmt = $db->prepare('
     SELECT
+        cs.id,
+        cs.trainer_id,
+        cs.scheduled_at,
         c.capacity,
+        c.name AS class_name,
         COUNT(e.id) AS enrolled
     FROM class_schedule cs
     JOIN classes c ON c.id = cs.class_id
@@ -43,6 +47,22 @@ if (!$class) {
     http_response_code(404);
     if ($isAjax) { echo json_encode(['error' => 'Class not found']); exit; }
     die('Class not found');
+}
+
+// Check if class has already passed
+$scheduledAt = strtotime($class['scheduled_at']);
+if ($scheduledAt < time()) {
+    http_response_code(409);
+    if ($isAjax) { echo json_encode(['error' => 'This class has already taken place']); exit; }
+    die('This class has already taken place');
+}
+
+// Check if trainer is trying to enroll in their own class
+$userRole = Session::getUserRole();
+if ($userRole === 'trainer' && (int)$class['trainer_id'] === $userId) {
+    http_response_code(403);
+    if ($isAjax) { echo json_encode(['error' => 'You cannot enroll in your own class']); exit; }
+    die('You cannot enroll in your own class');
 }
 
 if ($class['enrolled'] >= $class['capacity']) {
