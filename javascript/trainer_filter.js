@@ -294,7 +294,7 @@ function initTrainersPage() {
         footer.className = 'modal-footer';
 
         const schedBtn = document.createElement('a');
-        schedBtn.href = 'schedule.php';
+        schedBtn.href = `schedule.php?trainer_id=${data.id}`;;
         schedBtn.className = 'button button-small button-outline';
         schedBtn.textContent = 'View Schedule';
 

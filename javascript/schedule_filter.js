@@ -4,7 +4,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterTrainer    = document.getElementById('filterTrainer');
     const filterDifficulty = document.getElementById('filterDifficulty');
     const filterDate       = document.getElementById('filterDate');
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlTrainerId = urlParams.get('trainer_id');
+    const urlWeek = urlParams.get('week');
+    if (urlTrainerId && filterTrainer) {
+        filterTrainer.value = urlTrainerId;
+    }
 
+    const initialWeek = urlWeek || (document.getElementById('calendarGrid') ? document.getElementById('calendarGrid').dataset.week : CURRENT_WEEK);
+    loadWeek(initialWeek || CURRENT_WEEK, false, getFilterParams());
+    // ---------------------------------
     function getFilterParams() {
         const params = {};
         const query = filterSearch ? filterSearch.value.trim() : '';
@@ -132,7 +141,6 @@ function getFilterQueryString(params) {
     if (params.difficulty) qs += '&difficulty=' + encodeURIComponent(params.difficulty);
     return qs;
 }
-
 function loadWeek(weekStr, updateURL, filterParams) {
     if (filterParams === undefined) filterParams = {};
     const grid = document.getElementById('calendarGrid');
@@ -157,12 +165,13 @@ function loadWeek(weekStr, updateURL, filterParams) {
 
             renderCalendar(grid, data.week_start, data.classes || []);
             grid.dataset.week = data.week_start;
+            
             if (updateURL) {
-                        let urlPath = '?week=' + data.week_start;
-                        const qs = getFilterQueryString(filterParams);
-                        if (qs) urlPath += qs;
-                        window.history.replaceState({}, '', urlPath);
-                    }
+                let urlPath = '?week=' + data.week_start;
+                const qs = getFilterQueryString(filterParams);
+                if (qs) urlPath += qs;
+                window.history.replaceState({}, '', urlPath);
+            }
         })
         .catch(function () {
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Failed to load classes.</p>';

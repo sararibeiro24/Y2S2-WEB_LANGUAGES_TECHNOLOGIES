@@ -43,11 +43,11 @@ The styling is organized into four modular files following a layered approach:
 - [X] Edit their profile, including name, username, password, and profile photo.
 
 **Members:**
-- [ ] Browse the schedule of available fitness classes, filtering by type, trainer, day, or time.
-- [ ] Enroll in and cancel enrollment from upcoming classes, subject to capacity limits.
+- [X] Browse the schedule of available fitness classes, filtering by type, trainer, day, or time.
+- [X] Enroll in and cancel enrollment from upcoming classes, subject to capacity limits.
 - [ ] View trainer profiles, including their specializations and the classes they teach.
 - [ ] Check the current availability of equipment in the main training area.
-- [ ] Leave ratings and reviews for classes they have attended.
+- [X] Leave ratings and reviews for classes they have attended.
 
 **Trainers:**
 - [ ] Manage their public profile, including bio, specializations, and certifications.
@@ -55,7 +55,7 @@ The styling is organized into four modular files following a layered approach:
 - [ ] Track and manage their assigned class schedule.
 
 **Admins:**
-- [ ] Manage members and trainers (create, update, and deactivate accounts).
+- [X] Manage members and trainers (create, update, and deactivate accounts).
 - [ ] Manage the class catalog (create, edit, and remove classes) and assign trainers to them.
 - [ ] Manage equipment in the main training area (add, update availability status, and remove items).
 - [ ] Elevate a user to admin status.
@@ -71,8 +71,14 @@ The styling is organized into four modular files following a layered approach:
 
 ## Credentials
 
-- admin/p4s5w0rd
-- member/1234
-- trainer/1234
+**Admin:**
+- User: adminuser
+- Pass: admin123
 
+**Trainer:**
+- User: migueltrainer
+- Pass: trainer123
 
+**Normal User:**
+- User: joaosilva
+- Pass: hashedpass1
