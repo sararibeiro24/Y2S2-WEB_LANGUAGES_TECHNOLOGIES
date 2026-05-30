@@ -1,11 +1,27 @@
+PRAGMA foreign_keys = OFF;
+
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS enrollments;
+DROP TABLE IF EXISTS bookings;
+DROP TABLE IF EXISTS nutrition_plans;
+DROP TABLE IF EXISTS class_schedule;
+DROP TABLE IF EXISTS trainer_profiles;
+DROP TABLE IF EXISTS equipment_status;
+DROP TABLE IF EXISTS equipment;
+DROP TABLE IF EXISTS classes;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS plans;
+
 PRAGMA foreign_keys = ON;
 
-/*
-Auto Increment is used to automatically generate unique values for a column, 
-usually a primary key, so that each record can be identified easily without manual input.
-*/
+CREATE TABLE IF NOT EXISTS plans (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    price REAL NOT NULL,
+    billing_cycle TEXT CHECK(billing_cycle IN ('weekly', 'monthly', 'yearly')) DEFAULT 'weekly',
+    features TEXT
+);
 
--- USERS (members, trainers, admins)
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -19,7 +35,6 @@ CREATE TABLE IF NOT EXISTS users (
     plan_id INTEGER REFERENCES plans(id) ON DELETE SET NULL
 );
 
--- TRAINER PROFILE
 CREATE TABLE IF NOT EXISTS trainer_profiles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER UNIQUE NOT NULL,
@@ -30,7 +45,6 @@ CREATE TABLE IF NOT EXISTS trainer_profiles (
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- FITNESS CLASSES
 CREATE TABLE IF NOT EXISTS classes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -39,7 +53,6 @@ CREATE TABLE IF NOT EXISTS classes (
     difficulty TEXT DEFAULT 'Beginner'
 );
 
--- CLASS SCHEDULE
 CREATE TABLE IF NOT EXISTS class_schedule (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     class_id INTEGER NOT NULL,
@@ -49,7 +62,6 @@ CREATE TABLE IF NOT EXISTS class_schedule (
     FOREIGN KEY(trainer_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- ENROLLMENTS
 CREATE TABLE IF NOT EXISTS enrollments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -60,14 +72,12 @@ CREATE TABLE IF NOT EXISTS enrollments (
     UNIQUE(user_id, schedule_id)
 );
 
--- EQUIPMENT
 CREATE TABLE IF NOT EXISTS equipment (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     total_quantity INTEGER NOT NULL CHECK(total_quantity >= 0)
 );
 
--- EQUIPMENT STATUS
 CREATE TABLE IF NOT EXISTS equipment_status (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     equipment_id INTEGER NOT NULL,
@@ -76,7 +86,6 @@ CREATE TABLE IF NOT EXISTS equipment_status (
     FOREIGN KEY(equipment_id) REFERENCES equipment(id) ON DELETE CASCADE
 );
 
--- PERSONAL TRAINER BOOKINGS
 CREATE TABLE IF NOT EXISTS bookings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     member_id INTEGER NOT NULL,
@@ -87,7 +96,6 @@ CREATE TABLE IF NOT EXISTS bookings (
     FOREIGN KEY(trainer_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- REVIEWS
 CREATE TABLE IF NOT EXISTS reviews (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -102,16 +110,6 @@ CREATE TABLE IF NOT EXISTS reviews (
     UNIQUE(user_id, schedule_id)
 );
 
--- MEMBERSHIP PLANS
-CREATE TABLE IF NOT EXISTS plans (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    price REAL NOT NULL,
-    billing_cycle TEXT CHECK(billing_cycle IN ('weekly', 'monthly', 'yearly')) DEFAULT 'weekly',
-    features TEXT
-);
-
--- NUTRITION PLANS
 CREATE TABLE IF NOT EXISTS nutrition_plans (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -124,14 +122,6 @@ CREATE TABLE IF NOT EXISTS nutrition_plans (
     FOREIGN KEY(trainer_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Additional Nutrition Plans
-INSERT OR IGNORE INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES
-(1, 3, 1800, 'Weight Loss', 'Low-carb meals with high protein.'),
-(2, 4, 2500, 'Muscle Gain', 'High protein and calorie surplus meals.'),
-(3, 3, 2000, 'Maintenance', 'Balanced meals with healthy fats and carbs.'),
-(4, 4, 2200, 'Muscle Gain', 'Protein-rich meals with moderate carbs.'),
-(5, 3, 1600, 'Weight Loss', 'Low-calorie meals with vegetables and lean protein.');
-
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
 CREATE INDEX IF NOT EXISTS idx_class_schedule_trainer ON class_schedule(trainer_id);
@@ -140,76 +130,90 @@ CREATE INDEX IF NOT EXISTS idx_enrollments_user ON enrollments(user_id);
 CREATE INDEX IF NOT EXISTS idx_bookings_trainer ON bookings(trainer_id);
 CREATE INDEX IF NOT EXISTS idx_bookings_member ON bookings(member_id);
 
--- Populate 
+-- MEMBERSHIP PLAN DATA
+INSERT OR IGNORE INTO plans (id, name, price, billing_cycle, features) VALUES
+(1, 'Starter Weekly', 9.99, 'weekly', 'Gym floor access, 1 class per week, Basic support'),
+(2, 'Basic Monthly', 19.99, 'monthly', 'Access to gym floor, 1 class per week, Standard support'),
+(3, 'Premium Weekly', 24.99, 'weekly', 'Unlimited classes, Equipment reservations, Nutrition consultation'),
+(4, 'Premium Monthly', 39.99, 'monthly', 'Unlimited classes, Equipment reservations, Nutrition consultation'),
+(5, 'Elite Weekly', 34.99, 'weekly', 'Personal trainer booking, Nutrition plan, Priority support'),
+(6, 'Elite Monthly', 59.99, 'monthly', 'Personal trainer booking, Nutrition plan, Priority support'),
+(7, 'Annual Pass', 599.99, 'yearly', 'Unlimited access, premium support, guest passes, exclusive perks');
 
 -- USERS
-INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES
-
-('joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member'),
-('anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member'),
-('migueltrainer', 'miguel@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Miguel Ferreira', 'trainer'),
-('sofiatrainer', 'sofia@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Sofia Martins', 'trainer'),
-('adminuser', 'admin@gmail.com', '$2y$12$X2JgpAQ.iTJ8up4R9xEXD.YGLLO7SmRGr1hnuwdJmCjtgWoQI2orC', 'Admin User', 'admin');
-
--- Additional trainers
-INSERT OR IGNORE INTO users (username, email, password_hash, name, role, profile_photo) VALUES
-('carlostrainer', 'carlos@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Carlos Santos', 'trainer', 'boxing_trainer.jpg'),
-('anatrai', 'ana.t@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Ana Rodrigues', 'trainer', 'female_trainer2.jpg'),
-('pedrotrainer', 'pedro@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Pedro Alves', 'trainer', NULL),
-('lenatrainer', 'lena@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Elena Kovač', 'trainer', 'female_trainer4.jpg');
+INSERT OR IGNORE INTO users (id, username, email, password_hash, name, role, profile_photo, plan_id) VALUES
+(1, 'joaosilva', 'joao@gmail.com', '$2y$10$QzIUyiOTZjwt96HtvDmEYOCPDY3DJwIPO/LtYdOQkyA60Y4sZdi3i', 'João Silva', 'member', NULL, 1),
+(2, 'anacosta', 'ana@gmail.com', '$2y$10$fxu8L8V1kPOim0r/Qs5aZ.cTtkhTOvk2/XEVCBdN7.HkVYt0oV2OW', 'Ana Costa', 'member', NULL, 2),
+(3, 'migueltrainer', 'miguel@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Miguel Ferreira', 'trainer', NULL, NULL),
+(4, 'sofiatrainer', 'sofia@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Sofia Martins', 'trainer', NULL, NULL),
+(5, 'adminuser', 'admin@gmail.com', '$2y$12$X2JgpAQ.iTJ8up4R9xEXD.YGLLO7SmRGr1hnuwdJmCjtgWoQI2orC', 'Admin User', 'admin', NULL, NULL),
+(6, 'carlostrainer', 'carlos@gmail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Carlos Santos', 'trainer', 'boxing_trainer.jpg', NULL),
+(7, 'anatrai', 'ana.t@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Ana Rodrigues', 'trainer', 'female_trainer2.jpg', NULL),
+(8, 'pedrotrainer', 'pedro@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Pedro Alves', 'trainer', NULL, NULL),
+(9, 'lenatrainer', 'lena@mail.com', '$2y$12$IA/O.cCyW426nJmSRot/juyIj.SaYHc319fW8gjpwT.QLUubQjhs2', 'Elena Kovač', 'trainer', 'female_trainer4.jpg', NULL);
 
 -- TRAINER PROFILES
 INSERT OR IGNORE INTO trainer_profiles (user_id, bio, specializations, certifications, years_experience) VALUES
 (3, 'Strength and conditioning coach with 8+ years of experience transforming athletes.', 'Strength Training, HIIT, Powerlifting', 'NASM Certified', 8),
 (4, 'Dedicated yoga and pilates instructor helping you find balance and flexibility.', 'Yoga, Pilates, Meditation', 'ACE Certified', 6),
-(5, 'Professional boxer turned coach. Get ready to sweat and learn real striking technique.', 'Boxing, Kickboxing, HIIT', 'IBF Certified', 10),
-(6, 'Holistic wellness coach specializing in mobility and functional training for all levels.', 'Pilates, Yoga, Recovery', 'Yoga Alliance RYT-500', 7),
-(7, 'Strength and hypertrophy specialist. Whether you want to build muscle or get stronger, I have you covered.', 'Strength Training, Bodybuilding, Calisthenics', 'NSCA Certified', 5),
-(8, 'Dance and cardio expert who makes fitness fun. Expect high energy and great music!', 'Zumba, Dance Cardio, HIIT', 'ACE Group Fitness', 4);
+(6, 'Professional boxer turned coach. Get ready to sweat and learn real striking technique.', 'Boxing, Kickboxing, HIIT', 'IBF Certified', 10),
+(7, 'Holistic wellness coach specializing in mobility and functional training for all levels.', 'Pilates, Yoga, Recovery', 'Yoga Alliance RYT-500', 7),
+(8, 'Strength and hypertrophy specialist. Whether you want to build muscle or get stronger, I have you covered.', 'Strength Training, Bodybuilding, Calisthenics', 'NSCA Certified', 5),
+(9, 'Dance and cardio expert who makes fitness fun. Expect high energy and great music!', 'Zumba, Dance Cardio, HIIT', 'ACE Group Fitness', 4);
 
 -- FITNESS CLASSES
-INSERT OR IGNORE INTO classes (name, description, capacity, difficulty) VALUES
-('Yoga', 'Relaxing yoga sessions focused on flexibility.', 4, 'Beginner'),
-('HIIT', 'High intensity interval training workouts.', 2, 'Advanced'),
-('Pilates', 'Core and posture improvement classes.', 3, 'Intermediate'),
-('Strength Training', 'Resistance and muscle building workouts.', 2, 'Intermediate'),
-('Boxing', 'High-energy boxing and striking workouts.', 3, 'Advanced'),
-('Spinning', 'Indoor cycling for endurance and leg strength.', 4, 'Intermediate'),
-('Zumba', 'Dance-based cardio for all fitness levels.', 5, 'Beginner'),
-('CrossFit', 'Functional movements at high intensity.', 2, 'Advanced');
-
--- Trainers lookup table for schedule inserts
--- Miguel Ferreira = 3, Sofia Martins = 4, Carlos Santos = 9, Ana Rodrigues = 10, Pedro Alves = 11, Elena Kovač = 12
--- NOTE: IDs may shift if additional users exist; adjust as needed.
+INSERT OR IGNORE INTO classes (id, name, description, capacity, difficulty) VALUES
+(1, 'Yoga', 'Relaxing yoga sessions focused on flexibility.', 4, 'Beginner'),
+(2, 'HIIT', 'High intensity interval training workouts.', 2, 'Advanced'),
+(3, 'Pilates', 'Core and posture improvement classes.', 3, 'Intermediate'),
+(4, 'Strength Training', 'Resistance and muscle building workouts.', 2, 'Intermediate'),
+(5, 'Boxing', 'High-energy boxing and striking workouts.', 3, 'Advanced'),
+(6, 'Spinning', 'Indoor cycling for endurance and leg strength.', 4, 'Intermediate'),
+(7, 'Zumba', 'Dance-based cardio for all fitness levels.', 5, 'Beginner'),
+(8, 'CrossFit', 'Functional movements at high intensity.', 2, 'Advanced');
 
 -- CLASS SCHEDULE
-INSERT OR IGNORE INTO class_schedule (class_id, trainer_id, scheduled_at) VALUES
--- Week of May 25 - May 31
-(1, 4, '2026-05-25 09:00:00'),
-(2, 3, '2026-05-25 11:00:00'),
-(3, 4, '2026-05-26 10:00:00'),
-(4, 3, '2026-05-26 18:00:00'),
-(5, 9, '2026-05-27 07:00:00'),
-(1, 10, '2026-05-27 09:00:00'),
-(2, 3, '2026-05-27 11:00:00'),
-(6, 10, '2026-05-28 08:00:00'),
-(3, 4, '2026-05-28 10:00:00'),
-(4, 3, '2026-05-28 18:00:00'),
-(1, 4, '2026-05-29 08:00:00'),
-(2, 9, '2026-05-29 17:00:00'),
-(7, 12, '2026-05-30 10:00:00'),
-(8, 9, '2026-05-30 15:00:00'),
--- Week of June 1 - June 7
-(1, 4, '2026-06-01 09:00:00'),
-(4, 11, '2026-06-01 17:00:00'),
-(5, 9, '2026-06-02 07:00:00'),
-(3, 10, '2026-06-02 10:00:00'),
-(2, 3, '2026-06-02 18:00:00'),
-(6, 10, '2026-06-03 08:00:00'),
-(7, 12, '2026-06-03 12:00:00'),
-(8, 9, '2026-06-04 07:00:00'),
-(1, 4, '2026-06-04 09:00:00'),
-(4, 11, '2026-06-04 18:00:00');
+INSERT OR IGNORE INTO class_schedule (id, class_id, trainer_id, scheduled_at) VALUES
+(1,  1, 4,  '2026-05-25 09:00:00'),
+(2,  2, 3,  '2026-05-25 11:00:00'),
+(3,  5, 6,  '2026-05-25 14:00:00'),
+(4,  3, 4,  '2026-05-26 09:00:00'),
+(5,  4, 3,  '2026-05-26 11:00:00'),
+(6,  6, 7,  '2026-05-26 14:00:00'),
+(7,  5, 6,  '2026-05-27 09:00:00'),
+(8,  1, 4,  '2026-05-27 11:00:00'),
+(9,  2, 3,  '2026-05-27 14:00:00'),
+(10, 7, 9,  '2026-05-28 09:00:00'),
+(11, 3, 7,  '2026-05-28 11:00:00'),
+(12, 4, 8,  '2026-05-28 14:00:00'),
+(13, 1, 4,  '2026-05-29 09:00:00'),
+(14, 8, 6,  '2026-05-29 11:00:00'),
+(15, 6, 7,  '2026-05-29 14:00:00'),
+(16, 2, 3,  '2026-05-30 09:00:00'),
+(17, 7, 9,  '2026-05-30 11:00:00'),
+(18, 5, 6,  '2026-05-30 14:00:00'),
+(19, 3, 4,  '2026-05-31 09:00:00'),
+(20, 1, 7,  '2026-05-31 11:00:00'),
+(21, 1, 4,  '2026-06-01 09:00:00'),
+(22, 4, 8,  '2026-06-01 11:00:00'),
+(23, 2, 3,  '2026-06-01 14:00:00'),
+(24, 5, 6,  '2026-06-02 09:00:00'),
+(25, 3, 7,  '2026-06-02 11:00:00'),
+(26, 6, 7,  '2026-06-02 14:00:00'),
+(27, 7, 9,  '2026-06-03 09:00:00'),
+(28, 8, 6,  '2026-06-03 11:00:00'),
+(29, 1, 4,  '2026-06-03 14:00:00'),
+(30, 4, 8,  '2026-06-04 09:00:00'),
+(31, 2, 3,  '2026-06-04 11:00:00'),
+(32, 3, 4,  '2026-06-04 14:00:00'),
+(33, 5, 6,  '2026-06-05 09:00:00'),
+(34, 7, 9,  '2026-06-05 11:00:00'),
+(35, 6, 7,  '2026-06-05 14:00:00'),
+(36, 1, 4,  '2026-06-06 09:00:00'),
+(37, 8, 6,  '2026-06-06 11:00:00'),
+(38, 4, 8,  '2026-06-06 14:00:00'),
+(39, 2, 3,  '2026-06-07 09:00:00'),
+(40, 3, 7,  '2026-06-07 11:00:00');
 
 -- ENROLLMENTS
 INSERT OR IGNORE INTO enrollments (user_id, schedule_id) VALUES
@@ -219,13 +223,12 @@ INSERT OR IGNORE INTO enrollments (user_id, schedule_id) VALUES
 (2, 4),
 (2, 6);
 
-
 -- EQUIPMENT
-INSERT OR IGNORE INTO equipment (name, total_quantity) VALUES
-('Dumbbells', 50),
-('Yoga Mats', 30),
-('Treadmills', 10),
-('Resistance Bands', 40);
+INSERT OR IGNORE INTO equipment (id, name, total_quantity) VALUES
+(1, 'Dumbbells', 50),
+(2, 'Yoga Mats', 30),
+(3, 'Treadmills', 10),
+(4, 'Resistance Bands', 40);
 
 -- EQUIPMENT STATUS
 INSERT OR IGNORE INTO equipment_status (equipment_id, available_quantity) VALUES
@@ -234,34 +237,20 @@ INSERT OR IGNORE INTO equipment_status (equipment_id, available_quantity) VALUES
 (3, 8),
 (4, 35);
 
--- MEMBERSHIP PLAN DATA
-INSERT OR IGNORE INTO plans (name, price, billing_cycle, features) VALUES
-('Starter Weekly', 9.99, 'weekly', 'Gym floor access, 1 class per week, Basic support'),
-('Basic Monthly', 19.99, 'monthly', 'Access to gym floor, 1 class per week, Standard support'),
-('Premium Weekly', 24.99, 'weekly', 'Unlimited classes, Equipment reservations, Nutrition consultation'),
-('Premium Monthly', 39.99, 'monthly', 'Unlimited classes, Equipment reservations, Nutrition consultation'),
-('Elite Weekly', 34.99, 'weekly', 'Personal trainer booking, Nutrition plan, Priority support'),
-('Elite Monthly', 59.99, 'monthly', 'Personal trainer booking, Nutrition plan, Priority support'),
-('Annual Pass', 599.99, 'yearly', 'Unlimited access, premium support, guest passes, exclusive perks');
-
-UPDATE users SET plan_id = 1 WHERE username = 'joaosilva';
-UPDATE users SET plan_id = 2 WHERE username = 'anacosta';
-
 -- NUTRITION PLANS DATA
-DELETE FROM nutrition_plans;
 INSERT OR IGNORE INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES
 (1, 3, 1800, 'Weight Loss', 'High protein breakfast, light lunch, balanced dinner.'),
 (2, 3, 2250, 'Muscle Gain', 'Lean protein, smarter carbs, and recovery-focused eating.'),
 (1, 4, 2000, 'Maintenance', 'Three meals with healthy fats and vegetables.'),
 (2, 4, 2500, 'Muscle Gain', 'Calorie surplus with lean proteins and carbs.'),
-(1, 9, 2100, 'Weight Loss', 'Protein-focused meals with lots of vegetables and hydration.'),
-(2, 9, 2150, 'Maintenance', 'Simple meal structure with mindful calories and good recovery.'),
-(1, 10, 2300, 'Muscle Gain', 'A calorie surplus with clean carbs, protein, and recovery fats.'),
-(2, 10, 2400, 'Muscle Gain', 'High-performance fueling with more protein and recovery nutrients.'),
-(1, 11, 2050, 'Maintenance', 'Balanced portions for daily energy, mobility, and recovery.'),
-(2, 11, 2200, 'Weight Loss', 'Smart portions with protein-first meals and steady hydration.'),
-(1, 12, 1900, 'Weight Loss', 'Portion-controlled meals, low sugar, and steady protein intake.'),
-(2, 12, 2350, 'Maintenance', 'Balanced nutrition for recovery, stamina, and everyday energy.');
+(1, 6, 2100, 'Weight Loss', 'Protein-focused meals with lots of vegetables and hydration.'),
+(2, 6, 2150, 'Maintenance', 'Simple meal structure with mindful calories and good recovery.'),
+(1, 7, 2300, 'Muscle Gain', 'A calorie surplus with clean carbs, protein, and recovery fats.'),
+(2, 7, 2400, 'Muscle Gain', 'High-performance fueling with more protein and recovery nutrients.'),
+(1, 8, 2050, 'Maintenance', 'Balanced portions for daily energy, mobility, and recovery.'),
+(2, 8, 2200, 'Weight Loss', 'Smart portions with protein-first meals and steady hydration.'),
+(1, 9, 1900, 'Weight Loss', 'Portion-controlled meals, low sugar, and steady protein intake.'),
+(2, 9, 2350, 'Maintenance', 'Balanced nutrition for recovery, stamina, and everyday energy.');
 
 -- BOOKINGS
 INSERT OR IGNORE INTO bookings (member_id, trainer_id, scheduled_at, status) VALUES
@@ -271,6 +260,6 @@ INSERT OR IGNORE INTO bookings (member_id, trainer_id, scheduled_at, status) VAL
 
 -- REVIEWS
 INSERT OR IGNORE INTO reviews (user_id, class_id, schedule_id, rating, comment) VALUES
-(1, 1, 5, 5, 'Amazing yoga session!'),
+(1, 5, 5, 5, 'Amazing yoga session!'),
 (2, 2, 6, 4, 'Very intense but enjoyable workout.'),
-(1, 4, 8, 5, 'Excellent trainer and atmosphere.');
+(1, 4, 10, 5, 'Excellent trainer and atmosphere.');
