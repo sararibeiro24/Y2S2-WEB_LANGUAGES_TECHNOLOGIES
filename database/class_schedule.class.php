@@ -206,6 +206,28 @@ class ClassSchedule {
     }
 
     public static function getTrainerSchedules(int $trainerId, ?PDO $db = null): array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('
+        SELECT
+            cs.id AS schedule_id,
+            cs.scheduled_at,
+            cs.class_id,
+            c.name,
+            c.capacity,
+            c.difficulty,
+            COUNT(e.id) AS enrolled
+        FROM class_schedule cs
+        JOIN classes c ON cs.class_id = c.id
+        LEFT JOIN enrollments e ON e.schedule_id = cs.id
+        WHERE cs.trainer_id = ?
+        GROUP BY cs.id
+        ORDER BY cs.scheduled_at ASC
+    ');
+    $stmt->execute([$trainerId]);
+    return $stmt->fetchAll();
+}
+
+    public static function getTrainerUpcomingSchedules(int $trainerId, ?PDO $db = null): array {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('
             SELECT
@@ -224,7 +246,20 @@ class ClassSchedule {
         ');
         $stmt->execute([$trainerId]);
         return $stmt->fetchAll();
+}
+
+public static function trainerHasClassAtTime(int $trainerId, string $scheduledAt, ?int $excludeId = null, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $sql = 'SELECT COUNT(*) FROM class_schedule WHERE trainer_id = ? AND scheduled_at = ?';
+    $params = [$trainerId, $scheduledAt];
+    if ($excludeId) {
+        $sql .= ' AND id != ?';
+        $params[] = $excludeId;
     }
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    return (int)$stmt->fetchColumn() > 0;
+}
 
     public static function getEnrolledMembers(int $scheduleId, ?PDO $db = null): array {
         $db = $db ?? getDatabaseConnection();

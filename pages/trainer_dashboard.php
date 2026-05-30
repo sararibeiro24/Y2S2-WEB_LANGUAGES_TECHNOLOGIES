@@ -33,7 +33,7 @@ $bio = $profile['bio'] ?? '';
 $specializations = $profile['specializations'] ?? '';
 $certifications = $profile['certifications'] ?? '';
 
-$classes = ClassSchedule::getTrainerSchedules($userId, $db);
+$classes = ClassSchedule::getTrainerUpcomingSchedules($userId, $db);
 
 drawHead("Trainer Dashboard | Ladybug's Gym");
 drawHeader();

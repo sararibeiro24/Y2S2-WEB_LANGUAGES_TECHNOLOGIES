@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 function drawManageClasses(array $mySchedules, array $allClasses): void {
 ?>
-<main class="container" style="padding-top: 1em;">
+<main class="container">
     <div class="page-header">
         <h2>Manage Your Classes</h2>
         <p>Add, edit or remove your scheduled classes.</p>
@@ -50,7 +50,7 @@ function drawManageClasses(array $mySchedules, array $allClasses): void {
                         <td><?= htmlspecialchars($s['name']) ?></td>
                         <td><?= htmlspecialchars($s['difficulty']) ?></td>
                         <td>
-                            <form action="../actions/action_trainer_schedule.php" method="post" class="inline-edit" style="display:inline">
+                            <form action="../actions/action_trainer_schedule.php" method="post" class="inline-edit">
                                 <input type="hidden" name="action" value="update">
                                 <input type="hidden" name="schedule_id" value="<?= (int)$s['schedule_id'] ?>">
                                 <input type="datetime-local" name="scheduled_at" value="<?= date('Y-m-d\TH:i', strtotime($s['scheduled_at'])) ?>" class="inline-input" required>
@@ -59,10 +59,10 @@ function drawManageClasses(array $mySchedules, array $allClasses): void {
                         </td>
                         <td><?= (int)$s['enrolled'] ?>/<?= (int)$s['capacity'] ?></td>
                         <td class="action-cell">
-                            <form action="../actions/action_trainer_schedule.php" method="post" style="display:inline" onsubmit="return confirm('Remove this schedule slot?')">
+                            <form action="../actions/action_trainer_schedule.php" method="post" onsubmit="return confirm('Remove this schedule slot?')">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="schedule_id" value="<?= (int)$s['schedule_id'] ?>">
-                                <button class="button button-small button-outline" style="border-color:#888;color:#888">Delete</button>
+                                <button class="button button-small button-outline" onclick="showConfirmDeleteSchedule(<?= (int)$s['schedule_id'] ?>)">Delete</button>
                             </form>
                         </td>
                     </tr>
