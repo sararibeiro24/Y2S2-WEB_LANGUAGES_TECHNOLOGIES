@@ -14,9 +14,16 @@ if (!Session::isLoggedIn()) {
 
 $userId = Session::getUserId();
 $goal = trim($_POST['goal'] ?? '');
+$trainerId = (int)($_POST['trainer_id'] ?? 0);
 
 if (empty($goal)) {
     Session::addMessage('error', 'Goal selection is required.');
+    header('Location: ../pages/nutrition.php');
+    exit;
+}
+
+if ($trainerId <= 0) {
+    Session::addMessage('error', 'You must choose a trainer to request a nutrition plan.');
     header('Location: ../pages/nutrition.php');
     exit;
 }
@@ -28,12 +35,20 @@ if ($goal === 'Muscle Gain') $target_calories = 2800;
 try {
     $db = getDatabaseConnection();
     
+    $trainerStmt = $db->prepare('SELECT id FROM users WHERE id = ? AND role = "trainer"');
+    $trainerStmt->execute([$trainerId]);
+    if (!$trainerStmt->fetch()) {
+        Session::addMessage('error', 'Invalid trainer selected.');
+        header('Location: ../pages/nutrition.php');
+        exit;
+    }
+
     $stmt = $db->prepare('INSERT INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES (?, ?, ?, ?, ?)');
     $success = $stmt->execute([
-        $userId, 
-        3, 
-        $target_calories, 
-        $goal, 
+        $userId,
+        $trainerId,
+        $target_calories,
+        $goal,
         'Pending approval from your trainer. Check back soon!'
     ]);
 

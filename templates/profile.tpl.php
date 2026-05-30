@@ -1,5 +1,5 @@
 <?php
-function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $memberSince, $classesAttended, $upcomingClasses, $Role = 'member') {
+function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $memberSince, $classesAttended, $upcomingClasses, $Role = 'member', ?array $nutritionPlan = null) {
     $date = new DateTime($memberSince);
     $formattedDate = $date->format('M Y');
     $badgeClass ='';
@@ -44,6 +44,20 @@ function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $membe
                         <li><span>Classes Attended</span> <strong><?= htmlspecialchars((string)$classesAttended) ?></strong></li>
                         <li><span>Upcoming</span> <strong><?= htmlspecialchars((string)$upcomingClasses) ?></strong></li>
                     </ul>
+
+                    <?php if ($nutritionPlan): ?>
+                        <div class="nutrition-plan-card card">
+                            <h4>Nutrition Plan Request</h4>
+                            <p><strong>Goal:</strong> <?= htmlspecialchars($nutritionPlan['goal'] ?? 'N/A') ?></p>
+                            <p><strong>Trainer:</strong> <?= htmlspecialchars($nutritionPlan['trainer_name'] ?? 'N/A') ?></p>
+                            <p><strong>Target calories:</strong> <?= htmlspecialchars((string)($nutritionPlan['target_calories'] ?? 'Custom')) ?> kcal</p>
+                            <p class="plan-detail"><?= nl2br(htmlspecialchars($nutritionPlan['meal_details'] ?? 'Pending approval from your trainer.')) ?></p>
+                            <p class="plan-status"><strong>Status:</strong> Pending approval</p>
+                            <?php if (!empty($nutritionPlan['created_at'])): ?>
+                                <p class="plan-created">Requested <?= htmlspecialchars((new DateTime($nutritionPlan['created_at']))->format('M d, Y')) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                 <?php else: ?>
                     <span class="badge badge-red">Admin</span>
                     <p class="member-since">Admin since <?= htmlspecialchars($formattedDate) ?></p>

@@ -59,7 +59,21 @@ function drawNutritionPage(array $trainers): void {
                         <option value="Maintenance">Maintenance</option>
                     </select>
                 </div>
-                <button type="submit" class="button">
+                <div class="form-group">
+                    <label for="modalTrainerSelect">Choose a trainer</label>
+                    <select id="modalTrainerSelect" name="trainer_id" class="input-field" required>
+                        <option value="" disabled selected>Choose a trainer...</option>
+                        <?php foreach ($trainers as $trainer): ?>
+                            <option value="<?php echo htmlspecialchars((string)$trainer['id']); ?>">
+                                <?php echo htmlspecialchars($trainer['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <?php if (empty($trainers)): ?>
+                    <p class="form-note">No trainers are currently available. Please try again later.</p>
+                <?php endif; ?>
+                <button type="submit" class="button" <?php echo empty($trainers) ? 'disabled' : ''; ?>>
                     Submit Request
                 </button>
             </form>
