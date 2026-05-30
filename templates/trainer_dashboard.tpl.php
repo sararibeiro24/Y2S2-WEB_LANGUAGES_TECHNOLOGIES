@@ -31,6 +31,7 @@ function drawTrainerDashboard(string $bio, string $specializations, string $cert
 
             <section class="dashboard-card">
                 <h3>Your Upcoming Classes</h3>
+                 <a href="manage_classes.php" class="button button-small">Manage Classes</a>
                 <?php if (empty($classes)): ?>
                     <p class="empty-state">You have no upcoming classes scheduled.</p>
                 <?php else: ?>

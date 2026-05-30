@@ -377,5 +377,11 @@ class ClassSchedule {
         $row = $stmt->fetch();
         return $row ?: null;
     }
+    public static function updateSchedule(int $scheduleId, string $scheduledAt, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('UPDATE class_schedule SET scheduled_at = ? WHERE id = ?');
+        return $stmt->execute([$scheduledAt, $scheduleId]);
+    }
 }
+  
 ?>
