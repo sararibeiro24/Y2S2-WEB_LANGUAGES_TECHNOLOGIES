@@ -98,6 +98,8 @@ function drawFooter() {
             <p>&copy; 2026 Ladybug's Gym</p>
         </div>
     </footer>
+    </body>
+    </html>
     <?php
 }
 

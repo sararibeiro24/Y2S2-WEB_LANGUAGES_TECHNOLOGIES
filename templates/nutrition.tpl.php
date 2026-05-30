@@ -85,7 +85,7 @@ function drawNutritionHomepage(): void{
             <div class="carousel-container" id="nutrition-carousel">
                 <div class="carousel-item">
                     <div class="nutrition-card">
-                        <img src="../img/protein bowl.jpg" alt="Protein Power Bowl" class="nutrition-image">
+                        <img src="../img/protein_bowl.jpg" alt="Protein Power Bowl" class="nutrition-image">
                         <span class="nutrition-badge">420 kcal</span>
                         <h3 class="nutrition-name">Protein Power Bowl</h3>
                         <p class="nutrition-description">Grilled chicken, quinoa, roasted vegetables with olive oil dressing. Perfect for muscle building.</p>
@@ -94,7 +94,7 @@ function drawNutritionHomepage(): void{
 
                 <div class="carousel-item">
                     <div class="nutrition-card">
-                        <img src="../img/green salad.jpg" alt="Green Energy Salad" class="nutrition-image">
+                        <img src="../img/green_salad.jpg" alt="Green Energy Salad" class="nutrition-image">
                         <span class="nutrition-badge">380 kcal</span>
                         <h3 class="nutrition-name">Green Energy Salad</h3>
                         <p class="nutrition-description">Mixed greens, turkey, avocado, nuts. High protein, low carb. Ideal for weight loss.</p>
@@ -130,7 +130,7 @@ function drawNutritionHomepage(): void{
 
                 <div class="carousel-item">
                     <div class="nutrition-card">
-                        <img src="../img/protein smoothie.jpg" alt="Recovery Smoothie" class="nutrition-image">
+                        <img src="../img/protein_smoothie.jpg" alt="Recovery Smoothie" class="nutrition-image">
                         <span class="nutrition-badge">300 kcal</span>
                         <h3 class="nutrition-name">Recovery Smoothie</h3>
                         <p class="nutrition-description">Protein powder, banana, berries, Greek yogurt. Quick post-workout recovery.</p>

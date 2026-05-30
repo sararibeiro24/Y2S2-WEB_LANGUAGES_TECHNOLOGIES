@@ -4,6 +4,7 @@ require_once(__DIR__ . '/../database/database.db.php');
 require_once(__DIR__ . '/../utils/session.php');
 require_once(__DIR__ . '/../templates/plans.tpl.php');
 require_once(__DIR__ . '/../templates/nutrition.tpl.php');
+require_once(__DIR__ . '/../templates/equipment.tpl.php');
 
 Session::start();
 $isLoggedIn = Session::isLoggedIn();
@@ -19,7 +20,7 @@ drawHeader();
         <?php require __DIR__ . '/../templates/home/cta.tpl.php'; ?>
         <?php require __DIR__ . '/../templates/home/news.tpl.php'; ?>
         <?php require __DIR__ . '/../templates/home/philosophy.tpl.php'; ?>
-        <?php require __DIR__ . '/../templates/home/equipment.tpl.php'; ?>
+        <?php drawEquipmentHomepage(); ?>
         <?php require __DIR__ . '/../templates/home/classes.tpl.php'; ?>
         <?php require __DIR__ . '/../templates/home/trainers.tpl.php'; ?>
         <?php drawNutritionHomepage(); ?>
@@ -41,5 +42,4 @@ drawHeader();
         }
     </script>
 <?php drawFooter(); ?>
-</body>
-</html>
+

@@ -16,7 +16,7 @@
                 </div>
                 <div class="carousel-item">
                     <div class="class-card">
-                        <img src="../img/yoga 2.jpg" alt="Yoga Advanced" class="class-image">
+                        <img src="../img/yoga2.jpg" alt="Yoga Advanced" class="class-image">
                         <h3>Advanced Yoga</h3>
                         <p>Intense yoga for advanced practitioners.</p>
                         <p class="class-meta">Tue, Thu - 6:00 PM</p>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="carousel-item">
                     <div class="class-card">
-                        <img src="../img/box ring.jpg" alt="Boxing" class="class-image">
+                        <img src="../img/box_ring.jpg" alt="Boxing" class="class-image">
                         <h3>Boxing</h3>
                         <p>High-energy boxing training sessions.</p>
                         <p class="class-meta">Mon, Wed, Sat - 7:00 PM</p>

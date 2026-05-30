@@ -5,7 +5,7 @@
 
         <div class="cards-grid cards-grid-3">
             <div class="news-card">
-                <img src="../img/girl training.jpg" alt="New Class" class="news-image" loading="lazy">
+                <img src="../img/girl_training.jpg" alt="New Class" class="news-image" loading="lazy">
                 <div class="news-content">
                     <h3 class="news-title">New HIIT Class Launched!</h3>
                     <p class="news-excerpt">Get ready to buzz with intensity! Our brand new high-intensity interval training class is here to transform your fitness routine.</p>
@@ -21,7 +21,7 @@
             </div>
 
             <div class="news-card">
-                <img src="../img/gym enviorment.jpg" alt="Gym" class="news-image" loading="lazy">
+                <img src="../img/box_ring.jpg" alt="Gym" class="news-image" loading="lazy">
                 <div class="news-content">
                     <h3 class="news-title">Facility Expansion Complete</h3>
                     <p class="news-excerpt">We've expanded our gym with 50 new machines and a state-of-the-art recovery area for all our hardworking members!</p>

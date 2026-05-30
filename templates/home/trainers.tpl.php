@@ -19,7 +19,7 @@
 
                 <div class="carousel-item">
                     <div class="team-member">
-                        <img src="../img/female staff-trainer.jpg" alt="Sarah Coach" class="team-member-image">
+                        <img src="../img/female_staff_trainer.jpg" alt="Sarah Coach" class="team-member-image">
                         <div class="team-member-info">
                             <h3 class="team-member-name">Sarah Coach</h3>
                             <p class="team-member-role">HIIT & Cardio</p>

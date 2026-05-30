@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'chicken-salad-with-vegetables-olives.jpg',
         'mixed-vegetable-salad-with-colorful-food.jpg',
         'stew.jpg',
-        'green salad.jpg',
-        'protein bowl.jpg',
-        'protein smoothie.jpg',
+        'green_salad.jpg',
+        'protein_bowl.jpg',
+        'protein_smoothie.jpg',
         'breakfast.png',
         'close-up-traditional-indian-food-with-chicken.jpg',
         'omega3.jpg'
@@ -38,17 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const equipImages = [
         'dumbells.jpg',
-        'heavy weights.jpg',
-        'leg press.jpg',
+        'heavy_weights.jpg',
+        'leg_press.jpg',
         'cardio.jpg',
-        'box ring.jpg',
+        'box_ring.jpg',
         'boxing.jpg',
-        'girl training.jpg',
+        'girl_training.jpg',
         'man_training.jpg',
-        'gym enviorment.jpg',
         'class.jpg',
-        'dumbells 2.jpg',
-        'cardio 2.jpg'
+        'dumbells2.jpg',
+        'cardio2.jpg'
     ];
 
     function imgUrl(filename) {
