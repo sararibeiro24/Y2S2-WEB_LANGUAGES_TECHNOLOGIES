@@ -1,5 +1,46 @@
 <?php
 
+function drawScheduleFilters(array $trainers): void {
+?>
+<div class="container">
+    <div class="schedule-filters">
+        <div class="filter-row">
+            <div class="filter-group">
+                <label for="filterSearch">Search class</label>
+                <input id="filterSearch" type="text" class="input-field" placeholder="Class name...">
+            </div>
+            <div class="filter-group">
+                <label for="filterTrainer">Trainer</label>
+                <select id="filterTrainer" class="input-field">
+                    <option value="">All trainers</option>
+                    <?php foreach ($trainers as $t): ?>
+                        <option value="<?= (int)$t['id'] ?>"><?= htmlspecialchars($t['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterDifficulty">Difficulty</label>
+                <select id="filterDifficulty" class="input-field">
+                    <option value="">All levels</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterDate">Jump to date</label>
+                <input id="filterDate" type="date" class="input-field">
+            </div>
+            <div class="filter-group filter-actions">
+                <label>&nbsp;</label>
+                <button class="button button-small" onclick="clearFilters()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+}
+
 function drawScheduleCalendar(string $weekStart, array $byDay, array $enrolledIds, bool $isLoggedIn): void {
     $dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     $today = date('Y-m-d');
@@ -34,14 +75,19 @@ function drawScheduleCalendar(string $weekStart, array $byDay, array $enrolledId
                 <?php if (isset($byDay[$date])): ?>
                     <?php foreach ($byDay[$date] as $c):
                         $isFull = $c['enrolled'] >= $c['capacity'];
+                        $isEnrolled = in_array($c['schedule_id'], $enrolledIds);
+                        $isPast = strtotime($c['scheduled_at']) < time();
                     ?>
-                        <div class="calendar-class-card<?= $isFull ? ' full' : '' ?>"
+                        <div class="calendar-class-card<?= $isFull ? ' full' : '' ?><?= $isEnrolled ? ' enrolled' : '' ?><?= $isPast ? ' past' : '' ?>"
                              data-id="<?= $c['schedule_id'] ?>"
                              onclick="openClassModal(<?= $c['schedule_id'] ?>)">
                             <div class="ccal-time"><?= date('H:i', strtotime($c['scheduled_at'])) ?></div>
                             <div class="ccal-name"><?= htmlspecialchars($c['name']) ?></div>
                             <div class="ccal-trainer"><?= htmlspecialchars($c['trainer']) ?></div>
                             <div class="ccal-spots"><?= $c['enrolled'] ?>/<?= $c['capacity'] ?></div>
+                            <?php if ($isEnrolled): ?>
+                                <div class="ccal-enrolled-badge">Enrolled</div>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -93,11 +139,13 @@ function drawScheduleModals(): void {
 <?php
 }
 
-function drawScheduleBootstrap(string $weekStart, bool $isLoggedIn, array $enrolledIds): void {
+function drawScheduleBootstrap(string $weekStart, bool $isLoggedIn, array $enrolledIds, ?int $userId, ?string $userRole): void {
 ?>
 <script>
     const CURRENT_WEEK  = '<?= htmlspecialchars($weekStart) ?>';
     const IS_LOGGED_IN  = <?= $isLoggedIn ? 'true' : 'false' ?>;
+    const USER_ID       = <?= $userId ?: 'null' ?>;
+    const USER_ROLE     = '<?= $userRole ?? '' ?>';
     let   ENROLLED_IDS  = <?= json_encode($enrolledIds) ?>;
 </script>
 <script src="../javascript/schedule_filter.js" defer></script>
