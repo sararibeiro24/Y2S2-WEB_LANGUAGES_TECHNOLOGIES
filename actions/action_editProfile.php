@@ -17,6 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    Session::addMessage('error', 'Invalid security token.');
+    header('Location: ../pages/profile.php');
+    exit;
+}
+
 $userId = Session::getUserId();
 $user = User::getById($userId);
 

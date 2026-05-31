@@ -11,6 +11,13 @@ if (!Session::isLoggedIn() || !Session::isAdmin()) {
     exit;
 }
 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    Session::addMessage('error', 'Invalid security token.');
+    header('Location: ../pages/dashboard.php?tab=equipment');
+    exit;
+}
+
 $action = $_POST['action'] ?? '';
 $db = getDatabaseConnection();
 

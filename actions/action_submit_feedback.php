@@ -11,6 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    Session::addMessage('error', 'Invalid security token.');
+    header('Location: ../pages/index.php#feedback');
+    exit;
+}
+
 $name    = trim($_POST['name'] ?? '');
 $message = trim($_POST['message'] ?? '');
 $rating  = (int)($_POST['rating'] ?? 0);

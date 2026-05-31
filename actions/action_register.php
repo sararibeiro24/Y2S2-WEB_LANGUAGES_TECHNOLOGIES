@@ -5,7 +5,14 @@ require_once(__DIR__ . '/../utils/session.php');
 require_once(__DIR__ . '/../database/user.class.php');
 Session::start();
 
-$name = trim($_POST['Name'] ?? ''); 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    Session::addMessage('error', 'Invalid security token.');
+    header('Location: ../pages/register.php');
+    exit;
+}
+
+$name = trim($_POST['name'] ?? ''); 
 $username = trim($_POST['username'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
@@ -35,7 +42,7 @@ try {
     $user = User::register($username, $email, $password, $name);
 
     if ($user) {
-        Session::setUser($user->getId());
+        Session::setUser($user->getId(), $user->getRole());
         Session::addMessage('success', 'Welcome to Ladybug\'s Gym, ' . htmlspecialchars($user->getName()) . '!');
         header('Location: ../pages/index.php');
         exit;

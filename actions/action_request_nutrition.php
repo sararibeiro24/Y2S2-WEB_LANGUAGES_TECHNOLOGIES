@@ -12,6 +12,13 @@ if (!Session::isLoggedIn()) {
     exit;
 }
 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    Session::addMessage('error', 'Invalid security token.');
+    header('Location: ../pages/nutrition.php');
+    exit;
+}
+
 $userId = Session::getUserId();
 $goal = trim($_POST['goal'] ?? '');
 $trainerId = (int)($_POST['trainer_id'] ?? 0);

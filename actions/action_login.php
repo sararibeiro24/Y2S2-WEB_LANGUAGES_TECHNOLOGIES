@@ -5,12 +5,18 @@ require_once(__DIR__ . '/../utils/session.php');
 require_once(__DIR__ . '/../database/user.class.php');
 
 Session::start();
+session_regenerate_id(true);
+
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    Session::addMessage('error', 'Invalid security token.');
+    header('Location: ../pages/login.php');
+    exit;
+}
 
 $usernameOrEmail = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 $loginType = $_POST['login_type'] ?? 'user';
-
-$redirect = $_SERVER['HTTP_REFERER'] ?? '../pages/index.php';
 
 if ($loginType === 'user') {
     if (empty($usernameOrEmail) || empty($password)) {

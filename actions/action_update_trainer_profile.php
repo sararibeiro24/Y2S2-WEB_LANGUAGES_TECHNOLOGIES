@@ -14,6 +14,13 @@ if (!Session::isLoggedIn() || !Session::isTrainer()) {
     exit;
 }
 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    Session::addMessage('error', 'Invalid security token.');
+    header('Location: ../pages/dashboard.php?tab=trainer_profile');
+    exit;
+}
+
 $userId = Session::getUserId();
 $bio = trim($_POST['bio'] ?? '');
 $specializations = trim($_POST['specializations'] ?? '');

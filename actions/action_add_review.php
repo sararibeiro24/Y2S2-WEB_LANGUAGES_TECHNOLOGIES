@@ -18,6 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Invalid security token']);
+    exit;
+}
+
 $userId = Session::getUserId();
 $scheduleId = (int) ($_POST['schedule_id'] ?? 0);
 $rating = (int) ($_POST['rating'] ?? 0);

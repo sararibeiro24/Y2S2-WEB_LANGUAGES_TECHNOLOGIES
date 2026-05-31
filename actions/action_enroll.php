@@ -14,6 +14,14 @@ if (!Session::isLoggedIn()) {
     die('Access denied');
 }
 
+$token = $_POST['csrf_token'] ?? '';
+if (!Session::validateCsrfToken($token)) {
+    http_response_code(403);
+    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    if ($isAjax) { echo json_encode(['error' => 'Invalid security token']); exit; }
+    die('Invalid security token');
+}
+
 $userId = Session::getUserId();
 $scheduleId = (int) ($_POST['schedule_id'] ?? 0);
 $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';

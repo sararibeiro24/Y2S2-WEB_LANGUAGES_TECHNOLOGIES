@@ -147,6 +147,7 @@ function drawScheduleBootstrap(string $weekStart, bool $isLoggedIn, array $enrol
     const USER_ID       = <?= $userId ?: 'null' ?>;
     const USER_ROLE     = '<?= $userRole ?? '' ?>';
     let   ENROLLED_IDS  = <?= json_encode($enrolledIds) ?>;
+    const CSRF_TOKEN    = '<?= Session::getCsrfToken() ?>';
 </script>
 <script src="../javascript/schedule_filter.js" defer></script>
 <?php
