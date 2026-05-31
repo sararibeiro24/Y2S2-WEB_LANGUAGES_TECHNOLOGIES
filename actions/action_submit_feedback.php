@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../utils/session.php');
 require_once(__DIR__ . '/../database/database.db.php');
+require_once(__DIR__ . '/../database/feedback.class.php');
 
 Session::start();
 
@@ -29,13 +30,11 @@ if (empty($name) || empty($message) || $rating < 1 || $rating > 5) {
 }
 
 try {
-    $db     = getDatabaseConnection();
     $userId = Session::isLoggedIn() ? Session::getUserId() : null;
 
-    $stmt = $db->prepare('INSERT INTO feedback (user_id, name, message, rating) VALUES (?, ?, ?, ?)');
-    $stmt->execute([$userId, $name, $message, $rating]);
-
-    Session::addMessage('success', 'Thank you for your feedback!');
+    Feedback::submit($userId, $name, $message, $rating)
+        ? Session::addMessage('success', 'Thank you for your feedback!')
+        : Session::addMessage('error', 'Failed to submit feedback.');
 } catch (PDOException $e) {
     error_log('Feedback error: ' . $e->getMessage());
     Session::addMessage('error', 'Failed to submit feedback.');

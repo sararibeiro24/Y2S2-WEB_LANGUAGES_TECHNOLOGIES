@@ -52,4 +52,16 @@ class Plan {
 
         return (int)$row['plan_id'];
     }
+    public static function exists(int $planId, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('SELECT id FROM plans WHERE id = ?');
+    $stmt->execute([$planId]);
+    return (bool)$stmt->fetch();
+    }
+
+    public static function assignToUser(int $userId, int $planId, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('UPDATE users SET plan_id = ? WHERE id = ?');
+        return $stmt->execute([$planId, $userId]);
+    }
 }

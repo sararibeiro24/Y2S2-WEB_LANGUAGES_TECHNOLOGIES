@@ -48,11 +48,9 @@ if (!empty($newEmail) && $newEmail !== $user->getEmail()) {
         $hasChanges = true;
        
     } catch (PDOException $e) {
-        // Check if it's a unique constraint violation error code (SQLSTATE 23000)
         if ($e->getCode() === '23000' || str_contains($e->getMessage(), 'UNIQUE')) {
             Session::addMessage('error', 'This email address is already taken by another account.');
         } else {
-            // Treat unexpected database faults generally
             Session::addMessage('error', 'A database error occurred while saving your changes.');
         }
         header('Location: ../pages/profile.php');

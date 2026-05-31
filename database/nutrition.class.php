@@ -93,4 +93,35 @@ class NutritionPlan {
 
         return $rows;
     }
+
+    public static function belongsToTrainer(int $nutritionId, int $trainerId, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('SELECT id FROM nutrition_plans WHERE id = ? AND trainer_id = ?');
+        $stmt->execute([$nutritionId, $trainerId]);
+        return (bool)$stmt->fetch();
+    }
+
+    public static function approvePlan(int $nutritionId, string $mealDetails, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('UPDATE nutrition_plans SET meal_details = ? WHERE id = ?');
+        return $stmt->execute([$mealDetails, $nutritionId]);
+    }
+    public static function isValidTrainer(int $trainerId, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('SELECT id FROM users WHERE id = ? AND role = "trainer"');
+    $stmt->execute([$trainerId]);
+    return (bool)$stmt->fetch();
+}
+
+public static function createPlan(int $userId, int $trainerId, int $targetCalories, string $goal, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('INSERT INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES (?, ?, ?, ?, ?)');
+    return $stmt->execute([
+        $userId,
+        $trainerId,
+        $targetCalories,
+        $goal,
+        'Pending approval from your trainer. Check back soon!'
+    ]);
+}
 }

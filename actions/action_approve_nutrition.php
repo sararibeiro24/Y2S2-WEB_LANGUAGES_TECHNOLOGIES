@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once(__DIR__ . '/../database/database.db.php');
+require_once(__DIR__ . '/../database/nutrition.class.php');
 require_once(__DIR__ . '/../utils/session.php');
 
 Session::start();
@@ -36,23 +37,13 @@ if (empty($mealDetails)) {
 }
 
 try {
-    $db = getDatabaseConnection();
-    
-    // Verify the nutrition plan exists and belongs to this trainer
-    $verifyStmt = $db->prepare('SELECT id FROM nutrition_plans WHERE id = ? AND trainer_id = ?');
-    $verifyStmt->execute([$nutritionId, $trainerId]);
-    
-    if (!$verifyStmt->fetch()) {
+    if (!NutritionPlan::belongsToTrainer($nutritionId, $trainerId)) {
         Session::addMessage('error', 'This nutrition plan does not belong to you or does not exist.');
         header('Location: ../pages/dashboard.php?tab=nutrition');
         exit;
     }
-    
-    // Update the nutrition plan with the meal details
-    $updateStmt = $db->prepare('UPDATE nutrition_plans SET meal_details = ? WHERE id = ?');
-    $success = $updateStmt->execute([$mealDetails, $nutritionId]);
-    
-    if ($success) {
+
+    if (NutritionPlan::approvePlan($nutritionId, $mealDetails)) {
         Session::addMessage('success', 'Nutrition plan approved and completed successfully!');
     } else {
         Session::addMessage('error', 'Failed to update the nutrition plan.');
@@ -64,4 +55,3 @@ try {
 
 header('Location: ../pages/dashboard.php?tab=nutrition');
 exit;
-?>

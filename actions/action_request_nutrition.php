@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once(__DIR__ . '/../database/database.db.php');
+require_once(__DIR__ . '/../database/nutrition.class.php');
 require_once(__DIR__ . '/../utils/session.php');
 
 Session::start();
@@ -35,31 +36,20 @@ if ($trainerId <= 0) {
     exit;
 }
 
-$target_calories = 2000;
-if ($goal === 'Weight Loss') $target_calories = 1600;
-if ($goal === 'Muscle Gain') $target_calories = 2800;
+$targetCalories = match($goal) {
+    'Weight Loss' => 1600,
+    'Muscle Gain' => 2800,
+    default       => 2000,
+};
 
 try {
-    $db = getDatabaseConnection();
-    
-    $trainerStmt = $db->prepare('SELECT id FROM users WHERE id = ? AND role = "trainer"');
-    $trainerStmt->execute([$trainerId]);
-    if (!$trainerStmt->fetch()) {
+    if (!NutritionPlan::isValidTrainer($trainerId)) {
         Session::addMessage('error', 'Invalid trainer selected.');
         header('Location: ../pages/nutrition.php');
         exit;
     }
 
-    $stmt = $db->prepare('INSERT INTO nutrition_plans (user_id, trainer_id, target_calories, goal, meal_details) VALUES (?, ?, ?, ?, ?)');
-    $success = $stmt->execute([
-        $userId,
-        $trainerId,
-        $target_calories,
-        $goal,
-        'Pending approval from your trainer. Check back soon!'
-    ]);
-
-    if ($success) {
+    if (NutritionPlan::createPlan($userId, $trainerId, $targetCalories, $goal)) {
         Session::addMessage('success', 'Plan requested successfully!');
     } else {
         Session::addMessage('error', 'Failed to submit request.');
@@ -70,4 +60,3 @@ try {
 
 header('Location: ../pages/nutrition.php');
 exit;
-?>

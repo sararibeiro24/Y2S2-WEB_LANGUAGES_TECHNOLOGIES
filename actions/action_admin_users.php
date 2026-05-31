@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../database/database.db.php');
 require_once(__DIR__ . '/../database/user.class.php');
 
 Session::start();
+
 if (!Session::isLoggedIn() || !Session::isAdmin()) {
     http_response_code(403);
     exit;
@@ -19,39 +20,50 @@ if (!Session::validateCsrfToken($token)) {
 }
 
 $action = $_POST['action'] ?? '';
-$db = getDatabaseConnection();
 
 switch ($action) {
     case 'toggle_active':
         $userId = (int)($_POST['user_id'] ?? 0);
         $active = (int)($_POST['active'] ?? 0);
-        if ($userId > 0) {
-            $stmt = $db->prepare('UPDATE users SET active = ? WHERE id = ?');
-            $stmt->execute([$active, $userId]);
-            Session::addMessage('success', 'User status updated.');
+        $user = $userId > 0 ? User::getById($userId) : null;
+        if (!$user) {
+            Session::addMessage('error', 'User not found.');
+            break;
         }
+        $user->setActive((bool)$active)
+            ? Session::addMessage('success', 'User status updated.')
+            : Session::addMessage('error', 'Failed to update user status.');
         break;
 
     case 'set_role':
         $userId = (int)($_POST['user_id'] ?? 0);
         $role = $_POST['role'] ?? '';
-        if ($userId > 0 && in_array($role, ['member', 'trainer', 'admin'])) {
-            $stmt = $db->prepare('UPDATE users SET role = ? WHERE id = ?');
-            $stmt->execute([$role, $userId]);
-            Session::addMessage('success', 'User role updated.');
+        $user = $userId > 0 ? User::getById($userId) : null;
+        if (!$user) {
+            Session::addMessage('error', 'User not found.');
+            break;
         }
-   
+        $user->setRole($role)
+            ? Session::addMessage('success', 'User role updated.')
+            : Session::addMessage('error', 'Invalid role specified.');
         break;
 
     case 'update_user':
         $userId = (int)($_POST['user_id'] ?? 0);
         $name = trim($_POST['name'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        if ($userId > 0 && $name !== '' && $email !== '') {
-            $stmt = $db->prepare('UPDATE users SET name = ?, email = ? WHERE id = ?');
-            $stmt->execute([$name, $email, $userId]);
-            Session::addMessage('success', 'User updated.');
+        $user = $userId > 0 ? User::getById($userId) : null;
+        if (!$user) {
+            Session::addMessage('error', 'User not found.');
+            break;
         }
+        if ($name === '' || $email === '') {
+            Session::addMessage('error', 'Name and email are required.');
+            break;
+        }
+        $user->updateEmail($email);
+        $user->updateName($name);
+        Session::addMessage('success', 'User updated.');
         break;
 
     case 'create_user':
@@ -60,20 +72,21 @@ switch ($action) {
         $name = trim($_POST['name'] ?? '');
         $password = $_POST['password'] ?? '';
         $role = $_POST['role'] ?? 'member';
-        if ($username && $email && $name && $password) {
-            try {
-                User::register($username, $email, $password, $name, $db);
-                // Update role from default 'member'
-                $stmt = $db->prepare('UPDATE users SET role = ? WHERE username = ?');
-                $stmt->execute([$role, $username]);
-                Session::addMessage('success', "User '$username' created.");
-            } catch (Exception $e) {
-                Session::addMessage('error', $e->getMessage());
-            }
-        } else {
+        if (!$username || !$email || !$name || !$password) {
             Session::addMessage('error', 'All fields required.');
+            break;
+        }
+        try {
+            User::registerWithRole($username, $email, $password, $name, $role)
+                ? Session::addMessage('success', "User '$username' created.")
+                : Session::addMessage('error', 'Failed to create user.');
+        } catch (Exception $e) {
+            Session::addMessage('error', $e->getMessage());
         }
         break;
+
+    default:
+        Session::addMessage('error', 'Invalid action.');
 }
 
 header('Location: ../pages/dashboard.php?tab=users');

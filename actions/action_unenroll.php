@@ -3,55 +3,46 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../database/database.db.php');
 require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../database/class_schedule.class.php');
 
 Session::start();
 
+$isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+function respond(int $code, string $error = '', string $success = '', bool $isAjax = false, string $redirect = ''): void {
+    http_response_code($code);
+    if ($isAjax) {
+        echo $error
+            ? json_encode(['error' => $error])
+            : json_encode(['success' => true, 'message' => $success]);
+        exit;
+    }
+    if ($error) die($error);
+    Session::addMessage('success', $success);
+    header('Location: ' . $redirect);
+    exit;
+}
+
 if (!Session::isLoggedIn()) {
-    http_response_code(403);
-    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    if ($isAjax) { echo json_encode(['error' => 'Access denied']); exit; }
-    die('Access denied');
+    respond(403, 'Access denied', '', $isAjax);
 }
 
 $token = $_POST['csrf_token'] ?? '';
 if (!Session::validateCsrfToken($token)) {
-    http_response_code(403);
-    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    if ($isAjax) { echo json_encode(['error' => 'Invalid security token']); exit; }
-    die('Invalid security token');
+    respond(403, 'Invalid security token', '', $isAjax);
 }
 
-$userId = Session::getUserId();
-$scheduleId = (int) ($_POST['schedule_id'] ?? 0);
-$isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+$userId     = Session::getUserId();
+$scheduleId = (int)($_POST['schedule_id'] ?? 0);
 
 if ($scheduleId <= 0) {
-    http_response_code(400);
-    if ($isAjax) { echo json_encode(['error' => 'Invalid request']); exit; }
-    die('Invalid request');
+    respond(400, 'Invalid request', '', $isAjax);
 }
 
-$db = getDatabaseConnection();
-
-// Check if enrolled
-$stmt = $db->prepare('SELECT id FROM enrollments WHERE user_id = ? AND schedule_id = ?');
-$stmt->execute([$userId, $scheduleId]);
-
-if (!$stmt->fetch()) {
-    http_response_code(404);
-    if ($isAjax) { echo json_encode(['error' => 'Not enrolled']); exit; }
-    die('Not enrolled');
+if (!ClassSchedule::isUserEnrolled($userId, $scheduleId)) {
+    respond(404, 'Not enrolled', '', $isAjax);
 }
 
-// Unenroll
-$stmt = $db->prepare('DELETE FROM enrollments WHERE user_id = ? AND schedule_id = ?');
-$stmt->execute([$userId, $scheduleId]);
+ClassSchedule::unenrollUser($userId, $scheduleId);
 
-if ($isAjax) {
-    echo json_encode(['success' => true, 'message' => 'Unenrolled successfully']);
-    exit;
-}
-
-Session::addMessage('success', 'Successfully unenrolled from class.');
-header('Location: ../pages/schedule.php');
-exit;
+respond(200, '', 'Unenrolled successfully', $isAjax, '../pages/schedule.php');

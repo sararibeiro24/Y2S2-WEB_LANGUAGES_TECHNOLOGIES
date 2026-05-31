@@ -68,6 +68,11 @@ class ClassSchedule {
         ');
         $stmt->execute([$userId, $this->id]);
     }
+    public static function unenrollUser(int $userId, int $scheduleId, ?PDO $db = null): bool {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('DELETE FROM enrollments WHERE user_id = ? AND schedule_id = ?');
+        return $stmt->execute([$userId, $scheduleId]);
+    }
 
     public static function getById(int $id, ?PDO $db = null): ?self {
         $db = $db ?? getDatabaseConnection();
@@ -471,6 +476,180 @@ public static function trainerHasClassAtTime(int $trainerId, string $scheduledAt
         $stmt = $db->prepare('UPDATE class_schedule SET scheduled_at = ? WHERE id = ?');
         return $stmt->execute([$scheduledAt, $scheduleId]);
     }
+    public static function getScheduleWithEnrollCount(int $scheduleId, ?PDO $db = null): ?array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('
+        SELECT
+            cs.id,
+            cs.trainer_id,
+            cs.scheduled_at,
+            c.capacity,
+            c.name AS class_name,
+            COUNT(e.id) AS enrolled
+        FROM class_schedule cs
+        JOIN classes c ON c.id = cs.class_id
+        LEFT JOIN enrollments e ON e.schedule_id = cs.id
+        WHERE cs.id = ?
+        GROUP BY cs.id
+    ');
+    $stmt->execute([$scheduleId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
+public static function isUserEnrolled(int $userId, int $scheduleId, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('SELECT id FROM enrollments WHERE user_id = ? AND schedule_id = ?');
+    $stmt->execute([$userId, $scheduleId]);
+    return (bool)$stmt->fetch();
+}
+public static function getFilteredWeekClasses(string $weekStart, array $filters = [], ?PDO $db = null): array {
+    $db = $db ?? getDatabaseConnection();
+
+    $weekEnd = date('Y-m-d 23:59:59', strtotime($weekStart . ' +6 days'));
+
+    $sql = '
+        SELECT
+            cs.id AS schedule_id,
+            cs.class_id,
+            cs.trainer_id,
+            cs.scheduled_at,
+            c.name,
+            c.description,
+            c.capacity,
+            c.difficulty,
+            u.name AS trainer,
+            u.id AS trainer_user_id,
+            COUNT(e.id) AS enrolled
+        FROM class_schedule cs
+        JOIN classes c ON cs.class_id = c.id
+        JOIN users u ON cs.trainer_id = u.id
+        LEFT JOIN enrollments e ON e.schedule_id = cs.id
+        WHERE cs.scheduled_at >= ? AND cs.scheduled_at <= ?
+    ';
+
+    $params = [$weekStart, $weekEnd];
+
+    if (!empty($filters['trainer_id'])) {
+        $sql .= ' AND cs.trainer_id = ?';
+        $params[] = (int)$filters['trainer_id'];
+    }
+
+    if (!empty($filters['query'])) {
+        $sql .= ' AND LOWER(c.name) LIKE ?';
+        $params[] = '%' . strtolower($filters['query']) . '%';
+    }
+
+    if (!empty($filters['difficulty'])) {
+        $sql .= ' AND LOWER(c.difficulty) = ?';
+        $params[] = strtolower($filters['difficulty']);
+    }
+
+    $sql .= ' GROUP BY cs.id ORDER BY cs.scheduled_at ASC';
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public static function getDetailWithReviews(int $scheduleId, ?PDO $db = null): ?array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('
+        SELECT
+            cs.id AS schedule_id,
+            cs.scheduled_at,
+            cs.class_id,
+            c.name,
+            c.description,
+            c.capacity,
+            c.difficulty,
+            u.name AS trainer,
+            u.id AS trainer_id,
+            u.profile_photo AS trainer_photo,
+            tp.bio AS trainer_bio,
+            tp.specializations AS trainer_specs,
+            tp.years_experience,
+            tp.certifications,
+            COUNT(DISTINCT e.id) AS enrolled,
+            ROUND(AVG(r.rating), 1) AS avg_rating,
+            COUNT(DISTINCT r.id) AS review_count
+        FROM class_schedule cs
+        JOIN classes c ON cs.class_id = c.id
+        JOIN users u ON cs.trainer_id = u.id
+        LEFT JOIN trainer_profiles tp ON tp.user_id = u.id
+        LEFT JOIN enrollments e ON e.schedule_id = cs.id
+        LEFT JOIN reviews r ON r.schedule_id = cs.id
+        WHERE cs.id = ?
+        GROUP BY cs.id
+    ');
+    $stmt->execute([$scheduleId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
+public static function getReviewsForSchedule(int $scheduleId, ?PDO $db = null): array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('
+        SELECT r.id, r.rating, r.comment, r.created_at, u.name AS user_name, u.profile_photo AS user_photo
+        FROM reviews r
+        JOIN users u ON r.user_id = u.id
+        WHERE r.schedule_id = ?
+        ORDER BY r.created_at DESC
+    ');
+    $stmt->execute([$scheduleId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public static function getUserReview(int $userId, int $scheduleId, ?PDO $db = null): ?array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('SELECT id, rating, comment FROM reviews WHERE user_id = ? AND schedule_id = ?');
+    $stmt->execute([$userId, $scheduleId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+public static function getUpcomingFiltered(array $filters = [], ?PDO $db = null): array {
+    $db = $db ?? getDatabaseConnection();
+
+    $sql = '
+        SELECT
+            cs.id AS schedule_id,
+            cs.class_id,
+            cs.trainer_id,
+            cs.scheduled_at,
+            c.name,
+            c.description,
+            c.capacity,
+            u.name AS trainer,
+            COUNT(e.id) AS enrolled
+        FROM class_schedule cs
+        JOIN classes c ON cs.class_id = c.id
+        JOIN users u ON cs.trainer_id = u.id
+        LEFT JOIN enrollments e ON e.schedule_id = cs.id
+        WHERE cs.scheduled_at >= datetime(\'now\')
+    ';
+
+    $params = [];
+
+    if (!empty($filters['search'])) {
+        $sql .= ' AND c.name LIKE ?';
+        $params[] = '%' . $filters['search'] . '%';
+    }
+
+    if (!empty($filters['trainer_id']) && $filters['trainer_id'] !== 'all') {
+        $sql .= ' AND cs.trainer_id = ?';
+        $params[] = (int)$filters['trainer_id'];
+    }
+
+    if (!empty($filters['date'])) {
+        $sql .= ' AND date(cs.scheduled_at) = ?';
+        $params[] = $filters['date'];
+    }
+
+    $sql .= ' GROUP BY cs.id ORDER BY cs.scheduled_at ASC';
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
   
 ?>

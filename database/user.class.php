@@ -188,6 +188,26 @@ class User {
         return false;
     }
 
+    public function updateName(string $newName): bool {
+    if (trim($newName) === trim($this->name)) {
+        return false;
+    }
+    $stmt = $this->db->prepare('UPDATE users SET name = ? WHERE id = ?');
+    if ($stmt->execute([$newName, $this->id])) {
+        $this->name = $newName;
+        return true;
+    }
+    return false;
+    }
+
+    public static function registerWithRole(string $username, string $email, string $password, string $name, string $role, ?PDO $db = null): ?User {
+        $user = self::register($username, $email, $password, $name, $db);
+        if ($user && $role !== 'member') {
+            $user->setRole($role);
+        }
+        return $user;
+    }
+
     public static function getAllUsers(?PDO $db = null): array {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->query('
@@ -244,5 +264,17 @@ class User {
 
         return (int)$row['plan_id'];
     }
+    public static function isEmailAvailable(string $email, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('SELECT id FROM users WHERE LOWER(email) = ?');
+    $stmt->execute([strtolower($email)]);
+    return !$stmt->fetch();
+}
+public static function isUsernameAvailable(string $username, ?PDO $db = null): bool {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('SELECT id FROM users WHERE LOWER(username) = ?');
+    $stmt->execute([strtolower($username)]);
+    return !$stmt->fetch();
+}
 }
 ?>

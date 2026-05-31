@@ -8,29 +8,31 @@ require_once(__DIR__ . '/../database/user.class.php');
 Session::start();
 
 header('Content-Type: application/json');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 
-$email = trim($_GET['email'] ?? '');
+try {
+    $email = trim($_GET['email'] ?? '');
 
-if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode(['available' => false, 'message' => 'Invalid email layout format.']);
-    exit;
-}
-
-if (Session::isLoggedIn()) {
-    $currentUser = User::getById(Session::getUserId());
-    if ($currentUser && strtolower($email) === strtolower($currentUser->getEmail())) {
-        echo json_encode(['available' => true, 'message' => 'This is your current email address.']);
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['available' => false, 'message' => 'Invalid email format.']);
         exit;
     }
-}
 
-$db = getDatabaseConnection();
-$stmt = $db->prepare('SELECT id FROM users WHERE LOWER(email) = ?');
-$stmt->execute([strtolower($email)]);
+    if (Session::isLoggedIn()) {
+        $currentUser = User::getById(Session::getUserId());
+        if ($currentUser && strtolower($email) === strtolower($currentUser->getEmail())) {
+            echo json_encode(['available' => true, 'message' => 'This is your current email address.']);
+            exit;
+        }
+    }
 
-if ($stmt->fetch()) {
-    echo json_encode(['available' => false, 'message' => 'Email address is already in use.']);
-} else {
-    echo json_encode(['available' => true, 'message' => 'Email address is available!']);
+    if (User::isEmailAvailable($email)) {
+        echo json_encode(['available' => true,  'message' => 'Email address is available!']);
+    } else {
+        echo json_encode(['available' => false, 'message' => 'Email address is already in use.']);
+    }
+} catch (Exception $e) {
+    error_log('Error in action_checkEmail: ' . $e->getMessage());
+    echo json_encode(['available' => false, 'message' => 'Server error. Please try again later.']);
 }
 exit;

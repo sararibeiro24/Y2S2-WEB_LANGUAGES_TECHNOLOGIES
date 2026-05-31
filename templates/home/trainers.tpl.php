@@ -53,6 +53,6 @@
             <button class="carousel-nav-btn next" onclick="scrollCarousel('trainers-carousel', 1)">❯</button>
         </div>
 
-        <a href="schedule.php" class="button" style="margin-top: 2em;">BOOK A SESSION</a>
+        <a href="trainers.php" class="button" style="margin-top: 2em;">MEET OUR TRAINERS</a>
     </div>
 </section>

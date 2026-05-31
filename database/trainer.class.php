@@ -133,6 +133,91 @@ class Trainer {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public static function getById(int $trainerId, ?PDO $db = null): ?array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('
+        SELECT
+            u.id,
+            u.name,
+            u.profile_photo,
+            tp.bio,
+            tp.specializations,
+            tp.certifications,
+            tp.years_experience
+        FROM users u
+        LEFT JOIN trainer_profiles tp ON u.id = tp.user_id
+        WHERE u.id = ? AND u.role = \'trainer\'
+    ');
+    $stmt->execute([$trainerId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
+public static function getUpcomingSessions(int $trainerId, int $limit = 5, ?PDO $db = null): array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('
+        SELECT cs.id AS schedule_id, c.name, cs.scheduled_at
+        FROM class_schedule cs
+        JOIN classes c ON cs.class_id = c.id
+        WHERE cs.trainer_id = ? AND cs.scheduled_at >= datetime(\'now\')
+        ORDER BY cs.scheduled_at ASC
+        LIMIT ' . $limit
+    );
+    $stmt->execute([$trainerId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public static function getClassesById(int $trainerId, ?PDO $db = null): array {
+    $db = $db ?? getDatabaseConnection();
+    $stmt = $db->prepare('
+        SELECT DISTINCT c.name, COUNT(cs.id) AS session_count
+        FROM classes c
+        JOIN class_schedule cs ON cs.class_id = c.id
+        WHERE cs.trainer_id = ?
+        GROUP BY c.id
+        ORDER BY session_count DESC
+    ');
+    $stmt->execute([$trainerId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public static function getFiltered(string $search = '', ?PDO $db = null): array {
+    $db = $db ?? getDatabaseConnection();
+
+    $sql = '
+        SELECT
+            u.id,
+            u.name,
+            u.profile_photo,
+            tp.bio,
+            tp.specializations,
+            tp.certifications
+        FROM users u
+        LEFT JOIN trainer_profiles tp ON u.id = tp.user_id
+        WHERE u.role = \'trainer\' AND u.active = 1
+    ';
+
+    $params = [];
+
+    if ($search !== '') {
+        $sql .= ' AND (u.name LIKE ? OR tp.specializations LIKE ? OR tp.bio LIKE ?)';
+        $params[] = '%' . $search . '%';
+        $params[] = '%' . $search . '%';
+        $params[] = '%' . $search . '%';
+    }
+
+    $sql .= ' ORDER BY u.name ASC';
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($rows as &$row) {
+        $row['specializations_list'] = $row['specializations']
+            ? array_map('trim', explode(',', $row['specializations']))
+            : [];
+    }
+
+    return $rows;
+}
 }
 
 ?>

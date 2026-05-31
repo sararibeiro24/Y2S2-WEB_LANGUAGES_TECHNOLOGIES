@@ -6,6 +6,35 @@ A full-stack web application for managing a fitness gym — class schedules, tra
 
 This is the second delivery, featuring a fully functional PHP + SQLite application with AJAX interactions, role-based dashboards, and a polished black-and-white/red design system.
 
+## Features
+
+**All users:**
+- [X] Register a new account.
+- [X] Log in and out.
+- [X] Edit their profile, including name, username, password, and profile photo.
+
+**Members:**
+- [X] Browse the schedule of available fitness classes, filtering by type, trainer, day, or time.
+- [X] Enroll in and cancel enrollment from upcoming classes, subject to capacity limits.
+- [X] View trainer profiles, including their specializations and the classes they teach.
+- [X] Check the current availability of equipment in the main training area.
+- [X] Leave ratings and reviews for classes they have attended.
+**Trainers:**
+- [X] Manage their public profile, including bio, specializations, and certifications.
+- [X] View the roster of members enrolled in their classes.
+- [X] Track and manage their assigned class schedule.
+
+**Admins:**
+- [X] Manage members and trainers (create, update, and deactivate accounts).
+- [X] Manage the class catalog (create, edit, and remove classes) and assign trainers to them.
+- [X] Manage equipment in the main training area (add, update availability status, and remove items).
+- [X] Elevate a user to admin status.
+- [X] Oversee and ensure the smooth operation of the entire system.
+
+**Extra:**
+- [X] Define tiered membership plans and allow members to subscribe to or upgrade their plan.
+- [X] Member can request nutrition plans to trainers.
+- [X] Users can give feedback to whole gym.
 ## Pages
 
 | Page | Description |
@@ -39,15 +68,9 @@ Then open `http://localhost:9000` in your browser.
 |------|----------|----------|
 | Admin | `adminuser` | `admin123` |
 | Trainer | `migueltrainer` | `trainer123` |
-| Trainer | `sofiatrainer` | `trainer123` |
-| Trainer | `carlostrainer` | `trainer123` |
-| Trainer | `anatrai` | `trainer123` |
-| Trainer | `pedrotrainer` | `trainer123` |
-| Trainer | `lenatrainer` | `trainer123` |
 | Member | `joaosilva` | `hashedpass1` |
-| Member | `anacosta` | `hashedpass1` |
+| Member | `anacosta` | `hashedpass2` |
 
-All trainers share the password `trainer123`. Member passwords are stored as bcrypt hashes.
 
 ## Database Schema
 
