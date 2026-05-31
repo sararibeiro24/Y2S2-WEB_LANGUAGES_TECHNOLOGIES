@@ -60,7 +60,7 @@ function drawEquipmentPage(){
         <?php drawPageHeader('Equipment Availability', 'Search and review what is free in the main gym area.'); ?>
 
         <div class="schedule-filters">
-            <h3 class="sr-only">Filter & Search</h3>
+            <h3 class="sr-only">Filter &amp; Search</h3>
             <div class="filter-row" style="grid-template-columns: 1fr 1fr;">
                 <div class="filter-group">
                     <label for="equipmentSearchInput">Search equipment</label>
