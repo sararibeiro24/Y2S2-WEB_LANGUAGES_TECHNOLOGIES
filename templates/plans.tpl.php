@@ -8,6 +8,7 @@ function drawPlansPage(array  $plans, bool   $isLoggedIn, ?int   $currentPlanId,
     <?php drawPlansFilter($queryTerm, $cycleFilter); ?>
 
     <section class="plans-grid">
+        <h2 class="sr-only">Available Plans</h2>
         <?php if (!$plans): ?>
             <p class="empty-state">No membership plans available yet. Check back later.</p>
         <?php endif; ?>
@@ -24,6 +25,7 @@ function drawPlansPage(array  $plans, bool   $isLoggedIn, ?int   $currentPlanId,
 function drawPlansFilter(string $queryTerm, string $cycleFilter): void {
 ?>
 <section class="filter-panel card">
+    <h2 class="sr-only">Filter Plans</h2>
     <form method="GET" action="plans.php" class="plans-filter-form">
         <div class="form-row">
             <div class="form-group">

@@ -7,6 +7,7 @@ function drawNutritionPage(array $trainers): void {
     <?php drawPageHeader('Nutrition Plans', 'Browse custom meal guidance and trainer-approved plans.'); ?>
 
     <section class="nutrition-search card">
+        <h2 class="sr-only">Nutrition Filter</h2>
         <div class="form-row">
             <div class="form-group">
                 <label for="nutritionSearchInput">Search plans</label>
@@ -81,6 +82,7 @@ function drawNutritionPage(array $trainers): void {
     </div>
 
     <section id="nutritionResults" class="cards-grid">
+        <h2 class="sr-only">Nutrition Results</h2>
         <p class="empty-state">Loading nutrition plans...</p>
     </section>
 </main>

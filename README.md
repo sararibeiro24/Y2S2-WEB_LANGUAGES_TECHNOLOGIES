@@ -63,7 +63,7 @@ The styling is organized into four modular files following a layered approach:
 
 **Extra:**
 - [X] Define tiered membership plans (e.g., basic, premium) with different access levels, and allow members to subscribe to or upgrade their plan.
-- [ ] Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
+- [X] Member can request nutrition plans to trainers.
 
 ## Running
 
