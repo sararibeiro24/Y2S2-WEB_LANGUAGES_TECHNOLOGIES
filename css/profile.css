@@ -1,75 +1,246 @@
 /* ── Profile Page ─────────────────────────────── */
 
 .profile-page {
-    padding: 3em 20px;
+    padding: 3em 20px 5em;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5em;
+}
+
+.page-header h2 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--ladybug-white);
+    margin-bottom: 0.3em;
+    letter-spacing: 1px;
+}
+
+.page-header p {
+    color: var(--ladybug-gray);
+    font-size: 0.95em;
 }
 
 .profile-layout {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2em;
+    grid-template-columns: 1fr 2.2fr;
+    gap: 2.5em;
     align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ── Sidebar ──────────────────────────────────── */
+
+.profile-sidebar {
+    background: var(--ladybug-dark-gray);
+    border: 1px solid var(--ladybug-medium-gray);
+    border-radius: 18px;
+    padding: 2.5em 2em;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profile-sidebar:hover {
+    transform: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--ladybug-medium-gray);
 }
 
 .profile-avatar {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     object-fit: cover;
-    margin: 0 auto 1em auto;
-    border: 4px solid var(--light-green);
+    margin: 0 auto 1.2em;
+    border: 4px solid var(--ladybug-medium-gray);
+    transition: border-color 0.3s;
+}
+
+.profile-sidebar h3 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--ladybug-white);
+    margin-bottom: 0.6em;
 }
 
 .member-since {
-    color: var(--gray);
+    color: var(--ladybug-gray);
     font-size: 0.85em;
     margin-bottom: 1.5em;
 }
 
 .profile-stats {
-    border-top: 1px solid var(--light-green);
+    border-top: 1px solid var(--ladybug-medium-gray);
     padding-top: 1.5em;
     text-align: left;
+    margin-top: 0.5em;
 }
 
 .profile-stats li {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.8em;
-    color: var(--gray);
+    align-items: center;
+    padding: 0.6em 0;
+    color: var(--ladybug-gray);
     font-size: 0.9em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.profile-stats li:last-child {
+    border-bottom: none;
 }
 
 .profile-stats strong {
-    color: var(--primary-green);
+    color: var(--ladybug-white);
+    font-weight: 700;
+    font-size: 1.05em;
 }
 
-.profile-form-container {
+/* ── Nutrition Plan Card in Sidebar ──────────── */
+
+.nutrition-plan-card {
+    margin-top: 1.5em;
+    padding: 1.2em;
+    background: var(--ladybug-black);
+    border-radius: 12px;
+    border: 1px solid var(--ladybug-medium-gray);
     text-align: left;
+}
+
+.nutrition-plan-card h4 {
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--ladybug-gray);
+    margin-bottom: 0.8em;
+}
+
+.nutrition-plan-card p {
+    font-size: 0.85em;
+    color: var(--ladybug-white);
+    margin-bottom: 0.4em;
+}
+
+.nutrition-plan-card p strong {
+    color: var(--ladybug-gray);
+    font-weight: 600;
+}
+
+.plan-detail {
+    margin-top: 0.6em;
+    padding: 0.6em;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    font-size: 0.82em;
+    color: var(--ladybug-gray);
+    line-height: 1.5;
+}
+
+.plan-status {
+    margin-top: 0.6em;
+    font-size: 0.82em;
+    color: var(--ladybug-red);
+}
+
+.plan-created {
+    font-size: 0.75em;
+    color: var(--ladybug-gray);
+    margin-top: 0.5em;
+}
+
+/* ── Form Container ───────────────────────────── */
+
+.profile-form-container {
+    background: var(--ladybug-dark-gray);
+    border: 1px solid var(--ladybug-medium-gray);
+    border-radius: 18px;
+    padding: 2.5em;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .form-section {
     margin-bottom: 2.5em;
-    padding-bottom: 1.5em;
-    border-bottom: 1px solid var(--light-green);
+    padding-bottom: 2em;
+    border-bottom: 1px solid var(--ladybug-medium-gray);
 }
 
 .form-section:last-of-type {
     border-bottom: none;
-    margin-bottom: 1.5em;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .form-section legend {
-    font-size: 1.2rem;
-    color: var(--primary-green);
-    font-weight: bold;
-    margin-bottom: 1em;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--ladybug-white);
+    font-weight: 700;
+    margin-bottom: 1.2em;
+    letter-spacing: 0.5px;
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5em;
+    margin-bottom: 1.2em;
+}
+
+.profile-form-container .form-group {
+    margin-bottom: 1.2em;
+}
+
+.profile-form-container .form-row .form-group {
+    margin-bottom: 0;
+}
+
+.profile-form-container label {
+    display: block;
+    font-size: 0.78em;
+    font-weight: 700;
+    color: var(--ladybug-gray);
+    margin-bottom: 0.4em;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.profile-form-container .input-field {
+    width: 100%;
+    padding: 0.8em 1em;
+    border: 1.5px solid var(--ladybug-medium-gray);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.92em;
+    background-color: var(--ladybug-black);
+    color: var(--ladybug-white);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.profile-form-container .input-field:focus {
+    outline: none;
+    border-color: var(--ladybug-red);
+    box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.15);
+    background-color: #1a1a1a;
+}
+
+.profile-form-container .input-field:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: var(--ladybug-medium-gray);
+}
+
+.profile-form-container .input-field.error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+}
+
+.profile-form-container .input-field.success {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
 }
 
 .form-actions {
@@ -77,15 +248,121 @@
     justify-content: flex-end;
     gap: 1em;
     margin-top: 2em;
+    padding-top: 0.5em;
 }
+
+.form-actions .button {
+    padding: 0.75em 2.2em;
+    border-radius: 50px;
+    font-family: var(--font-accent);
+    font-weight: 700;
+    font-size: 0.9em;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.form-actions .button-outline {
+    background: transparent;
+    border: 2px solid var(--ladybug-medium-gray);
+    color: var(--ladybug-gray);
+}
+
+.form-actions .button-outline:hover {
+    background: var(--ladybug-medium-gray);
+    color: var(--ladybug-white);
+    transform: translateY(-2px);
+}
+
+.form-actions .button:not(.button-outline):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(196, 30, 58, 0.35);
+}
+
+/* ── File Upload ──────────────────────────────── */
+
+.profile-form-container input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.custom-file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.65em 1.4em;
+    border: 1.5px dashed var(--ladybug-medium-gray);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--ladybug-gray);
+    font-family: inherit;
+    font-size: 0.88em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.custom-file-label:hover {
+    border-color: var(--ladybug-red);
+    background: rgba(196, 30, 58, 0.08);
+    color: var(--ladybug-white);
+}
+
+.custom-file-label .upload-icon {
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+#profile-photo-status {
+    margin-top: 0.6em;
+}
+
+.status-message {
+    display: block;
+    font-size: 0.78em;
+    margin-top: 0.3em;
+    min-height: 1em;
+}
+
+/* ── Responsive ───────────────────────────────── */
 
 @media (max-width: 900px) {
     .profile-layout {
         grid-template-columns: 1fr;
+        gap: 1.5em;
+    }
+
+    .profile-sidebar {
+        padding: 2em 1.5em;
+    }
+
+    .profile-form-container {
+        padding: 1.8em;
     }
 
     .form-row {
         grid-template-columns: 1fr;
         gap: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .profile-page {
+        padding: 2em 12px 4em;
+    }
+
+    .profile-form-container {
+        padding: 1.5em 1.2em;
+        border-radius: 14px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .button {
+        width: 100%;
+        text-align: center;
     }
 }

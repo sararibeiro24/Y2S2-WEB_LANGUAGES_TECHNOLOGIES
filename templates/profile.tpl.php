@@ -66,6 +66,7 @@ function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $membe
 
             <div class="profile-form-container card">
                 <form id="profile-form" action="../actions/action_editProfile.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
                     
                     <fieldset class="form-section">
                         <legend>Personal Information</legend>
@@ -92,8 +93,12 @@ function drawProfileForm($Name, $Username, $Email, $ProfilePhoto, $badge, $membe
                     <fieldset class="form-section">
                         <legend>Profile Photo</legend>
                         <div class="form-group">
-                            <label for="profile-photo-input">Upload New Photo</label>
-                            <input type="file" id="profile-photo-input" name="profile_photo" class="input-field" accept="image/png, image/jpeg, image/webp">
+                            <label>Upload New Photo</label>
+                            <input type="file" id="profile-photo-input" name="profile_photo" accept="image/png, image/jpeg, image/webp">
+                            <label for="profile-photo-input" class="custom-file-label">
+                                <span class="upload-icon">&#128247;</span>
+                                Choose Photo
+                            </label>
                             <span id="profile-photo-status" class="status-message"></span>
                         </div>
                     </fieldset>
