@@ -1,40 +1,61 @@
+<?php
+function drawFeedback(array $feedbacks, string $feedbackName = ''): void {
+?>
 <section id="feedback" class="teaser-section bg-news">
     <div class="container">
         <h2>WHAT OUR MEMBERS SAY</h2>
         <p class="subtitle large-subtitle">Hear it from the hive. Real stories, real results.</p>
-
         <div class="cards-grid cards-grid-3">
-            <div class="feedback-card">
-                <p class="feedback-quote">"The trainers here are absolutely incredible! I lost 25 pounds in 3 months and feel amazing!"</p>
-                <p class="feedback-author">- Jessica M. ⭐⭐⭐⭐⭐</p>
-            </div>
+        <?php foreach ($feedbacks as $fb): ?>
+        <div class="feedback-card">
+            <p class="feedback-quote">"<?= htmlspecialchars($fb['message']) ?>"</p>
+            <p class="feedback-author">
+                - <?= htmlspecialchars($fb['name']) ?>
+                <?= str_repeat('⭐', (int)$fb['rating']) ?>
+            </p>
+        </div>
+        <?php endforeach; ?>
+    </div>
 
-            <div class="feedback-card">
-                <p class="feedback-quote">"Best gym I've ever been to. The facilities are top-notch and the community is so supportive."</p>
-                <p class="feedback-author">- Tom Richardson ⭐⭐⭐⭐⭐</p>
-            </div>
+        <a href="#" class="button feedback-trigger" style="margin-top: 2em;">LEAVE YOUR FEEDBACK</a>
 
-            <div class="feedback-card">
-                <p class="feedback-quote">"Affordable pricing with premium quality? I couldn't believe it until I tried it myself!"</p>
-                <p class="feedback-author">- Alex Chen ⭐⭐⭐⭐⭐</p>
-            </div>
-
-            <div class="feedback-card">
-                <p class="feedback-quote">"The nutrition plans actually made sense and tasted good. I'm hooked!"</p>
-                <p class="feedback-author">- Maria Santos ⭐⭐⭐⭐⭐</p>
-            </div>
-
-            <div class="feedback-card">
-                <p class="feedback-quote">"Personal training sessions have changed my life. Can't recommend enough!"</p>
-                <p class="feedback-author">- David Smith ⭐⭐⭐⭐⭐</p>
-            </div>
-
-            <div class="feedback-card">
-                <p class="feedback-quote">"The yoga classes helped me recover from an injury. Amazing experience!"</p>
-                <p class="feedback-author">- Sophie Laurent ⭐⭐⭐⭐⭐</p>
+        <div id="feedbackModal" class="modal-overlay" style="display:none;">
+            <div class="modal-content card">
+                <span id="closeFeedbackBtn" class="modal-close">&times;</span>
+                <h2>Leave Your Feedback</h2>
+                <form action="../actions/action_submit_feedback.php" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
+                     <div class="form-group">
+                        <?php if (Session::isLoggedIn()): ?>
+                            <input type="hidden" name="name" value="<?= htmlspecialchars($feedbackName) ?>">
+                            <p><strong>Submitting as:</strong> <?= htmlspecialchars($feedbackName) ?></p>
+                        <?php else: ?>
+                            <label for="feedbackName">Your Name</label>
+                            <input type="text" id="feedbackName" name="name" class="input-field" required>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <div class="star-rating">
+                            <input type="hidden" name="rating" id="feedbackRatingValue" value="5">
+                            <?php for ($i = 5; $i >= 1; $i--): ?>
+                                <input type="radio" name="star" id="fstar<?= $i ?>" value="<?= $i ?>"
+                                       <?= $i === 5 ? 'checked' : '' ?>
+                                       onchange="document.getElementById('feedbackRatingValue').value=<?= $i ?>">
+                                <label for="fstar<?= $i ?>" title="<?= $i ?> stars">&#9733;</label>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackMessage">Your Feedback</label>
+                        <textarea id="feedbackMessage" name="message" class="input-field" rows="4"
+                                  maxlength="500" required></textarea>
+                    </div>
+                    <button type="submit" class="button">Submit</button>
+                </form>
             </div>
         </div>
-
-        <a href="#" class="button" style="margin-top: 2em;">LEAVE YOUR FEEDBACK</a>
     </div>
 </section>
+<?php 
+}

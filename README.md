@@ -64,6 +64,7 @@ The styling is organized into four modular files following a layered approach:
 **Extra:**
 - [X] Define tiered membership plans (e.g., basic, premium) with different access levels, and allow members to subscribe to or upgrade their plan.
 - [X] Member can request nutrition plans to trainers.
+- [X] Users can give feedback to whole gym.
 
 ## Running
 

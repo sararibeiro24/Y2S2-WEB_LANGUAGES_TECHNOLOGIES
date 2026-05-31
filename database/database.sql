@@ -122,6 +122,16 @@ CREATE TABLE IF NOT EXISTS nutrition_plans (
     FOREIGN KEY(trainer_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
+CREATE TABLE IF NOT EXISTS feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    name TEXT NOT NULL,
+    message TEXT NOT NULL,
+    rating INTEGER CHECK(rating >= 1 AND rating <= 5),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
 CREATE INDEX IF NOT EXISTS idx_class_schedule_trainer ON class_schedule(trainer_id);
@@ -263,3 +273,12 @@ INSERT OR IGNORE INTO reviews (user_id, class_id, schedule_id, rating, comment) 
 (1, 5, 5, 5, 'Amazing yoga session!'),
 (2, 2, 6, 4, 'Very intense but enjoyable workout.'),
 (1, 4, 10, 5, 'Excellent trainer and atmosphere.');
+
+-- FEEDBACK
+INSERT OR IGNORE INTO feedback (id, user_id, name, message, rating) VALUES
+(1, 1, 'João Silva', 'The trainers here are absolutely incredible! I lost 25 pounds in 3 months and feel amazing!', 5),
+(2, 2, 'Ana Costa', 'Best gym I''ve ever been to. The facilities are top-notch and the community is so supportive.', 5),
+(3, NULL, 'Alex Chen', 'Affordable pricing with premium quality? I couldn''t believe it until I tried it myself!', 5),
+(4, NULL, 'Maria Santos', 'The nutrition plans actually made sense and tasted good. I''m hooked!', 5),
+(5, NULL, 'David Smith', 'Personal training sessions have changed my life. Can''t recommend enough!', 5),
+(6, NULL, 'Sophie Laurent', 'The yoga classes helped me recover from an injury. Amazing experience!', 4);

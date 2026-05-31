@@ -212,5 +212,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
- 
+
+    const feedbackBtn = document.querySelector('.feedback-trigger');
+    const feedbackModal = document.getElementById('feedbackModal');
+    const closeFeedbackBtn = document.getElementById('closeFeedbackBtn');
+
+    if (feedbackBtn && feedbackModal) {
+        feedbackBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            feedbackModal.style.display = 'flex';
+        });
+
+        closeFeedbackBtn?.addEventListener('click', () => {
+            feedbackModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === feedbackModal) {
+                feedbackModal.style.display = 'none';
+            }
+        });
+    }
+    
 });
