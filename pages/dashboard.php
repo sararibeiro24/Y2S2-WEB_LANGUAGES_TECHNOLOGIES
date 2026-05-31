@@ -78,7 +78,15 @@ elseif ($tab === 'trainer_profile' && $role === 'trainer') {
 }
 elseif($tab === 'nutrition' && $role ==='trainer'){
     try {
-        $nutritionStmt = $db->prepare('SELECT np.id, np.goal, np.target_calories, np.meal_details, np.created_at, u.name AS member_name, u.email AS member_email FROM nutrition_plans np JOIN users u ON np.user_id = u.id WHERE np.trainer_id = ? ORDER BY np.created_at DESC');
+        $nutritionStmt = $db->prepare('
+            SELECT np.id, np.goal, np.target_calories, np.meal_details, np.created_at, 
+                   u.name AS member_name, u.email AS member_email,
+                   CASE WHEN np.meal_details LIKE \'Pending approval%\' THEN 0 ELSE 1 END AS is_approved
+            FROM nutrition_plans np 
+            JOIN users u ON np.user_id = u.id 
+            WHERE np.trainer_id = ? 
+            ORDER BY is_approved ASC, np.created_at DESC
+        ');
         $nutritionStmt->execute([$userId]);
         $nutritionPlans = $nutritionStmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {

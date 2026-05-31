@@ -373,38 +373,64 @@ function drawManageEquipment(array $equipment): void { ?>
 <?php }
 
 function drawTrainerNutritionPlans(array $nutritionPlans): void {
+    $pending  = array_filter($nutritionPlans, fn($p) => str_starts_with($p['meal_details'], 'Pending approval'));
+    $approved = array_filter($nutritionPlans, fn($p) => !str_starts_with($p['meal_details'], 'Pending approval'));
 ?>
     <section class="dashboard-card nutrition-requests-card">
-                <h3>Nutrition Plan Requests</h3>
-                <?php if (empty($nutritionPlans)): ?>
-                    <p class="empty-state">No nutrition plan requests yet.</p>
-                <?php else: ?>
-                    <div class="nutrition-requests-list">
-                        <?php foreach ($nutritionPlans as $request): ?>
-                            <article class="nutrition-request-card">
-                                <div class="request-header">
-                                    <div>
-                                        <strong><?= htmlspecialchars($request['member_name']) ?></strong>
-                                        <span class="request-email"><?= htmlspecialchars($request['member_email']) ?></span>
-                                    </div>
-                                    <span class="request-goal"><?= htmlspecialchars($request['goal']) ?></span>
+        <h3>Nutrition Plan Requests</h3>
+        <?php if (empty($nutritionPlans)): ?>
+            <p class="empty-state">No nutrition plan requests yet.</p>
+        <?php else: ?>
+            <div class="nutrition-requests-list">
+
+                <?php if (!empty($pending)): ?>
+                    <h4 class="nutrition_pending">Pending</h4>
+                    <?php foreach ($pending as $request): ?>
+                        <article class="nutrition-request-card">
+                            <div class="request-header">
+                                <div>
+                                    <strong><?= htmlspecialchars($request['member_name']) ?></strong>
+                                    <span class="request-email"><?= htmlspecialchars($request['member_email']) ?></span>
                                 </div>
-                                <div class="request-meta">
-                                    <span><strong>Calories:</strong> <?= htmlspecialchars((string)($request['target_calories'] ?? 'Custom')) ?> kcal</span>
-                                    <span>Requested <?= htmlspecialchars((new DateTime($request['created_at']))->format('M d, Y')) ?></span>
-                                </div>
-                                <p class="meal-summary"><?= nl2br(htmlspecialchars($request['meal_details'])) ?></p>
-                                <form class="nutrition-request-form" action="../actions/action_approve_nutrition.php" method="POST">
-                                    <input type="hidden" name="nutrition_id" value="<?= htmlspecialchars((string)$request['id']) ?>">
-                                    <label for="meal_details_<?= htmlspecialchars((string)$request['id']) ?>">Add meal plan details</label>
-                                    <textarea id="meal_details_<?= htmlspecialchars((string)$request['id']) ?>" name="meal_details" rows="4" placeholder="Write the nutrition plan details here..." required></textarea>
-                                    <button type="submit" class="button">Approve Request</button>
-                                </form>
-                            </article>
-                        <?php endforeach; ?>
-                    </div>
+                                <span class="request-goal"><?= htmlspecialchars($request['goal']) ?></span>
+                            </div>
+                            <div class="request-meta">
+                                <span><strong>Calories:</strong> <?= htmlspecialchars((string)($request['target_calories'] ?? 'Custom')) ?> kcal</span>
+                                <span>Requested <?= date('M d, Y', strtotime($request['created_at'])) ?></span>
+                            </div>
+                            <form class="nutrition-request-form" action="../actions/action_approve_nutrition.php" method="POST">
+                                <input type="hidden" name="nutrition_id" value="<?= (int)$request['id'] ?>">
+                                <label for="meal_details_<?= (int)$request['id'] ?>">Add meal plan details</label>
+                                <textarea id="meal_details_<?= (int)$request['id'] ?>" name="meal_details" rows="4" placeholder="Write the nutrition plan details here..." required></textarea>
+                                <button type="submit" class="button">Approve Request</button>
+                            </form>
+                        </article>
+                    <?php endforeach; ?>
                 <?php endif; ?>
-            </section>
+
+                <?php if (!empty($approved)): ?>
+                    <h4 class=nutrition_approved> Approved</h4>
+                    <?php foreach ($approved as $request): ?>
+                        <article class="nutrition-request-card" style="opacity:.75;">
+                            <div class="request-header">
+                                <div>
+                                    <strong><?= htmlspecialchars($request['member_name']) ?></strong>
+                                    <span class="request-email"><?= htmlspecialchars($request['member_email']) ?></span>
+                                </div>
+                                <span class="request-goal"><?= htmlspecialchars($request['goal']) ?></span>
+                            </div>
+                            <div class="request-meta">
+                                <span><strong>Calories:</strong> <?= htmlspecialchars((string)($request['target_calories'] ?? 'Custom')) ?> kcal</span>
+                                <span>Requested <?= date('M d, Y', strtotime($request['created_at'])) ?></span>
+                            </div>
+                            <p class="meal-summary"><?= nl2br(htmlspecialchars($request['meal_details'])) ?></p>
+                        </article>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+            </div>
+        <?php endif; ?>
+    </section>
 <?php
 }
 

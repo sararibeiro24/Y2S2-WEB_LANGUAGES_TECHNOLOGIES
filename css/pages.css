@@ -169,6 +169,16 @@
 .nutrition-page {
     padding: 3em 20px;
 }
+.nutrition_pending{
+margin:0 0 .8em; 
+color:#e05;
+}
+
+.nutrition_approved{
+margin:1.2em 0 .8em;
+ color:#4caf50;
+
+}
 
 /* ── Search / Filter Section ─────────────────── */
 
