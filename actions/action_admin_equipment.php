@@ -27,15 +27,16 @@ switch ($action) {
         break;
 
     case 'update':
-        $id = (int)($_POST['id'] ?? 0);
-        $name = trim($_POST['name'] ?? '');
-        $total = (int)($_POST['total_quantity'] ?? 0);
-        $available = (int)($_POST['available_quantity'] ?? 0);
-        if ($id > 0 && $name && $total >= 0 && $available >= 0) {
-            ClassSchedule::updateEquipment($id, $name, $total, $available, $db);
+         try {
+            $id                = (int)($_POST['id'] ?? 0);
+            $name              = trim($_POST['name'] ?? '');
+            $totalQuantity     = (int)($_POST['total_quantity'] ?? 0);
+            $availableQuantity = (int)($_POST['available_quantity'] ?? 0);
+
+            ClassSchedule::updateEquipment($id, $name, $totalQuantity, $availableQuantity, $db);
             Session::addMessage('success', 'Equipment updated.');
-        } else {
-            Session::addMessage('error', 'Invalid input.');
+        } catch (InvalidArgumentException $e) {
+            Session::addMessage('error', $e->getMessage());
         }
         break;
 

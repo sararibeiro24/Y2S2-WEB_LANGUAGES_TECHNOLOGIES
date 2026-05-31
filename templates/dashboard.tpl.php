@@ -481,7 +481,7 @@ function drawClassRosterBlock(array $c, PDO $db): void {
                         </div>
                     </td>
                     <td><?= htmlspecialchars($m['email'] ?? '') ?></td>
-                    <td><?= isset($m['enrolled_at']) ? date('M j, H:i', strtotime($m['enrolled_at'])) : '' ?></td>
+                    <td><?= isset($m['enrolled_at']) ? (new DateTime($m['enrolled_at'], new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Europe/Lisbon'))->format('M j, H:i') : '' ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

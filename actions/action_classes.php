@@ -96,9 +96,16 @@ switch ($action) {
         $classId = (int)($_POST['class_id'] ?? 0);
         $trainerId = ($role === 'trainer') ? $currentUserId : (int)($_POST['trainer_id'] ?? 0);
         $scheduledAt = $_POST['scheduled_at'] ?? '';
+        $startOfToday = strtotime('today midnight');
+        $endOfToday = strtotime('tomorrow midnight') - 1;
 
         if ($classId > 0 && $trainerId > 0 && $scheduledAt) {
-            if (ClassSchedule::trainerHasClassAtTime($trainerId, $scheduledAt, null, $db)) {
+            $scheduledTimestamp = strtotime($scheduledAt); 
+            if ($scheduledTimestamp === false || $scheduledTimestamp < $startOfToday) {
+            Session::addMessage('error', 'Cannot schedule a class in the past.');
+            } elseif ($scheduledTimestamp >= $startOfToday && $scheduledTimestamp <= $endOfToday) {
+            Session::addMessage('error', 'Cannot schedule a class for the same day.');
+            } elseif (ClassSchedule::trainerHasClassAtTime($trainerId, $scheduledAt, null, $db)) {
                 Session::addMessage('error', 'Trainer has a schedule conflict at this time.');
             } else {
                 ClassSchedule::addSchedule($classId, $trainerId, $scheduledAt, $db);

@@ -32,9 +32,6 @@ switch ($action) {
             $stmt = $db->prepare('UPDATE users SET role = ? WHERE id = ?');
             $stmt->execute([$role, $userId]);
             Session::addMessage('success', 'User role updated.');
-            if ($userId === (int)Session::getUserId()) {
-                Session::setUserRole($role); 
-            }
         }
    
         break;

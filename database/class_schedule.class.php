@@ -376,6 +376,9 @@ public static function trainerHasClassAtTime(int $trainerId, string $scheduledAt
 
     public static function updateEquipment(int $id, string $name, int $totalQuantity, int $availableQuantity, ?PDO $db = null): bool {
         $db = $db ?? getDatabaseConnection();
+        if ($availableQuantity > $totalQuantity) {
+            throw new InvalidArgumentException('Available quantity cannot exceed total quantity.');
+        }
         $stmt = $db->prepare('UPDATE equipment SET name = ?, total_quantity = ? WHERE id = ?');
         $stmt->execute([$name, $totalQuantity, $id]);
         // Upsert equipment_status
