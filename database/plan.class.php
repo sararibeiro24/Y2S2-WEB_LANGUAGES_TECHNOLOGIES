@@ -6,7 +6,7 @@ require_once(__DIR__ . '/database.db.php');
 class Plan {
     public static function getAllPlans(?PDO $db = null): array {
         $db = $db ?? getDatabaseConnection();
-        $stmt = $db->query('SELECT id, name, price, billing_cycle, features FROM plans ORDER BY name ASC');
+        $stmt = $db->query('SELECT id, name, price, billing_cycle, features FROM plans ORDER BY price ASC');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -33,7 +33,7 @@ class Plan {
             $sql .= ' WHERE ' . implode(' AND ', $clauses);
         }
 
-        $sql .= ' ORDER BY name ASC';
+        $sql .= ' ORDER BY price ASC';
 
         $stmt = $db->prepare($sql);
         $stmt->execute($params);
