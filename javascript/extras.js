@@ -85,11 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         equipmentResults.innerHTML = items.map(function (item, idx) {
-            var availabilityLabel = item.available_quantity > 0 ? 'Available' : 'Unavailable';
-            var statusClass = item.available_quantity > 0 ? 'available-equip' : 'unavailable-equip';
-            var image = imgUrl(equipImages[idx % equipImages.length]);
+            const availabilityLabel = item.available_quantity > 0 ? 'Available' : 'Unavailable';
+            const statusClass = item.available_quantity > 0 ? 'available-equip' : 'unavailable-equip';
+            const image = imgUrl(equipImages[idx % equipImages.length]);
 
-            var front = '' +
+            const front = '' +
                 '<div class="card-header">' +
                 '<h3>' + item.name + '</h3>' +
                 '<span class="equipment-status-badge ' + statusClass + '">' + availabilityLabel + '</span>' +
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 '</div>' +
                 '<p class="card-copy">ready to use</p>';
 
-            var back = '' +
+            const back = '' +
                 '<span class="equipment-status-badge ' + statusClass + '">' + availabilityLabel + '</span>' +
                 '<div class="equip-detail-row">' +
                 '<span class="label">Total units</span>' +
@@ -127,19 +127,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         nutritionResults.innerHTML = plans.map(function (plan, idx) {
-            var image = imgUrl(foodImages[idx % foodImages.length]);
+            const image = imgUrl(foodImages[idx % foodImages.length]);
 
-            var front = '' +
+            const front = '' +
                 '<div class="card-header">' +
                 '<h3>' + plan.goal + '</h3>' +
                 '<span class="badge-trainer">' + plan.trainer_name + '</span>' +
                 '</div>' +
                 '<div class="nutrition-calories">' +
                 (plan.target_calories || 'Custom') + ' <small>kcal</small>' +
-                '</div>' +
-                '<p class="nutrition-member">for <strong>' + plan.member_name + '</strong></p>';
+                '</div>';
 
-            var back = '' +
+            const back = '' +
                 '<span class="' + goalBadgeClass(plan.goal) + '">' + (plan.goal || 'Plan') + '</span>' +
                 '<div class="meal-detail">' + (plan.meal_details || 'Personalized nutrition guidance tailored to your goal.') + '</div>' +
                 '<p class="nutrition-date">Assigned ' + (plan.created_at || '-') + '</p>';

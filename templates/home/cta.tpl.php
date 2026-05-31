@@ -1,7 +1,7 @@
 <section class="teaser-section bg-dark">
     <div class="container split-layout align-center">
         <div class="login-teaser-cards">
-            <a href="login.php" class="card action-card">
+            <a href="register.php" class="card action-card">
                 <h3>CREATE ACCOUNT</h3>
                 <div class="arrow-circle">➔</div>
             </a>

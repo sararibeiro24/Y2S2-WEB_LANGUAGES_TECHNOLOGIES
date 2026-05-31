@@ -141,15 +141,20 @@ function getFilterQueryString(params) {
     if (params.difficulty) qs += '&difficulty=' + encodeURIComponent(params.difficulty);
     return qs;
 }
+let currentWeekAbort = null;
+
 function loadWeek(weekStr, updateURL, filterParams) {
     if (filterParams === undefined) filterParams = {};
     const grid = document.getElementById('calendarGrid');
     const label = document.getElementById('weekLabel');
 
+    if (currentWeekAbort) currentWeekAbort.abort();
+    currentWeekAbort = new AbortController();
+
     let url = '../actions/api_calendar_week.php?week_start=' + weekStr;
     url += getFilterQueryString(filterParams);
 
-    fetch(url)
+    fetch(url, { signal: currentWeekAbort.signal })
         .then(function (r) { return r.json(); })
         .then(function (data) {
             if (data.error) {
@@ -173,7 +178,8 @@ function loadWeek(weekStr, updateURL, filterParams) {
                 window.history.replaceState({}, '', urlPath);
             }
         })
-        .catch(function () {
+        .catch(function (err) {
+            if (err && err.name === 'AbortError') return;
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Failed to load classes.</p>';
         });
 }
@@ -418,6 +424,7 @@ window.submitReview = function (event, scheduleId) {
     fd.append('schedule_id', scheduleId);
     fd.append('rating', rating);
     fd.append('comment', comment);
+    fd.append('csrf_token', CSRF_TOKEN);
 
     fetch('../actions/action_add_review.php', { method: 'POST', body: fd })
         .then(function (r) { return r.json(); })
@@ -440,6 +447,7 @@ window.submitReview = function (event, scheduleId) {
 function enrollXhr(scheduleId, onSuccess, onError) {
     const fd = new FormData();
     fd.append('schedule_id', scheduleId);
+    fd.append('csrf_token', CSRF_TOKEN);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '../actions/action_enroll.php');
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -458,6 +466,7 @@ function enrollXhr(scheduleId, onSuccess, onError) {
 function unenrollXhr(scheduleId, onSuccess, onError) {
     const fd = new FormData();
     fd.append('schedule_id', scheduleId);
+    fd.append('csrf_token', CSRF_TOKEN);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '../actions/action_unenroll.php');
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');

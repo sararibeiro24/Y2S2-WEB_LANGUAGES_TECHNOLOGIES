@@ -17,7 +17,7 @@ function drawFeedback(array $feedbacks, string $feedbackName = ''): void {
         <?php endforeach; ?>
     </div>
 
-        <a href="#" class="button feedback-trigger" style="margin-top: 2em;">LEAVE YOUR FEEDBACK</a>
+        <a href="javascript:void(0)" class="button feedback-trigger" style="margin-top: 2em;">LEAVE YOUR FEEDBACK</a>
 
         <div id="feedbackModal" class="modal-overlay" style="display:none;">
             <div class="modal-content card">

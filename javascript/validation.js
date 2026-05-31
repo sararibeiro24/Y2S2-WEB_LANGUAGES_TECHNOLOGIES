@@ -219,12 +219,12 @@ function updateSubmitButtonState(formId, buttonSelector) {
     let isFormInvalid = false;
 
     if (formId === '#register-form') {
-        const nameVal = document.getElementById('name-input')?.value.trim() || '';
+        const nameInput = document.getElementById('name-input');
+        const nameVal = nameInput?.value.trim() || '';
         const usernameVal = document.getElementById('username-input')?.value.trim() || '';
-        if (nameVal) {
-            formValidityStates.name = validateNameField(nameVal);
+        if (nameInput && nameVal) {
+            formValidityStates.name = validateNameField(nameInput);
         }
-        if (nameVal.length > 0) formValidityStates.name = true;
         if (usernameVal.length >= 3 && !document.getElementById('username-status')?.classList.contains('error')) {
             formValidityStates.username = true;
         }
