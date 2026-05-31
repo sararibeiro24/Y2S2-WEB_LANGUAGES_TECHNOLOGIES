@@ -399,6 +399,7 @@ function drawTrainerNutritionPlans(array $nutritionPlans): void {
                                 <span>Requested <?= date('M d, Y', strtotime($request['created_at'])) ?></span>
                             </div>
                             <form class="nutrition-request-form" action="../actions/action_approve_nutrition.php" method="POST">
+                                <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
                                 <input type="hidden" name="nutrition_id" value="<?= (int)$request['id'] ?>">
                                 <label for="meal_details_<?= (int)$request['id'] ?>">Add meal plan details</label>
                                 <textarea id="meal_details_<?= (int)$request['id'] ?>" name="meal_details" rows="4" placeholder="Write the nutrition plan details here..." required></textarea>
