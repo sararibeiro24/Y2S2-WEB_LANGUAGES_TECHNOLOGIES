@@ -114,6 +114,7 @@ function drawCSSLinks() {
     <link rel="stylesheet" href="../css/schedule.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/register.css">
     <link rel="stylesheet" href="../css/trainers.css">
     <link rel="stylesheet" href="../css/trainer-dashboard.css">
     <link rel="stylesheet" href="../css/admin-dashboard.css">

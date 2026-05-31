@@ -1,27 +1,27 @@
-/* ── Login Page ───────────────────────────────── */
+/* ── Register Page ────────────────────────────── */
 
-.login-page {
+.register-page {
     display: flex;
     justify-content: center;
     padding: 1.5em 1em 4em;
 }
 
-.login-layout {
+.register-layout {
     width: 100%;
-    max-width: 440px;
+    max-width: 480px;
     margin: 0 auto;
 }
 
-.login-card {
+.register-card {
     background: var(--ladybug-dark-gray);
     border: 1px solid var(--ladybug-medium-gray);
     border-radius: 18px;
-    padding: 2.8em 2.5em;
+    padding: 2.5em 2.5em 2.8em;
     text-align: left;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.login-card h3 {
+.register-card h3 {
     font-family: var(--font-heading);
     font-size: 1.6rem;
     color: var(--ladybug-white);
@@ -30,18 +30,18 @@
     letter-spacing: 1px;
 }
 
-.login-subtitle {
+.register-subtitle {
     color: var(--ladybug-gray);
     text-align: center;
     font-size: 0.9em;
-    margin-bottom: 2em;
+    margin-bottom: 1.6em;
 }
 
-.login-card .form-group {
-    margin-bottom: 1.4em;
+.register-card .form-group {
+    margin-bottom: 1.2em;
 }
 
-.login-card label {
+.register-card label {
     display: block;
     font-size: 0.8em;
     font-weight: 700;
@@ -51,7 +51,7 @@
     letter-spacing: 0.8px;
 }
 
-.login-card .input-field {
+.register-card .input-field {
     width: 100%;
     padding: 0.85em 1em;
     border: 1.5px solid var(--ladybug-medium-gray);
@@ -63,26 +63,42 @@
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.login-card .input-field:focus {
+.register-card .input-field:focus {
     outline: none;
     border-color: var(--ladybug-red);
     box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.15);
 }
 
-.login-card .input-field.error {
+.register-card .input-field.error {
     border-color: #ef4444;
     box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
 }
 
-.login-card .input-field.success {
+.register-card .input-field.success {
     border-color: #22c55e;
     box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
 }
 
-.login-card .button {
+.register-card .status-message {
+    display: block;
+    font-size: 0.78em;
+    margin-top: 0.3em;
+    min-height: 1em;
+    color: var(--ladybug-gray);
+}
+
+.register-card .status-message.error {
+    color: #ef4444;
+}
+
+.register-card .status-message.success {
+    color: #22c55e;
+}
+
+.register-card .button {
     width: 100%;
     padding: 0.9em;
-    margin-top: 0.6em;
+    margin-top: 0.4em;
     font-size: 1em;
     border-radius: 50px;
     background: var(--ladybug-red);
@@ -97,41 +113,41 @@
     overflow: hidden;
 }
 
-.login-card .button:hover {
+.register-card .button:hover {
     background: var(--accent-deep-red);
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 8px 24px rgba(196, 30, 58, 0.35);
 }
 
-.login-card .button:active {
+.register-card .button:active {
     transform: translateY(0) scale(0.98);
 }
 
-.login-footer {
+.register-footer {
     text-align: center;
-    margin-top: 1.8em;
+    margin-top: 1.5em;
     font-size: 0.9em;
     color: var(--ladybug-gray);
 }
 
-.login-footer a {
+.register-footer a {
     color: var(--ladybug-red);
     font-weight: 600;
     transition: color 0.2s;
 }
 
-.login-footer a:hover {
+.register-footer a:hover {
     color: var(--accent-deep-red);
     text-decoration: underline;
 }
 
 @media (max-width: 500px) {
-    .login-card {
+    .register-card {
         padding: 2em 1.5em;
         border-radius: 14px;
     }
 
-    .login-card h3 {
+    .register-card h3 {
         font-size: 1.3rem;
     }
 }

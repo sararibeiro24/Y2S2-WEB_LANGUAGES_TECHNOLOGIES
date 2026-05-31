@@ -14,7 +14,6 @@ if (Session::isLoggedIn()) {
 
 drawHead("Login | Ladybug's Gym");
 drawHeader();
-drawPageHeader("Welcome Back","Please log in to access your account.");
 drawLoginForm();
 drawFooter();
 ?>
