@@ -170,7 +170,7 @@ function drawManageClasses(array $classes, array $trainers, PDO $db, string $rol
             <?php if ($role === 'admin'): ?>
             <button class="button button-small" onclick="this.nextElementSibling.style.display='block'">+ Add Class</button>
             <div class="inline-form" style="display:none">
-                <form action="../actions/action_admin_classes.php" method="post" class="admin-form">
+                <form action="../actions/action_classes.php" method="post" class="admin-form">
                     <input type="hidden" name="action"     value="create">
                     <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
                     <input type="text"   name="name"        placeholder="Class Name"  required>
@@ -240,7 +240,7 @@ function drawManageClasses(array $classes, array $trainers, PDO $db, string $rol
                 ?>
                 <span class="slot-tag">
                     <?= $label ?> &mdash; <?= htmlspecialchars($s['trainer_name'] ?? 'Unknown') ?>
-                    <form action="../actions/action_admin_classes.php" method="post" style="display:inline"
+                    <form action="../actions/action_classes.php" method="post" style="display:inline"
                           onsubmit="return confirm('Remove this slot?')">
                         <input type="hidden" name="action"      value="remove_schedule">
                         <input type="hidden" name="csrf_token"  value="<?= Session::getCsrfToken() ?>">
@@ -253,7 +253,7 @@ function drawManageClasses(array $classes, array $trainers, PDO $db, string $rol
             </div>
             <?php endif; ?>
 
-            <form action="../actions/action_admin_classes.php" method="post"
+            <form action="../actions/action_classes.php" method="post"
                   style="display:flex; gap:.5em; flex-wrap:nowrap; align-items:center; margin-bottom:1.2em;">
                 <input type="hidden" name="action"     value="add_schedule">
                 <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
@@ -278,7 +278,7 @@ function drawManageClasses(array $classes, array $trainers, PDO $db, string $rol
 
             <?php if ($role === 'admin'): ?>
             <div style="padding-top:.7em; border-top:1px solid rgba(255,255,255,.1); margin-top:.5em;">
-                <form action="../actions/action_admin_classes.php" method="post" style="display:flex; flex-direction:column; gap:.6em;">
+                <form action="../actions/action_classes.php" method="post" style="display:flex; flex-direction:column; gap:.6em;">
                     <input type="hidden" name="action"     value="update">
                     <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
                     <input type="hidden" name="id"         value="<?= $c['id'] ?>">
@@ -302,7 +302,7 @@ function drawManageClasses(array $classes, array $trainers, PDO $db, string $rol
                     </div>
                 </form>
                 
-                <form action="../actions/action_admin_classes.php" method="post" style="margin-top:.6em"
+                <form action="../actions/action_classes.php" method="post" style="margin-top:.6em"
                       onsubmit="return confirm('Delete this class?')">
                     <input type="hidden" name="action"     value="delete">
                     <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
@@ -373,7 +373,39 @@ function drawManageEquipment(array $equipment): void { ?>
 <?php }
 
 function drawTrainerNutritionPlans(array $nutritionPlans): void {
-    // implementar aqui
+?>
+    <section class="dashboard-card nutrition-requests-card">
+                <h3>Nutrition Plan Requests</h3>
+                <?php if (empty($nutritionPlans)): ?>
+                    <p class="empty-state">No nutrition plan requests yet.</p>
+                <?php else: ?>
+                    <div class="nutrition-requests-list">
+                        <?php foreach ($nutritionPlans as $request): ?>
+                            <article class="nutrition-request-card">
+                                <div class="request-header">
+                                    <div>
+                                        <strong><?= htmlspecialchars($request['member_name']) ?></strong>
+                                        <span class="request-email"><?= htmlspecialchars($request['member_email']) ?></span>
+                                    </div>
+                                    <span class="request-goal"><?= htmlspecialchars($request['goal']) ?></span>
+                                </div>
+                                <div class="request-meta">
+                                    <span><strong>Calories:</strong> <?= htmlspecialchars((string)($request['target_calories'] ?? 'Custom')) ?> kcal</span>
+                                    <span>Requested <?= htmlspecialchars((new DateTime($request['created_at']))->format('M d, Y')) ?></span>
+                                </div>
+                                <p class="meal-summary"><?= nl2br(htmlspecialchars($request['meal_details'])) ?></p>
+                                <form class="nutrition-request-form" action="../actions/action_approve_nutrition.php" method="POST">
+                                    <input type="hidden" name="nutrition_id" value="<?= htmlspecialchars((string)$request['id']) ?>">
+                                    <label for="meal_details_<?= htmlspecialchars((string)$request['id']) ?>">Add meal plan details</label>
+                                    <textarea id="meal_details_<?= htmlspecialchars((string)$request['id']) ?>" name="meal_details" rows="4" placeholder="Write the nutrition plan details here..." required></textarea>
+                                    <button type="submit" class="button">Approve Request</button>
+                                </form>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </section>
+<?php
 }
 
 function drawTrainerProfileCard(string $bio, string $specializations, string $certifications): void { ?>

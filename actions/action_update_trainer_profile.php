@@ -22,7 +22,7 @@ $certifications = trim($_POST['certifications'] ?? '');
 $user = User::getById($userId);
 if (!$user) {
     Session::addMessage('error', 'User not found.');
-    header('Location: ../pages/trainer_dashboard.php');
+    header('Location: ../pages/dashboard.php');
     exit;
 }
 
@@ -46,5 +46,5 @@ if ($trainer->updateProfile($bio, $specializations, $certifications)) {
     Session::addMessage('error', 'Failed to update profile.');
 }
 
-header('Location: ../pages/trainer_dashboard.php');
+header('Location: ../pages/dashboard.php?tab=trainer_profile');
 exit;

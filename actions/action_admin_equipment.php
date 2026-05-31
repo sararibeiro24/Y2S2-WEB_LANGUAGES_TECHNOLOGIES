@@ -48,5 +48,5 @@ switch ($action) {
         break;
 }
 
-header('Location: ../pages/admin_dashboard.php');
+header('Location: ../pages/dashboard.php?tab=equipment');
 exit;

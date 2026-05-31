@@ -18,13 +18,13 @@ $mealDetails = trim($_POST['meal_details'] ?? '');
 
 if ($nutritionId <= 0) {
     Session::addMessage('error', 'Invalid nutrition plan ID.');
-    header('Location: ../pages/trainer_dashboard.php');
+    header('Location: ../pages/dashboard.php?tab=nutrition');
     exit;
 }
 
 if (empty($mealDetails)) {
     Session::addMessage('error', 'Meal plan details are required.');
-    header('Location: ../pages/trainer_dashboard.php');
+    header('Location: ../pages/dashboard.php?tab=nutrition');
     exit;
 }
 
@@ -37,7 +37,7 @@ try {
     
     if (!$verifyStmt->fetch()) {
         Session::addMessage('error', 'This nutrition plan does not belong to you or does not exist.');
-        header('Location: ../pages/trainer_dashboard.php');
+        header('Location: ../pages/dashboard.php?tab=nutrition');
         exit;
     }
     
@@ -55,6 +55,6 @@ try {
     error_log('Database error in action_approve_nutrition: ' . $e->getMessage());
 }
 
-header('Location: ../pages/trainer_dashboard.php');
+header('Location: ../pages/dashboard.php?tab=nutrition');
 exit;
 ?>

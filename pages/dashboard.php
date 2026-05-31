@@ -76,7 +76,16 @@ elseif ($tab === 'trainer_profile' && $role === 'trainer') {
     $classes = ClassSchedule::getTrainerUpcomingSchedules($userId, $db);
 
 }
-
+elseif($tab === 'nutrition' && $role ==='trainer'){
+    try {
+        $nutritionStmt = $db->prepare('SELECT np.id, np.goal, np.target_calories, np.meal_details, np.created_at, u.name AS member_name, u.email AS member_email FROM nutrition_plans np JOIN users u ON np.user_id = u.id WHERE np.trainer_id = ? ORDER BY np.created_at DESC');
+        $nutritionStmt->execute([$userId]);
+        $nutritionPlans = $nutritionStmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log('Database error fetching nutrition requests: ' . $e->getMessage());
+        $nutritionPlans = [];
+    }
+}
 drawHead("Dashboard | Ladybug's Gym");
 drawHeader();
 drawMessages();

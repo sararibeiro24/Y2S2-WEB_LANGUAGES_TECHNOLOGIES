@@ -59,7 +59,7 @@ The styling is organized into four modular files following a layered approach:
 - [ ] Manage the class catalog (create, edit, and remove classes) and assign trainers to them.
 - [ ] Manage equipment in the main training area (add, update availability status, and remove items).
 - [ ] Elevate a user to admin status.
-- [ ] Oversee and ensure the smooth operation of the entire system.
+- [X] Oversee and ensure the smooth operation of the entire system.
 
 **Extra:**
 - [ ] Define tiered membership plans (e.g., basic, premium) with different access levels, and allow members to subscribe to or upgrade their plan.

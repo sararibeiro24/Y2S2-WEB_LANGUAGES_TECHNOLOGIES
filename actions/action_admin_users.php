@@ -32,7 +32,11 @@ switch ($action) {
             $stmt = $db->prepare('UPDATE users SET role = ? WHERE id = ?');
             $stmt->execute([$role, $userId]);
             Session::addMessage('success', 'User role updated.');
+            if ($userId === (int)Session::getUserId()) {
+                Session::setUserRole($role); 
+            }
         }
+   
         break;
 
     case 'update_user':
@@ -68,5 +72,5 @@ switch ($action) {
         break;
 }
 
-header('Location: ../pages/admin_dashboard.php');
+header('Location: ../pages/dashboard.php?tab=users');
 exit;
