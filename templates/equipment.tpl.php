@@ -48,7 +48,7 @@ function drawEquipmentHomepage(){
             <button class="carousel-nav-btn next" onclick="scrollCarousel('equipment-carousel', 1)">❯</button>
         </div>
 
-        <a href="#" class="button" style="margin-top: 2em;">EXPLORE ALL MACHINES</a>
+        <a href="equipment.php" class="button" style="margin-top: 2em;">EXPLORE ALL MACHINES</a>
     </div>
 </section>
 <?php
@@ -59,14 +59,14 @@ function drawEquipmentPage(){
  <main class="container equipment-page">
         <?php drawPageHeader('Equipment Availability', 'Search and review what is free in the main gym area.'); ?>
 
-        <section class="equipment-search card">
-            <h3>Filter & Search</h3> <div class="form-row">
-
-                <div class="form-group">
+        <div class="schedule-filters">
+            <h3 class="sr-only">Filter & Search</h3>
+            <div class="filter-row" style="grid-template-columns: 1fr 1fr;">
+                <div class="filter-group">
                     <label for="equipmentSearchInput">Search equipment</label>
                     <input id="equipmentSearchInput" type="text" class="input-field" placeholder="e.g. Treadmill, Dumbbells">
                 </div>
-                <div class="form-group">
+                <div class="filter-group">
                     <label for="equipmentStatusFilter">Availability</label>
                     <select id="equipmentStatusFilter" class="input-field">
                         <option value="">All Statuses</option>
@@ -75,7 +75,7 @@ function drawEquipmentPage(){
                     </select>
                 </div>
             </div>
-        </section>
+        </div>
 
         <section id="equipmentResults" class="cards-grid">
             <h3 id="resultsTitle" class="visually-hidden">Available Equipment</h3>

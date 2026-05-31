@@ -18,17 +18,10 @@ if ($isLoggedIn && $userId !== null) {
     $currentPlanId = User::getPlanIdById($userId, $db);
 }
 
-$queryTerm   = trim($_GET['query']         ?? '');
-$cycleFilter = trim($_GET['billing_cycle'] ?? '');
-
-$plans = Plan::getPlans([
-    'query' => $queryTerm,
-    'billing_cycle' => $cycleFilter,
-], $db);
-
+$plans = Plan::getAllPlans();
 
 drawHead("Membership Plans | Ladybug's Gym");
 drawHeader();
-drawPlansPage($plans, $isLoggedIn, $currentPlanId, $csrfToken, $queryTerm, $cycleFilter);
+drawPlansPage($plans, $isLoggedIn, $currentPlanId, $csrfToken);
 drawFooter();
 ?>

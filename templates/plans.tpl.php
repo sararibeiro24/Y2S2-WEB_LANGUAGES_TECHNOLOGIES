@@ -1,13 +1,13 @@
 <?php
 
-function drawPlansPage(array  $plans, bool   $isLoggedIn, ?int   $currentPlanId, string $csrfToken, string $queryTerm   = '',string $cycleFilter = ''): void {
+function drawPlansPage(array $plans, bool $isLoggedIn, ?int $currentPlanId, string $csrfToken): void {
 ?>
 <main class="container plans-page">
     <?php drawPageHeader('Membership Plans', 'Pick the plan that matches your goals.'); ?>
 
-    <?php drawPlansFilter($queryTerm, $cycleFilter); ?>
+    <?php drawPlansFilter(); ?>
 
-    <section class="plans-grid">
+    <section class="plans-grid" id="plansGrid">
         <h2 class="sr-only">Available Plans</h2>
         <?php if (!$plans): ?>
             <p class="empty-state">No membership plans available yet. Check back later.</p>
@@ -18,43 +18,92 @@ function drawPlansPage(array  $plans, bool   $isLoggedIn, ?int   $currentPlanId,
         <?php endforeach; ?>
     </section>
 </main>
+
+<script>
+let allPlanHTML = [];
+
+function initPlanFilter() {
+    const grid = document.getElementById('plansGrid');
+    const cards = grid.querySelectorAll('.plan-card');
+    let debounceTimer;
+    cards.forEach(c => allPlanHTML.push(c.outerHTML));
+    document.getElementById('planSearch').addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(filterPlans, 300);
+    });
+    document.getElementById('billingCycle').addEventListener('change', filterPlans);
+}
+
+function filterPlans() {
+    const query = document.getElementById('planSearch').value.toLowerCase().trim();
+    const cycle = document.getElementById('billingCycle').value.toLowerCase();
+    const grid = document.getElementById('plansGrid');
+    let html = '';
+
+    allPlanHTML.forEach(raw => {
+        const div = document.createElement('div');
+        div.innerHTML = raw;
+        const card = div.firstElementChild;
+
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const features = [...card.querySelectorAll('.feature-list li')].map(l => l.textContent.toLowerCase()).join(' ');
+        const badge = card.querySelector('.badge-plan-cycle').textContent.toLowerCase().trim();
+
+        const matchQuery = !query || name.includes(query) || features.includes(query);
+        const matchCycle = !cycle || badge === cycle;
+
+        if (matchQuery && matchCycle) {
+            html += raw;
+        }
+    });
+
+    if (html) {
+        grid.innerHTML = html;
+    } else {
+        grid.innerHTML = '<p class="plan-filter-empty">No plans match your filter.</p>';
+    }
+}
+
+function clearPlanFilters() {
+    document.getElementById('planSearch').value = '';
+    document.getElementById('billingCycle').value = '';
+    filterPlans();
+}
+
+document.addEventListener('DOMContentLoaded', initPlanFilter);
+</script>
 <?php
 }
 
 
-function drawPlansFilter(string $queryTerm, string $cycleFilter): void {
+function drawPlansFilter(): void {
 ?>
-<section class="filter-panel card">
+<div class="schedule-filters">
     <h2 class="sr-only">Filter Plans</h2>
-    <form method="GET" action="plans.php" class="plans-filter-form">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="planSearch">Search plans</label>
-                <input
-                    id="planSearch"
-                    name="query"
-                    class="input-field"
-                    type="text"
-                    placeholder="Search by name or feature"
-                    value="<?php echo htmlspecialchars($queryTerm); ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="billingCycle">Billing cycle</label>
-                <select id="billingCycle" name="billing_cycle" class="input-field">
-                    <option value="">All cycles</option>
-                    <option value="weekly"  <?php echo $cycleFilter === 'weekly'  ? 'selected' : ''; ?>>Weekly</option>
-                    <option value="monthly" <?php echo $cycleFilter === 'monthly' ? 'selected' : ''; ?>>Monthly</option>
-                    <option value="yearly"  <?php echo $cycleFilter === 'yearly'  ? 'selected' : ''; ?>>Yearly</option>
-                </select>
-            </div>
-
-            <div class="form-group form-actions">
-                <button type="submit" class="button button-full">Filter Plans</button>
-            </div>
+    <div class="filter-row" style="grid-template-columns: 1fr 1fr auto;">
+        <div class="filter-group">
+            <label for="planSearch">Search plans</label>
+            <input id="planSearch" class="input-field" type="text"
+                   placeholder="Search by name or feature">
         </div>
-    </form>
-</section>
+
+        <div class="filter-group">
+            <label for="billingCycle">Billing cycle</label>
+            <select id="billingCycle" class="input-field">
+                <option value="">All cycles</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+            </select>
+        </div>
+
+        <div class="filter-group filter-actions">
+            <label>&nbsp;</label>
+            <button type="button" class="button" onclick="clearPlanFilters()"
+                    style="white-space: nowrap;">Clear</button>
+        </div>
+    </div>
+</div>
 <?php
 }
 
@@ -62,8 +111,17 @@ function drawPlansFilter(string $queryTerm, string $cycleFilter): void {
 function drawPlanCard( array  $plan,bool   $isLoggedIn,?int   $currentPlanId,string $csrfToken): void {
     $features  = array_filter(array_map('trim', explode(',', $plan['features'])));
     $isCurrent = $currentPlanId !== null && (int)$plan['id'] === $currentPlanId;
+    $tier      = strtolower(explode(' ', $plan['name'])[0]);
+
+    $badge = '';
+    if ($tier === 'premium')  $badge = 'Most Popular';
+    if ($tier === 'elite')    $badge = '⚡ Elite';
+    if ($tier === 'annual')   $badge = 'Best Value';
 ?>
-<article class="card plan-card <?php echo $isCurrent ? 'current-plan' : ''; ?>">
+<article class="card plan-card plan-tier-<?= $tier ?> <?php echo $isCurrent ? 'current-plan' : ''; ?>">
+    <?php if ($badge): ?>
+        <span class="plan-badge"><?= $badge ?></span>
+    <?php endif; ?>
     <div class="plan-card-header">
         <h3><?php echo htmlspecialchars($plan['name']); ?></h3>
         <span class="badge badge-plan-cycle">
@@ -125,17 +183,31 @@ function drawPlansTeaser(array $plans): void {
 
 function drawPlanTeaserCard(array $plan): void {
     $features = array_filter(array_map('trim', explode(',', $plan['features'])));
+    $tier = strtolower(explode(' ', $plan['name'])[0]);
+
+    $badge = '';
+    if ($tier === 'premium')  $badge = 'Most Popular';
+    if ($tier === 'elite')    $badge = '⚡ Elite';
+    if ($tier === 'annual')   $badge = 'Best Value';
 ?>
 <div class="carousel-item">
-    <div class="plan-card">
-        <h3 class="plan-name"><?php echo htmlspecialchars($plan['name']); ?></h3>
-        <div class="plan-price">
-            €<?php echo number_format((float)$plan['price'], 2); ?>
-            <span style="font-size: 0.6em;">/ <?php echo htmlspecialchars($plan['billing_cycle']); ?></span>
+    <div class="plan-card plan-tier-<?= $tier ?>">
+        <?php if ($badge): ?>
+            <span class="plan-badge"><?= $badge ?></span>
+        <?php endif; ?>
+        <div class="plan-card-header">
+            <h3><?php echo htmlspecialchars($plan['name']); ?></h3>
+            <span class="badge badge-plan-cycle">
+                <?php echo htmlspecialchars(ucfirst($plan['billing_cycle'])); ?>
+            </span>
         </div>
-        <ul class="plan-features">
+        <p class="plan-price">
+            €<?php echo number_format((float)$plan['price'], 2); ?>
+            / <?php echo htmlspecialchars($plan['billing_cycle']); ?>
+        </p>
+        <ul class="feature-list">
             <?php foreach ($features as $feature): ?>
-                <li>✓ <?php echo htmlspecialchars($feature); ?></li>
+                <li><?php echo htmlspecialchars($feature); ?></li>
             <?php endforeach; ?>
         </ul>
         <a href="plans.php" class="button">GET STARTED</a>

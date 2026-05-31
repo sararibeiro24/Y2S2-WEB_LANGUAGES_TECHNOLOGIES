@@ -6,15 +6,15 @@ function drawNutritionPage(array $trainers): void {
 <main class="container nutrition-page">
     <?php drawPageHeader('Nutrition Plans', 'Browse custom meal guidance and trainer-approved plans.'); ?>
 
-    <section class="nutrition-search card">
+    <div class="schedule-filters">
         <h2 class="sr-only">Nutrition Filter</h2>
-        <div class="form-row">
-            <div class="form-group">
+        <div class="filter-row" style="grid-template-columns: 1fr 1fr 1fr auto;">
+            <div class="filter-group">
                 <label for="nutritionSearchInput">Search plans</label>
                 <input id="nutritionSearchInput" type="text" class="input-field"
-                       placeholder="Search by goal, member or trainer">
+                       placeholder="Search by goal or trainer">
             </div>
-            <div class="form-group">
+            <div class="filter-group">
                 <label for="nutritionGoalFilter">Goal</label>
                 <select id="nutritionGoalFilter" class="input-field">
                     <option value="">All goals</option>
@@ -23,7 +23,7 @@ function drawNutritionPage(array $trainers): void {
                     <option value="Maintenance">Maintenance</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="filter-group">
                 <label for="nutritionTrainerFilter">Trainer</label>
                 <select id="nutritionTrainerFilter" class="input-field">
                     <option value="">All trainers</option>
@@ -34,15 +34,14 @@ function drawNutritionPage(array $trainers): void {
                     <?php endforeach; ?>
                 </select>
             </div>
-            
-            <div class="form-group action-group">
-                <label class="hidden-label">&nbsp;</label>
-                <button type="button" id="openRequestModalBtn" class="button">
+            <div class="filter-group filter-actions">
+                <label>&nbsp;</label>
+                <button type="button" id="openRequestModalBtn" class="button" style="white-space: nowrap;">
                     Get Custom Plan
                 </button>
             </div>
         </div>
-    </section>
+    </div>
 
     <div id="requestPlanModal" class="modal-overlay">
         <div class="modal-content card">
@@ -51,6 +50,7 @@ function drawNutritionPage(array $trainers): void {
             <p>Select your objective, and a trainer will create a tailored meal plan for you.</p>
             
             <form id="requestPlanForm" method="POST" action="../actions/action_request_nutrition.php">
+                <input type="hidden" name="csrf_token" value="<?= Session::getCsrfToken() ?>">
                 <div class="form-group">
                     <label for="modalGoalSelect">What is your goal?</label>
                     <select id="modalGoalSelect" name="goal" class="input-field" required>

@@ -4,8 +4,13 @@ declare(strict_types=1);
 function drawTrainersPage(array $trainers): void {
     ?>
     <main class="container trainers-page">
-        <div class="trainer-search">
-            <input type="text" id="trainerSearch" class="input-field" placeholder="Search by name, specialization, or keyword..." style="width: 100%; max-width: 500px; display: block; margin: 0 auto 2em;">
+        <div class="schedule-filters">
+            <div class="filter-row" style="grid-template-columns: 1fr;">
+                <div class="filter-group">
+                    <label for="trainerSearch">Search trainers</label>
+                    <input type="text" id="trainerSearch" class="input-field" placeholder="Search by name, specialization, or keyword...">
+                </div>
+            </div>
         </div>
         
         <div class="team-showcase" id="trainerGrid">
