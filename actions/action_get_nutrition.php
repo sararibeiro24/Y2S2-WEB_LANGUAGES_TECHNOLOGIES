@@ -23,6 +23,11 @@ $sql = 'SELECT np.id, np.target_calories, np.goal, np.meal_details, np.created_a
 
 $params = [];
 
+if (Session::isLoggedIn() && !Session::isAdmin()) {
+    $sql .= ' AND np.user_id = ?';
+    $params[] = Session::getUserId();
+}
+
 if ($query !== '') {
     $sql .= ' AND (LOWER(np.goal) LIKE ? OR LOWER(np.meal_details) LIKE ? OR LOWER(trainer.name) LIKE ?)';
     $term = '%' . strtolower($query) . '%';

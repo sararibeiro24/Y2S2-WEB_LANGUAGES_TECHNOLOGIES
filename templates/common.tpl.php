@@ -2,7 +2,6 @@
 function drawHead($title) {
     date_default_timezone_set('Europe/Lisbon');
     ?>
-    ?>
     <!DOCTYPE html>
     <html lang="en">
     <head>
