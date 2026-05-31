@@ -126,6 +126,13 @@ class Trainer {
         $row = $stmt->fetch();
         return $row ?: null;
     }
+
+    public static function getIdNameList(?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('SELECT id, name FROM users WHERE role = \'trainer\' AND active = 1 ORDER BY name ASC');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

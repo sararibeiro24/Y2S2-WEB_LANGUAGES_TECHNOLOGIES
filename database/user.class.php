@@ -231,5 +231,18 @@ class User {
         $stmt->execute([$this->id]);
         return (int)$stmt->fetchColumn();
     }
+
+    public static function getPlanIdById(int $userId, ?PDO $db = null): ?int {
+        $db = $db ?? getDatabaseConnection();
+        $stmt = $db->prepare('SELECT plan_id FROM users WHERE id = ?');
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row || $row['plan_id'] === null) {
+            return null;
+        }
+
+        return (int)$row['plan_id'];
+    }
 }
 ?>

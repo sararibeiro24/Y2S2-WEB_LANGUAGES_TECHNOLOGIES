@@ -364,6 +364,41 @@ public static function trainerHasClassAtTime(int $trainerId, string $scheduledAt
         return $stmt->fetchAll();
     }
 
+    public static function getFilteredEquipment(string $query = '', ?string $status = null, ?PDO $db = null): array {
+        $db = $db ?? getDatabaseConnection();
+        $sql = 'SELECT e.id, e.name, e.total_quantity, COALESCE(es.available_quantity, e.total_quantity) AS available_quantity, es.last_updated
+                FROM equipment e
+                LEFT JOIN equipment_status es ON e.id = es.equipment_id';
+        $params = [];
+        $clauses = [];
+
+        if ($query !== '') {
+            $clauses[] = 'LOWER(e.name) LIKE ?';
+            $params[] = '%' . strtolower($query) . '%';
+        }
+        if ($status === 'available') {
+            $clauses[] = 'COALESCE(es.available_quantity, e.total_quantity) > 0';
+        } elseif ($status === 'unavailable') {
+            $clauses[] = 'COALESCE(es.available_quantity, e.total_quantity) = 0';
+        }
+
+        if ($clauses) {
+            $sql .= ' WHERE ' . implode(' AND ', $clauses);
+        }
+
+        $sql .= ' ORDER BY e.name ASC';
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($data as &$item) {
+            $item['available_quantity'] = (int)$item['available_quantity'];
+            $item['total_quantity'] = (int)$item['total_quantity'];
+        }
+
+        return $data;
+    }
+
     public static function addEquipment(string $name, int $totalQuantity, ?PDO $db = null): int {
         $db = $db ?? getDatabaseConnection();
         $stmt = $db->prepare('INSERT INTO equipment (name, total_quantity) VALUES (?, ?)');

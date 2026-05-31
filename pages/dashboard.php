@@ -7,6 +7,7 @@ require_once(__DIR__ . '/../utils/session.php');
 require_once(__DIR__ . '/../database/user.class.php');
 require_once(__DIR__ . '/../database/class_schedule.class.php');
 require_once(__DIR__ . '/../database/trainer.class.php');
+require_once(__DIR__ . '/../database/nutrition.class.php');
 
 Session::start();
 
@@ -76,24 +77,15 @@ elseif ($tab === 'trainer_profile' && $role === 'trainer') {
     $classes = ClassSchedule::getTrainerUpcomingSchedules($userId, $db);
 
 }
-elseif($tab === 'nutrition' && $role ==='trainer'){
+elseif ($tab === 'nutrition' && $role === 'trainer') {
     try {
-        $nutritionStmt = $db->prepare('
-            SELECT np.id, np.goal, np.target_calories, np.meal_details, np.created_at, 
-                   u.name AS member_name, u.email AS member_email,
-                   CASE WHEN np.meal_details LIKE \'Pending approval%\' THEN 0 ELSE 1 END AS is_approved
-            FROM nutrition_plans np 
-            JOIN users u ON np.user_id = u.id 
-            WHERE np.trainer_id = ? 
-            ORDER BY is_approved ASC, np.created_at DESC
-        ');
-        $nutritionStmt->execute([$userId]);
-        $nutritionPlans = $nutritionStmt->fetchAll(PDO::FETCH_ASSOC);
+        $nutritionPlans = NutritionPlan::getRequestsForTrainer($userId, $db);
     } catch (PDOException $e) {
         error_log('Database error fetching nutrition requests: ' . $e->getMessage());
         $nutritionPlans = [];
     }
 }
+
 drawHead("Dashboard | Ladybug's Gym");
 drawHeader();
 drawMessages();

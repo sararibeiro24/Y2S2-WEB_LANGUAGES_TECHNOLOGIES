@@ -1,6 +1,8 @@
 <?php
 require_once(__DIR__ . '/../templates/common.tpl.php');
-require_once(__DIR__ . '/../database/database.db.php');
+require_once(__DIR__ . '/../database/plan.class.php');
+require_once(__DIR__ . '/../database/feedback.class.php');
+require_once(__DIR__ . '/../database/user.class.php');
 require_once(__DIR__ . '/../utils/session.php');
 require_once(__DIR__ . '/../templates/plans.tpl.php');
 require_once(__DIR__ . '/../templates/nutrition.tpl.php');
@@ -9,21 +11,18 @@ require_once( __DIR__ . '/../templates/home/feedback.tpl.php');
 
 Session::start();
 $isLoggedIn = Session::isLoggedIn();
-$db = getDatabaseConnection();
-$plans = $db->query('SELECT id, name, price, billing_cycle, features FROM plans')->fetchAll();
+$plans = Plan::getAllPlans();
 $feedbacks = [];
 $feedbackName = '';
 try {
-    $stmt = $db->query('SELECT name, message, rating FROM feedback WHERE rating >= 4 ORDER BY rating DESC, created_at DESC LIMIT 6');
-    $feedbacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $feedbacks = Feedback::getApprovedFeedback();
 } catch (PDOException $e) {
     error_log('Feedback error: ' . $e->getMessage());
 }
 
 if (Session::isLoggedIn()) {
-    $nameStmt = $db->prepare('SELECT name FROM users WHERE id = ?');
-    $nameStmt->execute([Session::getUserId()]);
-    $feedbackName = $nameStmt->fetchColumn() ?: '';
+    $user = User::getById(Session::getUserId());
+    $feedbackName = $user ? $user->getName() : '';
 }
 drawHead("Ladybug's Gym | Welcome");
 drawHeader();
