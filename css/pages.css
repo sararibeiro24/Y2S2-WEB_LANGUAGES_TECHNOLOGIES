@@ -594,6 +594,15 @@ margin:1.2em 0 .8em;
 .cards-grid .flip-card:nth-child(9) { animation-delay: 0.45s; }
 .cards-grid .flip-card:nth-child(10) { animation-delay: 0.5s; }
 
+.current-plan .button:disabled,
+.current-plan .button[disabled] {
+    background: var(--ladybug-medium-gray);
+    color: var(--ladybug-gray);
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
 @keyframes card-entrance {
     from {
         opacity: 0;
