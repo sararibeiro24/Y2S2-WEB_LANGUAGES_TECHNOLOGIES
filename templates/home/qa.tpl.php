@@ -34,7 +34,5 @@
                 <p class="qa-answer">A: Pro and Elite members get guest passes. Pro members get 2 per month, Elite gets unlimited!</p>
             </div>
         </div>
-
-        <a href="#" class="button" style="margin-top: 2em;">CONTACT US FOR MORE</a>
     </div>
 </section>
